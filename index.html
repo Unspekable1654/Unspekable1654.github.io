@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasySign: sign PDFs with your finger</title>
+<meta name="description" content="EasySign turns your laptop touchpad into a signature pad. Sign PDFs, pictures and Word files with your finger. Free, private, works offline.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="images/logo.png">
+<style>
+  :root {
+    --bg: #F5F4EE; --surface: #FAF9F5; --surface-alt: #F0EEE6; --line: #E0DDD2;
+    --text: #1F1E1D; --muted: #5B5A55; --subtle: #8F8D86;
+    --accent: #C96442; --accent-hover: #AE5433; --accent-soft: #F5E6DD; --on-accent: #FFFFFF;
+    --paper: #FFFEFB;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1C1B19; --surface: #262523; --surface-alt: #2F2E2B; --line: #3D3B37;
+      --text: #EEEBE3; --muted: #B6B2A8; --subtle: #8A867D;
+      --accent: #D97757; --accent-hover: #C4654A; --accent-soft: #3A2A22; --on-accent: #1F1E1D;
+      --paper: #F5F4EE;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-hover); }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: normal; line-height: 1.2; margin: 0; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); margin-bottom: 0.6rem; }
+  h3 { font-size: 1.25rem; margin-bottom: 0.35rem; }
+  p { margin: 0 0 1rem; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .muted { color: var(--muted); }
+  .subtle { color: var(--subtle); font-size: 0.9rem; }
+
+  /* header */
+  header { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; gap: 20px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-family: Georgia, serif; font-size: 1.35rem; }
+  .brand img { width: 32px; height: 32px; }
+  nav { margin-left: auto; display: flex; gap: 22px; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+  nav a:hover { color: var(--text); }
+  @media (max-width: 720px) { nav a:not(.keep) { display: none; } }
+
+  /* buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 10px;
+    font-weight: 600; text-decoration: none; border: 1px solid transparent; transition: background-color .15s;
+  }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { background: var(--accent-hover); color: var(--on-accent); }
+  .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--line); }
+  .btn-secondary:hover { background: var(--surface-alt); color: var(--text); }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* hero */
+  .hero { padding: 72px 0 40px; }
+  .hero .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .hero p.lead { font-size: 1.2rem; color: var(--muted); max-width: 640px; margin: 18px 0 28px; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .hero .meta { margin-top: 14px; }
+  .shot { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .shot img { display: block; width: 100%; height: auto; }
+
+  section { padding: 56px 0; }
+  section.alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+  /* features */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 18px; margin-top: 28px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+  section.alt .card { background: var(--bg); }
+  .icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: 14px; }
+  .icon svg { width: 22px; height: 22px; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 18px; margin-top: 28px; counter-reset: step; }
+  .step { position: relative; padding-left: 52px; }
+  .step::before {
+    counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0;
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
+    display: grid; place-items: center; font-family: Georgia, serif; color: var(--accent);
+  }
+
+  /* screens */
+  .screens { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 28px; }
+  .screens figure { margin: 0; }
+  .screens figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 10px; }
+  @media (max-width: 820px) { .screens { grid-template-columns: 1fr; } }
+
+  /* download */
+  .download { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; }
+  @media (max-width: 860px) { .download { grid-template-columns: 1fr; } }
+  ol.install { padding-left: 1.2rem; margin: 0; }
+  ol.install li { margin-bottom: 10px; }
+  dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 18px 0 0; font-size: 0.95rem; }
+  dl.facts dt { color: var(--muted); }
+  dl.facts dd { margin: 0; overflow-wrap: anywhere; }
+  code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 0.85rem; background: var(--surface-alt); padding: 1px 6px; border-radius: 6px; }
+
+  /* note */
+  .note { max-width: 720px; margin: 0 auto; text-align: left; }
+  .note blockquote { margin: 18px 0 0; padding: 22px 26px; background: var(--paper); color: #1F1E1D; border: 1px solid var(--line); border-radius: 12px; font-family: Georgia, serif; font-size: 1.12rem; }
+  .note .by { margin-top: 12px; color: #5B5A55; font-family: "Segoe UI", system-ui, sans-serif; font-size: 0.95rem; }
+
+  footer { padding: 34px 0 44px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 0.9rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="images/logo.png" alt="" width="32" height="32">EasySign</a>
+    <nav aria-label="Sections">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#feedback">Feedback</a>
+      <a class="keep" href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap grid">
+      <div>
+        <h1>Sign with your finger,<br>right on your laptop.</h1>
+        <p class="lead">EasySign turns your touchpad into a signature pad. Sign PDFs, photos of forms and Word files in seconds, without printing, scanning or a phone. Free, and everything stays on your PC.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+            Download for Windows
+          </a>
+          <a class="btn btn-secondary" href="#how">See how it works</a>
+        </div>
+        <p class="meta subtle">Version 1.3.0 &middot; Windows 10 and 11 (64-bit) &middot; Free to use</p>
+      </div>
+      <div class="shot"><img src="images/pad-light.png" alt="The EasySign signature pad with a signature drawn on it and a list of saved signatures" width="1104" height="701"></div>
+    </div>
+  </section>
+
+  <section id="features" class="alt">
+    <div class="wrap">
+      <h2>Everything you need to sign, nothing you don't</h2>
+      <p class="muted">Made for the moment someone emails you a form and asks you to sign it.</p>
+      <div class="features">
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c3-1 4-9 7-9s1 8 4 8 3-4 5-4M3 21h18"/></svg></div>
+          <h3>Your touchpad is the pen</h3>
+          <p class="muted">Press Space and sign with one finger. Each spot on the touchpad matches the same spot on the pad, so it looks like your real signature.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 15l2 2 4-4"/></svg></div>
+          <h3>Sign any document</h3>
+          <p class="muted">PDFs, photos or scans of forms, and Word files. Add your signature, initials, text, the date or a tick, then save a signed copy. Your original is never changed.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg></div>
+          <h3>Or just type your name</h3>
+          <p class="muted">No touchpad? Type your name and EasySign writes it as if you signed with your finger. Pick a look, then make it tighter or looser, neater or messier, uphill or downhill.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Private by design</h3>
+          <p class="muted">No account, no upload, no tracking. EasySign works offline, and your saved signatures are encrypted for your Windows account only.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></div>
+          <h3>Fast for repeat forms</h3>
+          <p class="muted">Sign like last time puts everything in the same spots on next month's copy. Stamp adds your initials and the date in one click.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v4H8zM6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z"/></svg></div>
+          <h3>Paste it anywhere</h3>
+          <p class="muted">Your signature is copied when you finish, ready for Ctrl+V in Word, Outlook or anything else. Ctrl+Alt+S opens a small pad over any app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="muted">Three steps. No printer, no scanner, no phone.</p>
+      <div class="steps">
+        <div class="step"><h3>Open the document</h3><p class="muted">Open a PDF, a photo of a form or a Word file, or drop it on the window.</p></div>
+        <div class="step"><h3>Drag a box and sign</h3><p class="muted">Click Signature, drag a box where you sign, and sign with your finger. Or use a saved signature.</p></div>
+        <div class="step"><h3>Save and send</h3><p class="muted">Save a signed copy. Copy file puts it on the clipboard, so Ctrl+V attaches it to an email.</p></div>
+      </div>
+      <div class="screens">
+        <figure>
+          <div class="shot"><img src="images/document-light.png" alt="A sample form signed in EasySign, with a signature and the date placed on the lines" width="1104" height="701" loading="lazy"></div>
+          <figcaption>Sign a document: signature and date placed on a sample form.</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="images/type-light.png" alt="The Type your name window with handwriting looks and sliders" width="868" height="511" loading="lazy"></div>
+          <figcaption>Type your name: pick a look and adjust the hand.</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="images/pad-dark.png" alt="EasySign in the dark Charcoal theme" width="1104" height="701" loading="lazy"></div>
+          <figcaption>Themes: Paper, Charcoal, Sage, Sand and Slate, or match Windows.</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="images/pad-light.png" alt="The signature pad with My signatures on the right" width="1104" height="701" loading="lazy"></div>
+          <figcaption>My signatures: save signatures and initials to reuse.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="download" class="alt">
+    <div class="wrap download">
+      <div>
+        <h2>Download EasySign</h2>
+        <p class="muted">Free to use for your own personal or work use. Installs for your Windows account only, no administrator rights needed.</p>
+        <p><a class="btn btn-primary" href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/latest/download/EasySign-Setup-win-x64.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Download the installer (41 MB)
+        </a></p>
+        <dl class="facts">
+          <dt>Version</dt><dd>1.3.0</dd>
+          <dt>Needs</dt><dd>Windows 10 (version 1809 or later) or Windows 11, 64-bit. A Precision Touchpad to sign with your finger; a mouse, pen or typing works too.</dd>
+          <dt>SHA-256</dt><dd><code>0c0b2be62758098e6098138eccb838d36bc4a3c1a5d03271a5f94de2bb77d1aa</code></dd>
+          <dt>Terms</dt><dd><a href="LICENSE.txt">Licence agreement</a> (you accept it during setup)</dd>
+          <dt>Older versions</dt><dd><a href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases">All releases</a></dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h3>Installing</h3>
+        <p class="muted">EasySign is new and made by one person, so Windows may be cautious about it at first. This is normal.</p>
+        <ol class="install">
+          <li>If your browser says the file is not commonly downloaded, choose <b>Keep</b>.</li>
+          <li>Right-click the downloaded file, choose <b>Properties</b>, tick <b>Unblock</b> and click OK. If there is no Unblock box, skip this.</li>
+          <li>Double-click it. If you see "Windows protected your PC", click <b>More info</b>, then <b>Run anyway</b>.</li>
+          <li>Accept the licence agreement and follow the steps.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="note">
+    <div class="wrap note">
+      <h2>A note from the developer</h2>
+      <blockquote>
+        Thank you for trying EasySign! I made it so that signing a document takes a few seconds, not a printer, a pen and a scanner. I really hope you enjoy using it.
+        <div class="by">Aalok L, maker of EasySign</div>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="feedback" class="alt">
+    <div class="wrap">
+      <h2>Feedback</h2>
+      <p class="muted">Found a bug, have an idea, or just want to say what you think? I read every message.</p>
+      <div class="features">
+        <div class="card">
+          <h3>Send feedback</h3>
+          <p class="muted">A short form: how you would rate EasySign, what works well and what could be better.</p>
+          <p><a class="btn btn-primary" href="https://github.com/Unspekable1654/Unspekable1654.github.io/issues/new?template=feedback.yml">Give feedback</a></p>
+        </div>
+        <div class="card">
+          <h3>Report a problem</h3>
+          <p class="muted">Something not working? Tell me what you did and what happened, and I will look into it.</p>
+          <p><a class="btn btn-secondary" href="https://github.com/Unspekable1654/Unspekable1654.github.io/issues/new?template=problem.yml">Report a problem</a></p>
+        </div>
+      </div>
+      <p class="subtle" style="margin-top:18px">Feedback is posted on GitHub, so you need a free GitHub account, and what you write can be seen by others. Please don't include personal details or documents.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>&copy; 2026 Aalok L. All rights reserved.</div>
+    <div><a href="LICENSE.txt">Licence agreement</a> &middot; <a href="#feedback">Feedback</a> &middot; This site uses no cookies and no tracking.</div>
+  </div>
+</footer>
+
+</body>
+</html>

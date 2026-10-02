@@ -1,0 +1,88 @@
+END USER LICENCE AGREEMENT
+
+EasySign and the other Easy Suite apps
+Copyright (c) 2026 Aalok L. All rights reserved.
+
+Please read these terms before you install or use the software. By installing,
+copying or using it, you agree to them. If you do not agree, do not install or
+use it.
+
+1. WHAT THIS COVERS
+
+"The software" means EasySign and any other Easy Suite app by Aalok L that comes
+with these terms, including its installer, updates, documentation, artwork and
+icons.
+
+2. YOUR LICENCE
+
+The software is licensed to you, not sold. Aalok L gives you a personal,
+non-exclusive, non-transferable licence to install and use the software, free
+of charge, on computers that you own or control, for your own personal or work
+use.
+
+3. WHAT YOU MAY NOT DO
+
+Unless Aalok L agrees in writing, you may not:
+
+  a) share, give, sell, rent, lend, upload or otherwise distribute the software,
+     its installer or any part of it to anyone else (people who want it should
+     get their own copy from Aalok L);
+  b) copy the software, except for installing it under section 2 and for normal
+     backups of your own computer;
+  c) modify, translate, adapt or make works based on the software;
+  d) decompile, disassemble or reverse engineer the software, or try to find
+     its source code, except where the law allows this despite this limit;
+  e) remove, hide or change any copyright notice, name, logo or these terms, or
+     present the software or any part of it as your own;
+  f) use the software, its design or its code to build a competing product;
+  g) get around or disable any part of the software that protects it or limits
+     its use.
+
+4. OWNERSHIP
+
+Aalok L owns the software and all rights in it, including copyright in its code,
+design, text and artwork. Everything not expressly given to you in these terms
+is reserved.
+
+5. YOUR DATA
+
+The software works on your computer. It does not send your signatures,
+documents or other data anywhere. You are responsible for your own documents
+and for keeping backups of them.
+
+6. SIGNATURES AND DOCUMENTS
+
+The software helps you place signatures on documents. Whether a signature or a
+signed document is accepted for a particular purpose depends on the law and on
+the people you send it to. You are responsible for using the software lawfully,
+and only to sign as yourself or with permission.
+
+7. OTHER COMPONENTS
+
+The software includes components made by others (such as PDFium, PDFsharp, the
+Open XML SDK and .NET). Those components are licensed under their own terms,
+listed in THIRD-PARTY-NOTICES.md, which is installed with the software. Nothing
+in these terms limits your rights under those licences for those components.
+
+8. NO WARRANTY
+
+The software is provided "as is", without warranty of any kind, express or
+implied, including but not limited to the warranties of merchantability,
+fitness for a particular purpose and non-infringement.
+
+9. LIMITATION OF LIABILITY
+
+To the fullest extent the law allows, Aalok L is not liable for any claim,
+damages or other liability, whether in contract, tort or otherwise, arising
+from, out of or in connection with the software or its use, including loss of
+data, documents or profits.
+
+10. ENDING THIS LICENCE
+
+This licence ends automatically if you break these terms. When it ends you must
+stop using the software and delete all copies of it.
+
+11. CHANGES
+
+Aalok L may update these terms for future versions. The terms that came with
+the version you installed apply to that version.
