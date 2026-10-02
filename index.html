@@ -124,6 +124,44 @@
   .note blockquote { margin: 18px 0 0; padding: 22px 26px; background: var(--paper); color: #1F1E1D; border: 1px solid var(--line); border-radius: 12px; font-family: Georgia, serif; font-size: 1.12rem; }
   .note .by { margin-top: 12px; color: #5B5A55; font-family: "Segoe UI", system-ui, sans-serif; font-size: 0.95rem; }
 
+  /* ---------- motion ----------
+     Only when scripts run (html.js) and the visitor hasn't asked Windows to reduce animations.
+     Without either, everything is simply shown. */
+  .flourish { display: block; width: min(420px, 80%); height: auto; margin: 6px 0 0 -4px; overflow: visible; }
+  .flourish path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .shot-stage { perspective: 1400px; }
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--delay, 0s); }
+    html.js .reveal.in { opacity: 1; transform: none; }
+    html.js .reveal.zoom { transform: translateY(28px) scale(.96); }
+    html.js .reveal.zoom.in { transform: none; }
+    html.js .hero h1 .line { display: inline-block; opacity: 0; transform: translateY(0.45em); animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+    html.js .hero h1 .line:nth-of-type(2) { animation-delay: .12s; }
+    html.js .hero .lead, html.js .hero .actions, html.js .hero .meta { opacity: 0; animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+    html.js .hero .lead { animation-delay: .25s; }
+    html.js .hero .actions { animation-delay: .38s; }
+    html.js .hero .meta { animation-delay: .5s; }
+    html.js .flourish path { stroke-dasharray: var(--len, 1200); stroke-dashoffset: var(--len, 1200); animation: draw 1.8s cubic-bezier(.45,.05,.25,1) .55s forwards; }
+    html.js .hero-shot { transform-origin: 50% 0; will-change: transform; }
+    html.js .step::before { transition: background-color .6s, color .6s, border-color .6s; }
+    html.js .step.in::before { background: var(--accent-soft); border-color: var(--accent); }
+    html.js .btn { transition: background-color .15s, transform .2s; }
+    html.js .btn:hover { transform: translateY(-1px); }
+    html.js .card:hover { border-color: var(--accent); }
+  }
+  /* Animations turned off in Windows: no movement, only soft fades. */
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal { opacity: 0; transition: opacity .7s ease; transition-delay: var(--delay, 0s); }
+    html.js .reveal.in { opacity: 1; }
+    html.js .hero h1, html.js .hero .lead, html.js .hero .actions, html.js .hero .meta, html.js .flourish { opacity: 0; animation: fade .8s ease forwards; }
+    html.js .hero .lead { animation-delay: .15s; }
+    html.js .hero .actions, html.js .flourish { animation-delay: .3s; }
+    html.js .hero .meta { animation-delay: .4s; }
+  }
+  @keyframes fade { to { opacity: 1; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(0.45em); } to { opacity: 1; transform: none; } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
   footer { padding: 34px 0 44px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 0.9rem; }
   footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
   footer a { color: var(--muted); }
@@ -147,7 +185,8 @@
   <section class="hero">
     <div class="wrap grid">
       <div>
-        <h1>Sign with your finger,<br>right on your laptop.</h1>
+        <h1><span class="line">Sign with your finger,</span><br><span class="line">right on your laptop.</span></h1>
+        <svg class="flourish" viewBox="0 0 420 46" aria-hidden="true" focusable="false"><path d="M4 30 C 40 6, 62 6, 74 24 S 104 44, 128 22 S 170 2, 190 26 S 226 40, 250 20 C 270 6, 296 10, 312 26 C 330 40, 372 34, 416 18"/></svg>
         <p class="lead">EasySign turns your touchpad into a signature pad. Sign PDFs and photos of forms in seconds, without printing, scanning or a phone. Free, and everything stays on your PC.</p>
         <div class="actions">
           <a class="btn btn-primary" href="#download">
@@ -158,41 +197,41 @@
         </div>
         <p class="meta subtle">Version 1.3.0 &middot; Windows 10 and 11 (64-bit) &middot; Free to use</p>
       </div>
-      <div class="shot"><img src="images/pad-light.png" alt="The EasySign signature pad with a signature drawn on it and a list of saved signatures" width="1104" height="701"></div>
+      <div class="shot-stage"><div class="shot hero-shot"><img src="images/pad-light.png" alt="The EasySign signature pad with a signature drawn on it and a list of saved signatures" width="1104" height="701"></div></div>
     </div>
   </section>
 
   <section id="features" class="alt">
     <div class="wrap">
-      <h2>Everything you need to sign, nothing you don't</h2>
-      <p class="muted">Made for the moment someone emails you a form and asks you to sign it.</p>
+      <h2 class="reveal">Everything you need to sign, nothing you don't</h2>
+      <p class="muted reveal">Made for the moment someone emails you a form and asks you to sign it.</p>
       <div class="features">
-        <div class="card">
+        <div class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c3-1 4-9 7-9s1 8 4 8 3-4 5-4M3 21h18"/></svg></div>
           <h3>Your touchpad is the pen</h3>
           <p class="muted">Press Space and sign with one finger. Each spot on the touchpad matches the same spot on the pad, so it looks like your real signature.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 15l2 2 4-4"/></svg></div>
           <h3>Sign any document</h3>
           <p class="muted">PDFs and photos or scans of forms. Add your signature, initials, text, the date or a tick, then save a signed copy. Word files with {{signature}} placeholders work too. Your original is never changed.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg></div>
           <h3>Or just type your name</h3>
           <p class="muted">No touchpad? Type your name and EasySign writes it as if you signed with your finger. Pick a look, then make it tighter or looser, neater or messier, uphill or downhill.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
           <h3>Private by design</h3>
           <p class="muted">No account, no upload, no tracking. EasySign works offline: your signatures and documents never leave your PC, and saved signatures are encrypted for your Windows account only.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></div>
           <h3>Fast for repeat forms</h3>
           <p class="muted">Sign like last time puts everything in the same spots on next month's copy. Stamp adds your initials and the date in one click.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v4H8zM6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z"/></svg></div>
           <h3>Paste it anywhere</h3>
           <p class="muted">Your signature is copied when you finish, ready for Ctrl+V in Word, Outlook or anything else. Ctrl+Alt+S opens a small pad over any app.</p>
@@ -203,27 +242,27 @@
 
   <section id="how">
     <div class="wrap">
-      <h2>How it works</h2>
-      <p class="muted">Three steps. No printer, no scanner, no phone.</p>
+      <h2 class="reveal">How it works</h2>
+      <p class="muted reveal">Three steps. No printer, no scanner, no phone.</p>
       <div class="steps">
-        <div class="step"><h3>Open the document</h3><p class="muted">Open a PDF or a photo of a form, or drop it on the window.</p></div>
-        <div class="step"><h3>Drag a box and sign</h3><p class="muted">Click Signature, drag a box where you sign, and sign with your finger. Or use a saved signature.</p></div>
-        <div class="step"><h3>Save and send</h3><p class="muted">Save a signed copy. Copy file puts it on the clipboard, so Ctrl+V attaches it to an email.</p></div>
+        <div class="step reveal"><h3>Open the document</h3><p class="muted">Open a PDF or a photo of a form, or drop it on the window.</p></div>
+        <div class="step reveal"><h3>Drag a box and sign</h3><p class="muted">Click Signature, drag a box where you sign, and sign with your finger. Or use a saved signature.</p></div>
+        <div class="step reveal"><h3>Save and send</h3><p class="muted">Save a signed copy. Copy file puts it on the clipboard, so Ctrl+V attaches it to an email.</p></div>
       </div>
       <div class="screens">
-        <figure>
+        <figure class="reveal zoom">
           <div class="shot"><img src="images/document-light.png" alt="A sample form signed in EasySign, with a signature and the date placed on the lines" width="1104" height="701" loading="lazy"></div>
           <figcaption>Sign a document: signature and date placed on a sample form.</figcaption>
         </figure>
-        <figure>
+        <figure class="reveal zoom">
           <div class="shot"><img src="images/type-light.png" alt="The Type your name window with handwriting looks and sliders" width="868" height="511" loading="lazy"></div>
           <figcaption>Type your name: pick a look and adjust the hand.</figcaption>
         </figure>
-        <figure>
+        <figure class="reveal zoom">
           <div class="shot"><img src="images/pad-dark.png" alt="EasySign in the dark Charcoal theme" width="1104" height="701" loading="lazy"></div>
           <figcaption>Dark mode: EasySign can follow Windows.</figcaption>
         </figure>
-        <figure>
+        <figure class="reveal zoom">
           <div class="shot"><img src="images/themes-light.png" alt="Settings with the theme choices Match Windows, Paper, Charcoal, Sage, Sand and Slate" width="632" height="524" loading="lazy"></div>
           <figcaption>Themes: Paper, Charcoal, Sage, Sand and Slate, or match Windows.</figcaption>
         </figure>
@@ -233,7 +272,7 @@
 
   <section id="download" class="alt">
     <div class="wrap download">
-      <div>
+      <div class="reveal">
         <h2>Download EasySign</h2>
         <p class="muted">Free to use for your own personal or work use. Installs for your Windows account only, no administrator rights needed.</p>
         <p><a class="btn btn-primary" href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/latest/download/EasySign-Setup-win-x64.exe">
@@ -248,7 +287,7 @@
           <dt>Older versions</dt><dd><a href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases">All releases</a></dd>
         </dl>
       </div>
-      <div class="card">
+      <div class="card reveal">
         <h3>Installing</h3>
         <p class="muted">EasySign is new and made by one person, so Windows may be cautious about it at first. This is normal.</p>
         <ol class="install">
@@ -263,8 +302,8 @@
 
   <section id="note">
     <div class="wrap note">
-      <h2>A note from the developer</h2>
-      <blockquote>
+      <h2 class="reveal">A note from the developer</h2>
+      <blockquote class="reveal">
         Thank you for trying EasySign! I made it so that signing a document takes a few seconds, not a printer, a pen and a scanner. I really hope you enjoy using it.
         <div class="by">Aalok L, maker of EasySign</div>
       </blockquote>
@@ -273,15 +312,15 @@
 
   <section id="feedback" class="alt">
     <div class="wrap">
-      <h2>Feedback</h2>
-      <p class="muted">Found a bug, have an idea, or just want to say what you think? I read every message.</p>
+      <h2 class="reveal">Feedback</h2>
+      <p class="muted reveal">Found a bug, have an idea, or just want to say what you think? I read every message.</p>
       <div class="features">
-        <div class="card">
+        <div class="card reveal">
           <h3>Send feedback</h3>
           <p class="muted">A short form: how you would rate EasySign, what works well and what could be better.</p>
           <p><a class="btn btn-primary" href="https://github.com/Unspekable1654/Unspekable1654.github.io/issues/new?template=feedback.yml">Give feedback</a></p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <h3>Report a problem</h3>
           <p class="muted">Something not working? Tell me what you did and what happened, and I will look into it.</p>
           <p><a class="btn btn-secondary" href="https://github.com/Unspekable1654/Unspekable1654.github.io/issues/new?template=problem.yml">Report a problem</a></p>
@@ -299,5 +338,53 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var root = document.documentElement;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!('IntersectionObserver' in window)) return; // old browser: everything simply shows
+  root.classList.add('js'); // with animations off in Windows, the CSS uses fades only (no movement)
+
+  // Signature stroke: draw exactly its own length.
+  var path = document.querySelector('.flourish path');
+  if (path && path.getTotalLength) path.style.setProperty('--len', Math.ceil(path.getTotalLength()));
+
+  // Fade and rise as things scroll into view; siblings in a grid follow one after another.
+  var items = document.querySelectorAll('.reveal');
+  items.forEach(function (el) {
+    var p = el.parentElement, i = 0;
+    if (p) {
+      var kids = Array.prototype.filter.call(p.children, function (k) { return k.classList.contains('reveal'); });
+      i = kids.indexOf(el);
+    }
+    el.style.setProperty('--delay', (Math.min(i, 5) * 0.08) + 's');
+  });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.01 });
+  items.forEach(function (el) { io.observe(el); });
+  // Printing shows everything.
+  window.addEventListener('beforeprint', function () { items.forEach(function (el) { el.classList.add('in'); }); });
+
+  // Hero picture: starts tilted back and a little smaller, and settles flat as you scroll.
+  var shot = document.querySelector('.hero-shot');
+  if (!shot || still) return;
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var r = shot.getBoundingClientRect(), vh = window.innerHeight || 1;
+    var t = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9))); // 0 below the fold, 1 when well in view
+    var e = 1 - Math.pow(1 - t, 3);
+    shot.style.transform = 'rotateX(' + (14 * (1 - e)).toFixed(2) + 'deg) scale(' + (0.92 + 0.08 * e).toFixed(4) + ')';
+    shot.style.opacity = (0.35 + 0.65 * e).toFixed(3);
+  }
+  function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
 </body>
 </html>
