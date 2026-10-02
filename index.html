@@ -194,6 +194,16 @@
   html.motion .screens-stack img { opacity: 0; transform: scale(1.04); }
   html.motion .screens-stack img.on { opacity: 1; transform: none; }
   html:not(.motion) .screens-stack img:not(:nth-child(2)) { display: none; }
+  .filecard {
+    position: absolute; right: 4%; bottom: 13%; display: flex; gap: 12px; align-items: center; max-width: 72%;
+    padding: 12px 16px; border-radius: 12px; background: #1F1E1D; color: #F5F4EE; font-size: clamp(.7rem, 1.3vw, .92rem);
+    opacity: 0; transform: translateY(18px) scale(.97); transition: opacity .5s var(--ease), transform .6s var(--ease);
+  }
+  .filecard svg { flex: 0 0 auto; width: 26px; height: 26px; color: #D97757; }
+  .filecard b { display: block; font-weight: 600; }
+  .filecard span { color: #B6B2A8; }
+  .screens-stack.step-3 .filecard { opacity: 1; transform: none; transition-delay: .35s; }
+  html:not(.motion) .filecard { display: none; }
   @media (max-width: 860px) {
     .how { grid-template-columns: minmax(0, 1fr); gap: 18px; }
     .rstep { padding: 4px 0 10px; }
@@ -443,8 +453,12 @@
           </div>
           <div class="screens-stack">
             <img src="images/step-open-light.png" alt="Step 1: the Sign a document start screen" width="1104" height="701" loading="lazy">
-            <img src="images/document-light.png" alt="Step 2: a sample form with a signature and the date placed on it" width="1104" height="701" loading="lazy">
-            <img src="images/step-saved-light.png" alt="Step 3: the signed copy saved, with Copy file and Show in folder" width="1104" height="701" loading="lazy">
+            <img src="images/step-place-light.png" alt="Step 2: the signing window open over a sample form, with a signature on the pad" width="1104" height="701" loading="lazy">
+            <img src="images/step-saved-light.png" alt="Step 3: the whole signed form, saved as a copy next to the original" width="1104" height="701" loading="lazy">
+            <div class="filecard" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 15l2 2 4-4"/></svg>
+              <div><b>Sample form_signed.pdf</b><span>Copied. Press Ctrl+V in your email to attach it.</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -798,7 +812,7 @@
   var bar = $('.progress'), header = $('header');
   var sign = { el: $('#scene-sign'), device: $('.device'), paths: $$('.device svg.ink path'), toast: $('.toast'), phrases: $$('.sign-head [data-at]') };
   var stmt = $('#scene-statement');
-  var steps = { el: $('#scene-steps'), rows: $$('.rstep'), imgs: $$('.screens-stack img'), fill: $('.rail .fill') };
+  var steps = { el: $('#scene-steps'), rows: $$('.rstep'), imgs: $$('.screens-stack img'), fill: $('.rail .fill'), stack: $('.screens-stack') };
   var gal = { el: $('#scene-gallery'), track: $('.track'), rail: $('.gallery-rail') };
   var lastY = window.scrollY, ticking = false;
   var inkTotal = sign.paths.reduce(function (s, q) { return s + (+q.dataset.len || 0); }, 0);
@@ -843,6 +857,7 @@
     steps.fill.style.transform = 'scaleY(' + pt.toFixed(4) + ')';
     steps.rows.forEach(function (r, i) { r.classList.toggle('on', i === active); });
     steps.imgs.forEach(function (im, i) { im.classList.toggle('on', i === active); });
+    steps.stack.classList.toggle('step-3', active === 2);
 
     // Scene 4: the screens slide sideways until the last one is in view.
     var pg = ease(range(progress(gal.el), 0.16, 0.92));
