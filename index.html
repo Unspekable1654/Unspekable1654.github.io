@@ -137,7 +137,7 @@
   /* try it: a signing pad in the page (nothing is saved) */
   .try { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 36px; align-items: center; }
   @media (max-width: 860px) { .try { grid-template-columns: minmax(0, 1fr); } }
-  .trypad { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .trypad { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
   .trybar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
   .trybar button {
     font: inherit; font-size: .92rem; font-weight: 600; padding: 9px 14px; border-radius: 10px; cursor: pointer;
@@ -150,14 +150,18 @@
   .trybar .sep { width: 1px; height: 24px; background: var(--line); margin: 0 4px; }
   .swatch { width: 26px; height: 26px; padding: 0 !important; border-radius: 50% !important; border: 2px solid var(--surface) !important; box-shadow: 0 0 0 1px var(--line); }
   .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--accent); }
-  .paper { position: relative; aspect-ratio: 16 / 7; background: #FFFEFB; border: 1px solid #E0DDD2; border-radius: 12px; overflow: hidden; }
+  .paper { position: relative; aspect-ratio: 16 / 7; background: #FFFEFB; border: 1px solid #E0DDD2; border-radius: 12px; overflow: hidden; touch-action: none; cursor: crosshair; }
   .paper.live { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-  .paper canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+  .paper canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+  .paper.hancock { overflow: visible; }
+  .paper.hancock canvas { left: -8%; top: -34%; width: 116%; height: 164%; }
   .paper .base { position: absolute; left: 7%; right: 7%; bottom: 24%; border-top: 1.5px dashed #C9C5BA; pointer-events: none; }
   .paper .x { position: absolute; left: 3.2%; bottom: 25%; color: #9A968C; font-size: 1.3rem; line-height: 1; pointer-events: none; }
   .paper .hint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 10%; color: #8F8D86; pointer-events: none; transition: opacity .3s; font-size: clamp(.9rem, 1.8vw, 1.05rem); }
   .paper .chip { position: absolute; left: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; background: #F5E6DD; color: #8C3D22; font-size: .82rem; font-weight: 600; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .paper.live .chip { opacity: 1; }
+  .paper .hint.blink { animation: hint-blink 1.4s ease 1; }
+  @keyframes hint-blink { 30% { opacity: .12; } 60% { opacity: 1; } }
   .trynote { margin-top: 10px; font-size: .88rem; }
 
   /* scene 2: words light up */
@@ -278,6 +282,41 @@
   html.calm .hero .actions, html.calm .flourish { animation-delay: .3s; }
   @keyframes fade { to { opacity: 1; } }
   @media print { .reveal, .hero * { opacity: 1 !important; transform: none !important; filter: none !important; } }
+
+  /* ---------- a few surprises ---------- */
+  .quill-word { cursor: pointer; }
+  @media (hover: hover) and (pointer: fine) {
+    .quill-word { text-decoration: underline dotted 1px; text-decoration-color: rgba(201, 100, 66, .34); text-underline-offset: .14em; }
+  }
+  html.quill, html.quill * { cursor: var(--quill) !important; }
+  .eggchips { position: absolute; right: 12px; top: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; }
+  .eggchip { padding: 5px 11px; border-radius: 999px; background: #1F1E1D; color: #F5F4EE; font-size: .8rem; font-weight: 600; animation: rise .35s var(--ease); }
+  .eggtip {
+    position: absolute; z-index: 5; max-width: 240px; padding: 8px 12px; border-radius: 10px; background: #1F1E1D; color: #F5F4EE;
+    font-size: .88rem; font-weight: 600; line-height: 1.35; text-align: center; pointer-events: none; opacity: 0;
+    transform: translate(-50%, calc(-100% - 8px)); transition: opacity .25s, transform .35s var(--ease);
+  }
+  .eggtip.on { opacity: 1; transform: translate(-50%, calc(-100% - 16px)); }
+  .seal { position: absolute; width: clamp(54px, 14%, 96px); aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none; }
+  .seal svg { display: block; width: 100%; height: 100%; }
+  html.motion .seal svg { animation: seal-drop .5s cubic-bezier(.3, 0, .4, 1) both; }
+  html.calm .seal svg { animation: seal-fade .35s ease both; }
+  @keyframes seal-drop { 0% { opacity: 0; transform: scale(2.3) rotate(-14deg); } 62% { opacity: 1; transform: scale(.9) rotate(3deg); } 80% { transform: scale(1.05) rotate(-1deg); } 100% { transform: none; } }
+  @keyframes seal-fade { from { opacity: 0; } }
+  .waxhint { position: absolute; right: 10px; bottom: 10px; width: 20px; height: 20px; border-radius: 50%; background: #A8281E; color: #F5E6DD; font: 700 11px/20px Georgia, serif; text-align: center; opacity: 0; pointer-events: none; }
+  .waxhint.flicker { animation: flicker 1.3s steps(1) 1; }
+  @keyframes flicker { 0% { opacity: .7; } 12% { opacity: .1; } 22% { opacity: .6; } 30% { opacity: 0; } 46% { opacity: .5; } 60%, 100% { opacity: 0; } }
+  .device svg.ink path.egg-flourish { stroke-width: 4.2; }
+  .zero.stubborn { cursor: pointer; }
+  .zero b { transition: color .2s; }
+  @media (hover: hover) {
+    .zero.stubborn:hover b { color: color-mix(in srgb, var(--band-text) 86%, var(--accent)); animation: twitch .35s ease 1; }
+  }
+  @keyframes twitch { 30% { transform: translateY(-2px) rotate(-2deg); } 65% { transform: translateY(1px) rotate(1.5deg); } }
+  .zero.stubborn b.shake, .zero.stubborn:hover b.shake { animation: shake .45s ease 1; }
+  html.calm .zero.stubborn b.shake, html.calm .zero.stubborn:hover b.shake { animation-name: shake-soft; }
+  @keyframes shake { 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(2px); } }
+  @keyframes shake-soft { 33% { transform: translateX(-2px); } 66% { transform: translateX(2px); } }
 </style>
 </head>
 <body>
@@ -285,6 +324,7 @@
 
 <header>
   <div class="wrap">
+    <!-- Some logos like to be clicked. A lot. -->
     <a class="brand" href="#top"><img src="images/logo.png" alt="" width="32" height="32">EasySign</a>
     <nav aria-label="Sections">
       <a href="#features">Features</a>
@@ -359,6 +399,8 @@
   </section>
 
   <!-- Try it: sign with the mouse, a finger or a pen, or the touchpad like in EasySign. Nothing is saved or sent. -->
+  <!-- Wonder what happens if you hold the pen down for 15 seconds? -->
+  <!-- Doctors sign differently. Try typing doc. -->
   <section id="try" class="band-alt">
     <div class="wrap try">
       <div>
@@ -383,6 +425,8 @@
           <div class="base" aria-hidden="true"></div><div class="x" aria-hidden="true">&times;</div>
           <div class="hint">Sign here</div>
           <div class="chip">Move your finger to sign &middot; Shift lifts &middot; Space finishes</div>
+          <div class="waxhint" aria-hidden="true">W</div>
+          <div class="eggchips" aria-live="polite"></div>
         </div>
         <p class="subtle trynote" aria-live="polite">Your signature stays on this page only. It is never saved or sent anywhere.</p>
       </div>
@@ -470,6 +514,7 @@
       <svg class="lock reveal draw-on-reveal" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="9" y="21" width="30" height="21" rx="4"/><path d="M15 21v-6a9 9 0 0 1 18 0v6M24 29v6"/></svg>
       <h2 class="reveal">Your signatures stay yours.</h2>
       <p class="muted reveal">EasySign works offline. Nothing about you, your signatures or your documents ever leaves your PC.</p>
+      <!-- Some counters are more ambitious than others. -->
       <div class="zeros">
         <div class="zero reveal"><b class="count" data-from="1284">0</b><span>accounts needed</span></div>
         <div class="zero reveal"><b class="count" data-from="365">0</b><span>uploads</span></div>
@@ -563,7 +608,7 @@
   <div class="wrap">
     <div>&copy; 2026 Aalok L. All rights reserved.</div>
     <button class="motion-switch" type="button" aria-pressed="false">Animations: full</button>
-    <div><a href="LICENSE.txt">Licence agreement</a> &middot; <a href="#feedback">Feedback</a> &middot; No cookies, no tracking.</div>
+    <div><a href="LICENSE.txt">Licence agreement</a> &middot; <a href="#feedback">Feedback</a> &middot; No cookies, no tracking. There may be a few surprises on this page.</div>
   </div>
 </footer>
 
@@ -576,6 +621,8 @@
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
   var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
   var range = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var heroReplay = false; // true while the "sign" surprise redraws the hero signature, so scrolling leaves it alone
 
   // Footer switch: full motion or calm, remembered on this device only.
   var sw = $('.motion-switch');
@@ -592,7 +639,9 @@
     var out = [], i = 0;
     Array.prototype.slice.call(el.childNodes).forEach(function (n) {
       if (n.nodeName === 'BR') { out.push(n.outerHTML); return; } // keep the line break
-      n.textContent.trim().split(/\s+/).forEach(function (w) { if (w) out.push('<span class="w" aria-hidden="true" style="--i:' + (i++) + '">' + w + '</span>'); });
+      n.textContent.trim().split(/\s+/).forEach(function (w) {
+        if (w) out.push('<span class="w" aria-hidden="true" style="--i:' + (i++) + '">' + w.replace(/^finger/, '<span class="quill-word">finger</span>') + '</span>');
+      });
     });
     el.innerHTML = out.join(' ');
   });
@@ -676,18 +725,24 @@
   window.addEventListener('beforeprint', function () { reveals.forEach(function (el) { el.classList.add('in'); }); });
 
   // ---------- try it pad ----------
-  (function tryPad() {
-    var paper = $('.paper'), canvas = $('.paper canvas'), ctx = canvas.getContext('2d');
-    var hint = $('.paper .hint'), note = $('.trynote');
+  var pad = (function tryPad() {
+    var paper = $('.paper'), canvas = $('.paper canvas'), ctx = canvas.getContext('2d'), box = $('.trypad');
+    var hint = $('.paper .hint'), note = $('.trynote'), chips = $('.paper .eggchips'), waxHint = $('.paper .waxhint');
     var btnUndo = $('[data-act="undo"]'), btnClear = $('[data-act="clear"]'), btnPad = $('[data-act="touchpad"]');
-    var strokes = [], current = null, ink = '#1F1E1D', w = 0, h = 0, dpr = 1;
-    var canLock = 'requestPointerLock' in canvas && window.matchMedia('(pointer: fine)').matches;
+    var NOTE = 'Your signature stays on this page only. It is never saved or sent anywhere.';
+    // Points are kept in pad coordinates (w x h). The canvas can be bigger than the pad (John Hancock mode), so it
+    // is drawn with an offset of ox, oy.
+    var strokes = [], current = null, ink = '#1F1E1D', w = 0, h = 0, cw = 0, ch = 0, ox = 0, oy = 0, dpr = 1;
+    var mode = { doc: false, hancock: false }, busy = false, padVisible = false;
+    var mouse = { x: 0, y: 0, over: false }, seals = [];
+    var canLock = 'requestPointerLock' in paper && window.matchMedia('(pointer: fine)').matches;
     if (!canLock) $$('.touchpad-only').forEach(function (el) { el.style.display = 'none'; });
 
     function size() {
-      var r = canvas.getBoundingClientRect();
-      dpr = window.devicePixelRatio || 1; w = r.width; h = r.height;
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      var pr = paper.getBoundingClientRect(), cr = canvas.getBoundingClientRect();
+      dpr = window.devicePixelRatio || 1; w = pr.width; h = pr.height; cw = cr.width; ch = cr.height;
+      ox = pr.left - cr.left; oy = pr.top - cr.top;
+      canvas.width = Math.round(cw * dpr); canvas.height = Math.round(ch * dpr);
       redraw();
     }
     // Width like a finger on the pad: faster is thinner; a pen's pressure is used when there is one.
@@ -700,66 +755,90 @@
       return last.w * 0.7 + target * 0.3;
     }
     function drawSeg(s, a, b) {
+      ctx.globalAlpha = s.alpha == null ? 1 : s.alpha;
       ctx.strokeStyle = s.ink; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      ctx.lineWidth = (a.w + b.w) / 2;
+      ctx.lineWidth = (a.w + b.w) / 2 * s.mul;
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      ctx.globalAlpha = 1;
     }
     function redraw() {
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
+      ctx.setTransform(dpr, 0, 0, dpr, ox * dpr, oy * dpr);
+      ctx.clearRect(-ox, -oy, cw, ch);
       strokes.forEach(function (s) {
-        if (s.pts.length === 1) { ctx.fillStyle = s.ink; ctx.beginPath(); ctx.arc(s.pts[0].x, s.pts[0].y, s.pts[0].w / 2, 0, 7); ctx.fill(); }
+        if (s.pts.length === 1) {
+          ctx.globalAlpha = s.alpha == null ? 1 : s.alpha;
+          ctx.fillStyle = s.ink; ctx.beginPath(); ctx.arc(s.pts[0].x, s.pts[0].y, s.pts[0].w * s.mul / 2, 0, 7); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
         for (var i = 1; i < s.pts.length; i++) drawSeg(s, s.pts[i - 1], s.pts[i]);
       });
       var any = strokes.length > 0;
-      hint.style.opacity = any || paper.classList.contains('live') ? 0 : 1;
-      btnUndo.disabled = btnClear.disabled = !any;
+      hint.style.opacity = any || busy || paper.classList.contains('live') ? 0 : 1;
+      btnUndo.disabled = btnClear.disabled = !any || busy;
+      if (!any) { seals.forEach(function (el) { el.remove(); }); seals = []; if (padVisible) armIdle(); }
     }
     function begin(x, y, pressure) {
-      current = { ink: ink, pts: [] };
-      strokes.push(current);
+      var s = { ink: ink, pts: [], mul: mode.hancock ? 5 : 1 };
+      current = s; strokes.push(s);
+      s.timer = setTimeout(function () { outOfInk(s); }, 15000);
+      clearTimeout(idleTimer); idleTimer = null;
+      clearTimeout(waxTimer);
       add(x, y, pressure);
     }
     function add(x, y, pressure) {
-      if (!current) return;
-      var pt = { x: Math.max(0, Math.min(w, x)), y: Math.max(0, Math.min(h, y)), t: performance.now() };
+      if (!current || current.dry) return;
+      if (mode.doc) y = doctor(current, y);
+      if (current.mul > 1) { x = w / 2 + (x - w / 2) * 1.7; y = h / 2 + (y - h / 2) * 1.7; } // John Hancock: bigger than the box
+      var pt = { x: clamp(x, -ox, cw - ox), y: clamp(y, -oy, ch - oy), t: performance.now() };
       var last = current.pts[current.pts.length - 1];
       if (last && Math.hypot(pt.x - last.x, pt.y - last.y) < 0.8) return;
       pt.w = widthFor(current, pt, pressure);
       current.pts.push(pt);
       if (last) drawSeg(current, last, pt); else redraw();
     }
-    function end() { current = null; redraw(); }
+    function end() {
+      if (current) clearTimeout(current.timer);
+      current = null; redraw(); afterSigning();
+    }
+    function locked() { return document.pointerLockElement === paper; }
+    function local(e) { var r = paper.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
 
     // Mouse, finger or pen: press and drag.
-    canvas.addEventListener('pointerdown', function (e) {
-      if (document.pointerLockElement === canvas) return;
-      canvas.setPointerCapture(e.pointerId);
-      var r = canvas.getBoundingClientRect();
-      begin(e.clientX - r.left, e.clientY - r.top, e.pointerType === 'pen' ? e.pressure : 0);
+    paper.addEventListener('pointerdown', function (e) {
+      if (locked() || busy) return;
+      paper.setPointerCapture(e.pointerId);
+      canvas.focus({ preventScroll: true });
+      var p = local(e);
+      clickWatch(p.x, p.y);
+      begin(p.x, p.y, e.pointerType === 'pen' ? e.pressure : 0);
       e.preventDefault();
     });
-    canvas.addEventListener('pointermove', function (e) {
-      if (!current || document.pointerLockElement === canvas) return;
-      var r = canvas.getBoundingClientRect();
+    paper.addEventListener('pointermove', function (e) {
+      if (locked()) return;
+      var p = local(e);
+      mouse.x = p.x; mouse.y = p.y; mouse.over = true;
+      smudgeWatch(p.x, p.y);
+      if (!current) return;
+      var r = paper.getBoundingClientRect();
       (e.getCoalescedEvents ? e.getCoalescedEvents() : [e]).forEach(function (c) {
         add(c.clientX - r.left, c.clientY - r.top, e.pointerType === 'pen' ? c.pressure : 0);
       });
     });
-    ['pointerup', 'pointercancel'].forEach(function (t) { canvas.addEventListener(t, function () { if (document.pointerLockElement !== canvas) end(); }); });
+    paper.addEventListener('pointerleave', function () { mouse.over = false; });
+    ['pointerup', 'pointercancel'].forEach(function (t) { paper.addEventListener(t, function () { if (!locked() && current) end(); }); });
 
     // Touchpad mode, like EasySign's "draw by moving": the cursor is hidden and every movement draws.
     var pen = null, lifted = false;
     function startPad() {
-      if (!canLock) return;
+      if (!canLock || busy) return;
       try {
-        var r = canvas.requestPointerLock();
+        var r = paper.requestPointerLock();
         if (r && r.catch) r.catch(function () { note.textContent = 'Your browser did not allow touchpad mode here. Drag to sign instead.'; });
       } catch (err) { note.textContent = 'Your browser did not allow touchpad mode here. Drag to sign instead.'; }
     }
-    function stopPad() { if (document.pointerLockElement === canvas) document.exitPointerLock(); }
+    function stopPad() { if (locked()) document.exitPointerLock(); }
     document.addEventListener('pointerlockchange', function () {
-      var on = document.pointerLockElement === canvas;
+      var on = locked();
       paper.classList.toggle('live', on);
       btnPad.textContent = on ? 'Finish (Space)' : 'Use touchpad';
       if (on) {
@@ -768,7 +847,7 @@
         note.textContent = 'Touchpad mode: move your finger to sign. Hold Shift to lift the pen. Space or Esc finishes.';
       } else {
         end(); pen = null;
-        note.textContent = 'Your signature stays on this page only. It is never saved or sent anywhere.';
+        note.textContent = NOTE;
       }
       redraw();
     });
@@ -781,10 +860,10 @@
       add(pen.x, pen.y, 0);
     });
     document.addEventListener('keydown', function (e) {
-      if (document.pointerLockElement === canvas && (e.code === 'Space' || e.key === 'Escape')) { e.preventDefault(); stopPad(); }
+      if (locked() && (e.code === 'Space' || e.key === 'Escape')) { e.preventDefault(); stopPad(); }
       else if (e.code === 'Space' && document.activeElement === canvas && canLock) { e.preventDefault(); startPad(); }
     });
-    btnPad.addEventListener('click', function () { if (document.pointerLockElement === canvas) stopPad(); else startPad(); });
+    btnPad.addEventListener('click', function () { if (locked()) stopPad(); else startPad(); });
     btnUndo.addEventListener('click', function () { strokes.pop(); redraw(); });
     btnClear.addEventListener('click', function () { strokes = []; redraw(); });
     $$('.swatch').forEach(function (b) {
@@ -793,18 +872,420 @@
         $$('.swatch').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
       });
     });
-    // Keep what was drawn when the pad changes size (strokes are scaled with it).
+    // Keep what was drawn when the pad changes size (strokes are scaled with it). The canvas alone growing or
+    // shrinking (John Hancock mode) only moves the drawing origin.
     var lastW = 0, lastH = 0;
     new ResizeObserver(function () {
-      var r = canvas.getBoundingClientRect();
+      var r = paper.getBoundingClientRect();
       if (lastW && r.width && (r.width !== lastW || r.height !== lastH)) {
         var kx = r.width / lastW, ky = r.height / lastH;
         strokes.forEach(function (s) { s.pts.forEach(function (q) { q.x *= kx; q.y *= ky; q.w *= kx; }); });
       }
       lastW = r.width; lastH = r.height;
       size();
-    }).observe(canvas);
+    }).observe(paper);
+    new ResizeObserver(function () { size(); }).observe(canvas);
+
+    // ---------- surprises on the pad ----------
+    var tip = document.createElement('div'); tip.className = 'eggtip'; tip.setAttribute('role', 'status');
+    box.appendChild(tip);
+    var tipTimer = null;
+    function showTip(x, y, text, ms) {
+      tip.textContent = text;
+      tip.style.left = clamp(paper.offsetLeft + x, 125, Math.max(125, box.clientWidth - 125)) + 'px';
+      tip.style.top = Math.max(46, paper.offsetTop + y) + 'px';
+      tip.classList.add('on');
+      clearTimeout(tipTimer); tipTimer = setTimeout(function () { tip.classList.remove('on'); }, ms);
+    }
+    function nearInk(x, y, r) {
+      for (var i = 0; i < strokes.length; i++) {
+        var s = strokes[i]; if (s === current) continue;
+        for (var j = 0; j < s.pts.length; j++) if (Math.abs(s.pts[j].x - x) < r && Math.abs(s.pts[j].y - y) < r) return true;
+      }
+      return false;
+    }
+
+    // The Doctor's Note: keep the pen's left and right, flatten its up and down into a line with the odd blip.
+    function doctor(s, y) {
+      if (s.docY == null) s.docY = y;
+      s.docY += (y - s.docY) * 0.03;
+      return s.docY + (Math.random() < 0.07 ? (Math.random() - 0.5) * h * 0.24 : (Math.random() - 0.5) * 2.5);
+    }
+
+    // Out of Ink: one stroke held for 15 seconds runs dry and fades away. The next stroke has ink again.
+    function outOfInk(s) {
+      if (s !== current || s.dry || !s.pts.length) return;
+      s.dry = true;
+      var last = s.pts[s.pts.length - 1], t0 = performance.now();
+      showTip(last.x, last.y, 'Out of ink. Please shake your laptop to refill.', 4000);
+      (function fade() {
+        if (strokes.indexOf(s) < 0) return; // undone or cleared meanwhile
+        var t = clamp((performance.now() - t0) / 2000, 0, 1);
+        s.alpha = 1 - t;
+        if (t < 1) { redraw(); requestAnimationFrame(fade); } else { strokes.splice(strokes.indexOf(s), 1); redraw(); }
+      })();
+    }
+
+    // The Smudge: scribbling back and forth (or tapping fast) over ink that is already there blurs it for a moment.
+    var flips = [], taps = [], lastX = null, lastDir = 0, smudging = false;
+    function smudgeWatch(x, y) {
+      if (lastX === null) { lastX = x; return; }
+      var dx = x - lastX; if (Math.abs(dx) < 3) return;
+      lastX = x;
+      var dir = dx > 0 ? 1 : -1, now = performance.now();
+      if (dir !== lastDir && lastDir !== 0 && nearInk(x, y, 26)) {
+        flips = flips.filter(function (t) { return now - t < 800; }); flips.push(now);
+        if (flips.length >= 6) { flips = []; smudge(x, y); }
+      }
+      lastDir = dir;
+    }
+    function clickWatch(x, y) {
+      var now = performance.now();
+      if (!nearInk(x, y, 26)) return;
+      taps = taps.filter(function (t) { return now - t < 1000; }); taps.push(now);
+      if (taps.length >= 4) { taps = []; smudge(x, y); }
+    }
+    function smudge(x, y) {
+      if (smudging) return;
+      smudging = true;
+      canvas.style.transition = 'filter .12s ease';
+      canvas.style.filter = 'blur(' + (full ? 4 : 2) + 'px)';
+      showTip(x, y, 'Careful, the digital ink is still wet.', 2200);
+      setTimeout(function () {
+        canvas.style.transition = 'filter 1.5s ease'; canvas.style.filter = '';
+        setTimeout(function () { canvas.style.transition = ''; smudging = false; }, 1600);
+      }, 500);
+    }
+
+    // Wax Seal: W over a finished signature drops a seal on it, with a thud.
+    var blob = '';
+    for (var i = 0; i < 18; i++) {
+      var a = i / 18 * Math.PI * 2, rr = i % 2 ? 41 : 44.5 + (i % 3);
+      blob += (i ? ' L' : 'M') + (50 + rr * Math.cos(a)).toFixed(1) + ' ' + (50 + rr * Math.sin(a)).toFixed(1);
+    }
+    var SEAL = '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+      '<path d="' + blob + 'Z" fill="#A8281E" stroke="#A8281E" stroke-width="6" stroke-linejoin="round"/>' +
+      '<circle cx="50" cy="50" r="31" fill="#B8322A" stroke="#8E1F17" stroke-width="2.5"/>' +
+      '<circle cx="50" cy="50" r="25.5" fill="none" stroke="#D45A4C" stroke-width="1.2" opacity=".7"/>' +
+      '<g transform="translate(29.6 26.2) scale(1.7)" fill="none" stroke="#741912" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3-1 4-9 7-9s1 8 4 8 3-4 5-4M3 21h18"/></g>' +
+      '<path d="M29 37a25 25 0 0 1 19-13" fill="none" stroke="#E58275" stroke-width="2.4" stroke-linecap="round" opacity=".6"/></svg>';
+    function overInk() {
+      if (!mouse.over || current || busy || !strokes.length) return false;
+      var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      strokes.forEach(function (s) { s.pts.forEach(function (q) { x0 = Math.min(x0, q.x); y0 = Math.min(y0, q.y); x1 = Math.max(x1, q.x); y1 = Math.max(y1, q.y); }); });
+      return mouse.x > x0 - 20 && mouse.x < x1 + 20 && mouse.y > y0 - 20 && mouse.y < y1 + 20;
+    }
+    var audio = null;
+    function thud(delay, vol) {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+        audio = audio || new AC();
+        if (audio.state === 'suspended') audio.resume();
+        var t = audio.currentTime + delay;
+        var o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.22);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.34);
+        o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t + 0.36);
+        // A short muffled knock on top of the low tone.
+        var n = audio.createBuffer(1, Math.round(audio.sampleRate * 0.06), audio.sampleRate), d = n.getChannelData(0);
+        for (var k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 3);
+        var src = audio.createBufferSource(), lp = audio.createBiquadFilter(), g2 = audio.createGain();
+        src.buffer = n; lp.type = 'lowpass'; lp.frequency.value = 650; g2.gain.value = vol * 0.8;
+        src.connect(lp); lp.connect(g2); g2.connect(audio.destination); src.start(t);
+      } catch (e) { }
+    }
+    function waxSeal() {
+      if (!overInk()) return false;
+      var el = document.createElement('div');
+      el.className = 'seal'; el.innerHTML = SEAL;
+      el.style.left = (mouse.x / w * 100).toFixed(2) + '%'; el.style.top = (mouse.y / h * 100).toFixed(2) + '%';
+      paper.insertBefore(el, chips);
+      seals.push(el); if (seals.length > 3) seals.shift().remove();
+      thud(full ? 0.3 : 0.05, full ? 0.32 : 0.22);
+      return true;
+    }
+
+    // Hints: the wax seal icon flickers once after a first real signature; an empty pad blinks "Sign here" once.
+    var waxTimer = null, waxShown = false, idleTimer = null, blinked = false;
+    function afterSigning() {
+      var pts = strokes.reduce(function (n, s) { return n + s.pts.length; }, 0);
+      if (waxShown || pts < 40) return;
+      clearTimeout(waxTimer);
+      waxTimer = setTimeout(function () {
+        if (current || busy || !strokes.length || waxShown) return;
+        waxShown = true; waxHint.classList.add('flicker');
+      }, 1500);
+    }
+    function armIdle() {
+      if (blinked || idleTimer) return;
+      idleTimer = setTimeout(function () {
+        idleTimer = null;
+        if (strokes.length || current || !padVisible) return;
+        blinked = true; hint.classList.add('blink');
+      }, 60000);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        padVisible = entries[0].isIntersecting;
+        if (padVisible && !strokes.length) armIdle(); else { clearTimeout(idleTimer); idleTimer = null; }
+      }, { threshold: 0.6 }).observe(paper);
+    }
+
+    // Modes switched by typing, shown as chips on the pad.
+    function chipsShow() {
+      chips.innerHTML = '';
+      if (mode.doc) chips.insertAdjacentHTML('beforeend', '<span class="eggchip">Doctor\'s handwriting: on</span>');
+      if (mode.hancock) chips.insertAdjacentHTML('beforeend', '<span class="eggchip">John Hancock mode</span>');
+      if (!padVisible) $('#try').scrollIntoView({ block: 'center', behavior: full ? 'smooth' : 'instant' });
+    }
+    function toggle(name) {
+      mode[name] = !mode[name];
+      paper.classList.toggle('hancock', mode.hancock);
+      chipsShow();
+    }
+
+    // Logo taps: the pad signs "Jordan Avery" by itself, with the same strokes as the signature at the top.
+    function autoSign() {
+      if (busy) return;
+      stopPad();
+      var src = $$('.device svg.ink path').map(function (p) {
+        var n = (p.getAttribute('d').match(/-?\d+(\.\d+)?/g) || []).map(Number), out = [];
+        for (var i = 0; i + 1 < n.length; i += 2) out.push([n[i], n[i + 1]]);
+        return out;
+      }).filter(function (q) { return q.length > 1; });
+      if (!src.length) return;
+      $('#try').scrollIntoView({ block: 'center', behavior: full ? 'smooth' : 'instant' });
+      busy = true; strokes = []; current = null; redraw();
+      setTimeout(function () {
+        // The signature spans x 12..628 and y 92..196 in its 640 x 200 box; fit it over the pad's line.
+        var k = Math.min(w * 0.84 / 616, h * 0.6 / 104), x0 = w * 0.08 - 12 * k, y0 = h * 0.84 - 196 * k;
+        var base = Math.max(1.6, w / 260) * 1.05, mul = mode.hancock ? 5 : 1;
+        var list = src.map(function (pts) { return { ink: ink, pts: [], mul: mul, src: pts }; });
+        var total = src.reduce(function (n, q) { return n + q.length; }, 0), done = 0, si = 0, pi = 0;
+        var t0 = performance.now(), dur = full ? 2800 : 3400;
+        (function step() {
+          var target = Math.min(total, Math.round((performance.now() - t0) / dur * total));
+          while (done < target) {
+            var s = list[si]; if (!s.pts.length) strokes.push(s);
+            var q = s.src[pi], last = s.pts[s.pts.length - 1];
+            var pt = { x: x0 + q[0] * k, y: y0 + q[1] * k, w: base * (0.85 + 0.3 * Math.sin(done * 0.21)) };
+            s.pts.push(pt); if (last) drawSeg(s, last, pt);
+            done++; if (++pi >= s.src.length) { si++; pi = 0; }
+          }
+          if (done < total) requestAnimationFrame(step); else { busy = false; redraw(); afterSigning(); }
+        })();
+      }, full ? 700 : 120);
+    }
+
+    return {
+      toggleDoc: function () { toggle('doc'); },
+      toggleHancock: function () { toggle('hancock'); },
+      wax: waxSeal,
+      autoSign: autoSign
+    };
   })();
+
+  // ---------- a few more surprises ----------
+  // Typed words anywhere on the page (not while typing in a field), forgotten after 2 seconds without a key.
+  var typedKeys = '', typedAt = 0;
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || !/^[a-z]$/i.test(e.key)) return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    var k = e.key.toLowerCase(), now = Date.now();
+    if (k === 'w' && pad.wax()) { typedKeys = ''; return; }
+    if (now - typedAt > 2000) typedKeys = '';
+    typedAt = now; typedKeys = (typedKeys + k).slice(-12);
+    if (/doc$/.test(typedKeys)) { typedKeys = ''; pad.toggleDoc(); }
+    else if (/hancock$/.test(typedKeys)) { typedKeys = ''; pad.toggleHancock(); }
+    else if (/sign$/.test(typedKeys)) { typedKeys = ''; replayHero(); }
+  });
+
+  // Secret code "sign": the hero signature signs itself again and ends with a big flourish.
+  var heroBusy = false;
+  var FLOURISH = 'M628 163 C 668 150, 676 96, 640 92 C 596 88, 598 150, 640 168 C 690 188, 600 206, 420 204 C 260 202, 120 210, 40 198 C 8 193, 0 176, 22 172';
+  function replayHero() {
+    var el = $('#scene-sign'), svg = $('.device svg.ink'), paths = $$('.device svg.ink path:not(.egg-flourish)');
+    if (heroBusy || !el || !paths.length) return;
+    heroBusy = true; heroReplay = true;
+    var top = el.getBoundingClientRect().top + window.scrollY;
+    var y = full ? top + 0.8 * (el.offsetHeight - window.innerHeight) : top + (el.offsetHeight - window.innerHeight) / 2;
+    var lens = paths.map(function (p) { return +p.dataset.len || 200; });
+    var total = lens.reduce(function (s, L) { return s + L; }, 0);
+    paths.forEach(function (p, i) { p.style.strokeDasharray = lens[i]; p.style.strokeDashoffset = lens[i]; });
+    window.scrollTo({ top: y, behavior: full ? 'smooth' : 'instant' });
+    var last = -1, still = 0, waited = 0;
+    (function settle() {
+      var cur = window.scrollY;
+      still = Math.abs(cur - last) < 1 ? still + 1 : 0; last = cur; waited += 100;
+      if (still < 3 && waited < 3000) { setTimeout(settle, 100); return; }
+      var t0 = performance.now(), dur = full ? 1900 : 2400;
+      (function tick() {
+        var d = total * clamp((performance.now() - t0) / dur, 0, 1), acc = 0;
+        paths.forEach(function (p, i) { p.style.strokeDashoffset = (lens[i] - clamp(d - acc, 0, lens[i])).toFixed(1); acc += lens[i]; });
+        if (d < total) { requestAnimationFrame(tick); return; }
+        if (!full) paths.forEach(function (p) { p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; });
+        heroReplay = false;
+        var f = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        f.setAttribute('d', FLOURISH); f.setAttribute('class', 'egg-flourish');
+        svg.appendChild(f);
+        var L = Math.ceil(f.getTotalLength());
+        f.style.strokeDasharray = L; f.style.strokeDashoffset = L;
+        f.getBoundingClientRect();
+        f.style.transition = 'stroke-dashoffset ' + (full ? 1 : 1.3) + 's cubic-bezier(.45,.05,.25,1)';
+        requestAnimationFrame(function () { requestAnimationFrame(function () { f.style.strokeDashoffset = 0; }); });
+        setTimeout(function () {
+          f.style.transition = 'opacity 1s ease'; f.style.opacity = 0;
+          setTimeout(function () { f.remove(); heroBusy = false; }, 1000);
+        }, 4500);
+      })();
+    })();
+  }
+
+  // Logo taps: five quick clicks on the logo.
+  var logoTaps = [];
+  $('.brand').addEventListener('click', function (e) {
+    var now = Date.now();
+    logoTaps = logoTaps.filter(function (t) { return now - t < 2500; }); logoTaps.push(now);
+    if (logoTaps.length >= 5) { logoTaps = []; e.preventDefault(); pad.autoSign(); }
+  });
+
+  // Feather Quill: the word "finger" in the heading swaps the cursor for an 18th century quill (and back).
+  var QUILL = '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">' +
+    '<path d="M3 125 L8 111 L17 120 Z" fill="#1F1E1D" stroke="#F5F4EE" stroke-width="1" stroke-linejoin="round"/>' +
+    '<path d="M12 116 L30 98" stroke="#6B4F3A" stroke-width="4" stroke-linecap="round"/>' +
+    '<path d="M26 102 C 34 70, 62 30, 124 4 C 114 30, 98 52, 80 66 L 88 67 C 72 82, 52 94, 26 102 Z" fill="#FFFDF7" stroke="#5B4636" stroke-width="2" stroke-linejoin="round"/>' +
+    '<path d="M24 104 C 50 74, 84 40, 124 4" fill="none" stroke="#8C6A50" stroke-width="2"/>' +
+    '<path d="M44 84 L38 73 M56 72 L50 59 M68 60 L64 45 M82 46 L80 31 M96 32 L96 19 M50 85 L62 88 M64 72 L76 74 M78 58 L90 58 M92 44 L104 42" stroke="#CFC4B2" stroke-width="1.3" fill="none"/></svg>';
+  var quillWord = $('.quill-word');
+  if (quillWord && finePointer) {
+    root.style.setProperty('--quill', 'url("data:image/svg+xml,' + encodeURIComponent(QUILL) + '") 3 125, auto');
+    quillWord.addEventListener('click', function () { root.classList.toggle('quill'); });
+  }
+
+  // Stubborn counter: the "0 trackers" counter tries to climb, then snaps back to 0.
+  var trk = $$('.zero').filter(function (z) { return /trackers/.test(z.textContent); })[0];
+  if (trk) {
+    var num = $('b', trk), cap = $('span', trk), capText = cap.textContent, climbing = false;
+    trk.classList.add('stubborn');
+    trk.addEventListener('click', function () {
+      if (climbing || num.textContent !== '0') return;
+      climbing = true;
+      var n = 0, peak = 3 + Math.floor(Math.random() * 3);
+      (function up() {
+        if (++n <= peak) { num.textContent = n; setTimeout(up, 150 + n * 45); return; }
+        num.textContent = '0';
+        num.classList.remove('shake'); void num.offsetWidth; num.classList.add('shake');
+        cap.textContent = 'Nice try.';
+        setTimeout(function () { cap.textContent = capText; num.classList.remove('shake'); climbing = false; }, 1800);
+      })();
+    });
+  }
+
+  // Commitment Issues: rest the mouse on a download button for 10 seconds and it panics. For the next 10 to 15
+  // seconds it runs all over the screen whenever the cursor comes near (and dodges clicks), then gives up and lets
+  // itself be clicked before flying home. Mouse only, never for keyboard focus or touch; Esc sends it home at once.
+  if (finePointer) $$('a.btn-primary.btn-big').forEach(function (b) {
+    var timer = null, chasing = false, tired = false, ph = null, last = { x: 0, y: 0 }, lastJump = 0, over = false;
+    var endTimer = null, homeTimer = null, SPEED = full ? '.28s' : '.5s';
+    function moveTo(x, y, speed) {
+      var curve = ' cubic-bezier(.2,.8,.2,1)';
+      b.style.transition = 'left ' + speed + curve + ', top ' + speed + curve + ', background-color .15s';
+      b.style.left = x.toFixed(0) + 'px'; b.style.top = y.toFixed(0) + 'px';
+    }
+    // Take the button out of the page (a same-size placeholder keeps the layout still) and pin it to the screen.
+    function lift() {
+      var r = b.getBoundingClientRect();
+      ph = document.createElement('span');
+      ph.setAttribute('aria-hidden', 'true');
+      ph.style.cssText = 'display:inline-block;vertical-align:middle;width:' + r.width + 'px;height:' + r.height + 'px';
+      b.parentNode.insertBefore(ph, b);
+      b.style.transform = ''; b.style.transition = 'none';
+      b.style.position = 'fixed'; b.style.left = r.left + 'px'; b.style.top = r.top + 'px'; b.style.zIndex = '50'; b.style.margin = '0';
+      document.body.appendChild(b);
+    }
+    function flee(cx, cy) {
+      var r = b.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight, best = null;
+      for (var i = 0; i < 14; i++) {
+        var x = 16 + Math.random() * Math.max(1, vw - r.width - 32), y = 16 + Math.random() * Math.max(1, vh - r.height - 32);
+        var d = Math.hypot(x + r.width / 2 - cx, y + r.height / 2 - cy);
+        if (!best || d > best.d) best = { x: x, y: y, d: d };
+        if (d > Math.min(vw, vh) * 0.5) break;
+      }
+      lastJump = performance.now();
+      moveTo(best.x, best.y, SPEED);
+    }
+    function onMove(e) {
+      last = { x: e.clientX, y: e.clientY };
+      if (!chasing) return;
+      var r = b.getBoundingClientRect();
+      var dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right), dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+      var gap = Math.hypot(dx, dy);
+      if (gap === 0 || (gap < 90 && performance.now() - lastJump > 180)) flee(e.clientX, e.clientY);
+    }
+    function onKey(e) { if (e.key === 'Escape') land(); }
+    function say(text) {
+      var r = b.getBoundingClientRect(), t = document.createElement('div');
+      t.className = 'eggtip'; t.textContent = text; t.setAttribute('role', 'status');
+      t.style.position = 'fixed'; t.style.zIndex = '51';
+      t.style.left = clamp(r.left + r.width / 2, 130, document.documentElement.clientWidth - 130) + 'px';
+      t.style.top = Math.max(60, r.top) + 'px';
+      document.body.appendChild(t);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('on'); }); });
+      setTimeout(function () { t.classList.remove('on'); setTimeout(function () { t.remove(); }, 400); }, 2600);
+    }
+    function start() {
+      if (chasing || ph) return;
+      chasing = true; tired = false;
+      lift();
+      document.addEventListener('keydown', onKey);
+      requestAnimationFrame(function () { flee(last.x, last.y); });
+      endTimer = setTimeout(giveUp, 10000 + Math.random() * 5000);
+    }
+    function giveUp() {
+      if (!chasing) return;
+      chasing = false; tired = true;
+      say('Okay, okay. You win.');
+      scheduleHome(5000);
+    }
+    function scheduleHome(ms) { clearTimeout(homeTimer); homeTimer = setTimeout(function () { if (over) scheduleHome(1200); else land(); }, ms); }
+    function land() {
+      if (!ph) return;
+      chasing = tired = false;
+      clearTimeout(endTimer); clearTimeout(homeTimer);
+      document.removeEventListener('keydown', onKey);
+      var r = ph.getBoundingClientRect();
+      moveTo(r.left, r.top, '.6s');
+      setTimeout(function () {
+        if (!ph) return;
+        ph.parentNode.insertBefore(b, ph); ph.remove(); ph = null;
+        ['position', 'left', 'top', 'zIndex', 'margin', 'transition'].forEach(function (k) { b.style[k] = ''; });
+      }, 650);
+    }
+    document.addEventListener('mousemove', onMove, { passive: true });
+    b.addEventListener('pointerenter', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      over = true;
+      if (chasing || tired || ph) return;
+      clearTimeout(timer);
+      timer = setTimeout(start, 10000);
+    });
+    b.addEventListener('pointerleave', function () { over = false; clearTimeout(timer); });
+    b.addEventListener('pointerdown', function (e) {
+      clearTimeout(timer);
+      if (chasing) { e.preventDefault(); flee(e.clientX, e.clientY); }
+    });
+    b.addEventListener('click', function (e) {
+      if (chasing) { e.preventDefault(); return; }
+      if (tired) scheduleHome(400);
+    });
+  });
+
+  // Developer message, for the curious.
+  try {
+    console.log('%cHi there.%c No trackers here, just ink.', 'font: 600 16px Georgia, serif; color: #C96442', 'font: 14px Georgia, serif');
+    console.log("Looking for something? Try typing 'sign' or 'hancock' while looking at the canvas. Doctors may prefer 'doc'.");
+  } catch (e) { }
 
   if (!full) return; // calm: fades only, nothing pinned or moving
 
@@ -838,7 +1319,7 @@
     sign.device.style.transform = 'translateY(' + (90 * (1 - up)).toFixed(1) + 'px) rotateX(' + (32 * (1 - up)).toFixed(2) + 'deg) scale(' + (0.74 + 0.26 * up).toFixed(4) + ')';
     sign.device.style.opacity = (0.25 + 0.75 * up).toFixed(3);
     var drawn = inkTotal * range(p, 0.26, 0.8), acc = 0;
-    sign.paths.forEach(function (q) {
+    if (!heroReplay) sign.paths.forEach(function (q) {
       var L = +q.dataset.len, part = clamp(drawn - acc, 0, L);
       q.style.strokeDashoffset = (L - part).toFixed(1);
       acc += L;
