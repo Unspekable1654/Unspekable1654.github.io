@@ -283,6 +283,20 @@
   @keyframes fade { to { opacity: 1; } }
   @media print { .reveal, .hero * { opacity: 1 !important; transform: none !important; filter: none !important; } }
 
+  /* demo video */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .demo { padding: 0; border: 0; border-radius: 16px; overflow: hidden; background: #1F1E1D; width: min(1104px, 94vw); max-width: none; max-height: 94vh; }
+  .demo::backdrop { background: rgba(20, 19, 18, .78); }
+  .demo video { display: block; width: 100%; height: auto; max-height: 94vh; background: #1F1E1D; }
+  .demo-close {
+    position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid #3D3B37;
+    background: #1F1E1D; color: #F5F4EE; font: 400 1.5rem/1 Georgia, serif; cursor: pointer;
+  }
+  .demo-close:hover { background: #3D3B37; }
+  @media (max-width: 560px) { .demo-close { top: 6px; right: 6px; width: 32px; height: 32px; font-size: 1.2rem; } }
+  .demo-close:focus-visible { outline: 2px solid #D97757; outline-offset: 2px; }
+  html.motion .demo[open] { animation: rise .4s var(--ease); }
+
   /* ---------- a few surprises ---------- */
   .quill-word { cursor: pointer; }
   @media (hover: hover) and (pointer: fine) {
@@ -347,7 +361,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           Download for Windows
         </a>
-        <a class="btn btn-secondary btn-big" href="#scene-sign">Watch it sign</a>
+        <a class="btn btn-secondary btn-big" href="videos/easysign-demo.mp4" data-demo>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>
+          Watch it sign
+        </a>
       </div>
       <p class="meta subtle">Version 1.3.0 &middot; Windows 10 and 11 (64-bit) &middot; Free to use</p>
     </div>
@@ -604,6 +621,19 @@
   </section>
 </main>
 
+<!-- The real app, start to finish: sign on the pad, then sign a form, save and attach it. -->
+<dialog class="demo" aria-labelledby="demo-title" aria-describedby="demo-steps">
+  <h2 id="demo-title" class="sr-only">EasySign in 30 seconds</h2>
+  <video src="videos/easysign-demo.mp4" poster="videos/easysign-demo-poster.jpg" width="1104" height="764" controls playsinline muted preload="none"></video>
+  <ol id="demo-steps" class="sr-only">
+    <li>Press Space: the touchpad becomes a pen. Sign with your finger, press Space again, and the signature is copied.</li>
+    <li>Sign a document: open the PDF, click Signature and drag a box on the signature line.</li>
+    <li>Sign on the pad and click Insert: the signature lands on the line. Add the date in one click.</li>
+    <li>Save a signed copy, then Copy file and press Ctrl+V in your email to attach it.</li>
+  </ol>
+  <button type="button" class="demo-close" aria-label="Close the video">&times;</button>
+</dialog>
+
 <footer>
   <div class="wrap">
     <div>&copy; 2026 Aalok L. All rights reserved.</div>
@@ -723,6 +753,23 @@
     reveals.forEach(function (el) { el.classList.add('in'); onReveal(el); });
   }
   window.addEventListener('beforeprint', function () { reveals.forEach(function (el) { el.classList.add('in'); }); });
+
+  // "Watch it sign": the real app in a short video, in a window over the page. Without script the link opens the video.
+  (function demo() {
+    var dlg = $('dialog.demo'), link = $('[data-demo]');
+    if (!dlg || !link || typeof dlg.showModal !== 'function') return;
+    var video = $('video', dlg);
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      dlg.showModal();
+      try { video.currentTime = 0; } catch (err) { }
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { }); // the controls are there if the browser won't start it
+    });
+    $('.demo-close', dlg).addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); }); // click outside the video
+    dlg.addEventListener('close', function () { video.pause(); link.focus(); });
+  })();
 
   // ---------- try it pad ----------
   var pad = (function tryPad() {
