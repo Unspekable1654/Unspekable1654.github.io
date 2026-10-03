@@ -336,6 +336,42 @@
   html.calm .zero.stubborn b.shake, html.calm .zero.stubborn:hover b.shake { animation-name: shake-soft; }
   @keyframes shake { 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(2px); } }
   @keyframes shake-soft { 33% { transform: translateX(-2px); } 66% { transform: translateX(2px); } }
+
+  /* Invisible ink: the cursor is a small UV torch. */
+  .paper.uv { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%238B5CF6' fill-opacity='.14' stroke='%237C3AED' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%237C3AED'/%3E%3C/svg%3E") 16 16, crosshair; }
+  /* X marks the spot. */
+  .treasure { position: absolute; width: clamp(40px, 10%, 64px); aspect-ratio: 64 / 56; transform: translate(-50%, -62%); pointer-events: none; }
+  .treasure svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .treasure .lid { transform-box: fill-box; transform-origin: 0% 100%; }
+  .treasure .glint { transform-box: fill-box; transform-origin: center; opacity: 0; }
+  html.motion .treasure svg { animation: rise .35s var(--ease) both; }
+  html.motion .treasure .lid { animation: lid-open .55s .35s cubic-bezier(.3, 1.5, .5, 1) both; }
+  html.motion .treasure .glint { animation: glint 1.1s .8s ease 2; }
+  html.calm .treasure svg { animation: seal-fade .35s ease both; }
+  html.calm .treasure .lid { transform: rotate(-35deg); }
+  html.calm .treasure .glint { opacity: .9; }
+  @keyframes lid-open { to { transform: rotate(-35deg); } }
+  @keyframes glint { 0%, 100% { opacity: 0; transform: scale(.3); } 50% { opacity: 1; transform: scale(1.1); } }
+  /* Signed with love. */
+  .floatheart { position: absolute; color: #E0565B; font-size: clamp(14px, 2.4vw, 22px); line-height: 1; transform: translate(-50%, -50%); pointer-events: none; }
+  html.motion .floatheart { animation: heart-up 1.8s ease-out both; }
+  html.calm .floatheart { animation: heart-fade 1.6s ease both; }
+  @keyframes heart-up { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.5); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% - 90px)) scale(1.1); } }
+  @keyframes heart-fade { 0%, 100% { opacity: 0; } 30%, 70% { opacity: 1; } }
+  /* Forgery detected and the notary seal. */
+  .forgery { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%) rotate(-12deg); border: 4px solid #B42318; border-radius: 10px; padding: 6px 18px; color: #B42318; font: 700 clamp(1.3rem, 4vw, 2.3rem)/1 Georgia, serif; letter-spacing: .08em; opacity: .86; pointer-events: none; transition: opacity .5s ease; }
+  html.motion .forgery { animation: stamp-in .32s cubic-bezier(.3, 0, .4, 1) both; }
+  html.calm .forgery { animation: seal-fade .35s ease both; }
+  .forgery.gone { opacity: 0; }
+  @keyframes stamp-in { from { opacity: 0; transform: translate(-50%, -50%) rotate(-12deg) scale(2.2); } to { opacity: .86; transform: translate(-50%, -50%) rotate(-12deg) scale(1); } }
+  .seal.notary { width: clamp(70px, 19%, 124px); }
+  .seal.notary svg { opacity: .9; }
+  /* Lights out: the page goes dark and a desk lamp glow follows the pointer. */
+  .shot.lamp { cursor: pointer; }
+  .lightsout { position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0; transition: opacity .7s ease;
+    background: radial-gradient(circle 230px at var(--lx, 50%) var(--ly, 50%), rgba(255, 221, 150, .10), rgba(255, 221, 150, .03) 58%, rgba(14, 13, 12, .9) 100%); }
+  .lightsout.on { opacity: 1; }
+  html.calm .lightsout { transition-duration: .3s; }
 </style>
 </head>
 <body>
@@ -425,6 +461,8 @@
   <!-- Try it: sign with the mouse, a finger or a pen, or the touchpad like in EasySign. Nothing is saved or sent. -->
   <!-- Wonder what happens if you hold the pen down for 15 seconds? -->
   <!-- Doctors sign differently. Try typing doc. -->
+  <!-- Some ink only shows under the right light. -->
+  <!-- Pirates can now sign documents. Notaries were consulted. -->
   <section id="try" class="band-alt">
     <div class="wrap try">
       <div>
@@ -649,6 +687,7 @@
   </div>
 </footer>
 
+<script src="../assets/eggs.js" data-page="easysign"></script>
 <script>
 (function () {
   var root = document.documentElement;
@@ -660,6 +699,8 @@
   var range = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
   var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var heroReplay = false; // true while the "sign" surprise redraws the hero signature, so scrolling leaves it alone
+  // Surprises found here are stamped in the Easy Suite egg passport (assets/eggs.js), when it loaded.
+  var egg = function (id) { if (window.Eggs) window.Eggs.found(id); };
 
   // Footer switch: full motion or calm, remembered on this device only.
   var sw = $('.motion-switch');
@@ -787,7 +828,7 @@
     // Points are kept in pad coordinates (w x h). The canvas can be bigger than the pad (John Hancock mode), so it
     // is drawn with an offset of ox, oy.
     var strokes = [], current = null, ink = '#1F1E1D', w = 0, h = 0, cw = 0, ch = 0, ox = 0, oy = 0, dpr = 1;
-    var mode = { doc: false, hancock: false }, busy = false, padVisible = false;
+    var mode = { doc: false, hancock: false, ink: false }, busy = false, padVisible = false;
     var mouse = { x: 0, y: 0, over: false }, seals = [];
     var canLock = 'requestPointerLock' in paper && window.matchMedia('(pointer: fine)').matches;
     if (!canLock) $$('.touchpad-only').forEach(function (el) { el.style.display = 'none'; });
@@ -808,31 +849,33 @@
       var target = base * Math.max(0.5, Math.min(1.3, 1.3 - (d / dt) * 0.35));
       return last.w * 0.7 + target * 0.3;
     }
-    function drawSeg(s, a, b) {
+    function drawSeg(s, a, b, colour) {
       ctx.globalAlpha = s.alpha == null ? 1 : s.alpha;
-      ctx.strokeStyle = s.ink; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.strokeStyle = colour || s.ink; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       ctx.lineWidth = (a.w + b.w) / 2 * s.mul;
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       ctx.globalAlpha = 1;
     }
+    function paint(s, colour) {
+      if (s.pts.length === 1) {
+        ctx.globalAlpha = s.alpha == null ? 1 : s.alpha;
+        ctx.fillStyle = colour || s.ink; ctx.beginPath(); ctx.arc(s.pts[0].x, s.pts[0].y, s.pts[0].w * s.mul / 2, 0, 7); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      for (var i = 1; i < s.pts.length; i++) drawSeg(s, s.pts[i - 1], s.pts[i], colour);
+    }
     function redraw() {
       ctx.setTransform(dpr, 0, 0, dpr, ox * dpr, oy * dpr);
       ctx.clearRect(-ox, -oy, cw, ch);
-      strokes.forEach(function (s) {
-        if (s.pts.length === 1) {
-          ctx.globalAlpha = s.alpha == null ? 1 : s.alpha;
-          ctx.fillStyle = s.ink; ctx.beginPath(); ctx.arc(s.pts[0].x, s.pts[0].y, s.pts[0].w * s.mul / 2, 0, 7); ctx.fill();
-          ctx.globalAlpha = 1;
-        }
-        for (var i = 1; i < s.pts.length; i++) drawSeg(s, s.pts[i - 1], s.pts[i]);
-      });
+      strokes.forEach(function (s) { if (!s.inv) paint(s); });
+      uvTorch();
       var any = strokes.length > 0;
       hint.style.opacity = any || busy || paper.classList.contains('live') ? 0 : 1;
       btnUndo.disabled = btnClear.disabled = !any || busy;
       if (!any) { seals.forEach(function (el) { el.remove(); }); seals = []; if (padVisible) armIdle(); }
     }
     function begin(x, y, pressure) {
-      var s = { ink: ink, pts: [], mul: mode.hancock ? 5 : 1 };
+      var s = { ink: ink, pts: [], mul: mode.hancock ? 5 : 1, inv: mode.ink };
       current = s; strokes.push(s);
       s.timer = setTimeout(function () { outOfInk(s); }, 15000);
       clearTimeout(idleTimer); idleTimer = null;
@@ -848,11 +891,13 @@
       if (last && Math.hypot(pt.x - last.x, pt.y - last.y) < 0.8) return;
       pt.w = widthFor(current, pt, pressure);
       current.pts.push(pt);
-      if (last) drawSeg(current, last, pt); else redraw();
+      if (last && !current.inv) drawSeg(current, last, pt); else redraw();
     }
     function end() {
+      var s = current;
       if (current) clearTimeout(current.timer);
       current = null; redraw(); afterSigning();
+      if (s && !s.dry && !busy) shapes(s);
     }
     function locked() { return document.pointerLockElement === paper; }
     function local(e) { var r = paper.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
@@ -872,13 +917,13 @@
       var p = local(e);
       mouse.x = p.x; mouse.y = p.y; mouse.over = true;
       smudgeWatch(p.x, p.y);
-      if (!current) return;
+      if (!current) { if (mode.ink) redraw(); return; }
       var r = paper.getBoundingClientRect();
       (e.getCoalescedEvents ? e.getCoalescedEvents() : [e]).forEach(function (c) {
         add(c.clientX - r.left, c.clientY - r.top, e.pointerType === 'pen' ? c.pressure : 0);
       });
     });
-    paper.addEventListener('pointerleave', function () { mouse.over = false; });
+    paper.addEventListener('pointerleave', function () { mouse.over = false; if (mode.ink) redraw(); });
     ['pointerup', 'pointercancel'].forEach(function (t) { paper.addEventListener(t, function () { if (!locked() && current) end(); }); });
 
     // Touchpad mode, like EasySign's "draw by moving": the cursor is hidden and every movement draws.
@@ -909,8 +954,8 @@
       if (!pen) return;
       pen.x = Math.max(0, Math.min(w, pen.x + e.movementX));
       pen.y = Math.max(0, Math.min(h, pen.y + e.movementY));
-      if (e.shiftKey) { if (!lifted) { lifted = true; end(); paper.classList.add('live'); } return; }
-      if (lifted || !current) { lifted = false; begin(pen.x, pen.y, 0); return; }
+      if (e.shiftKey) { if (!lifted) { lifted = true; end(); paper.classList.add('live'); } if (mode.ink) redraw(); return; }
+      if (lifted || !current) { lifted = false; begin(pen.x, pen.y, 0); if (mode.ink) redraw(); return; }
       add(pen.x, pen.y, 0);
     });
     document.addEventListener('keydown', function (e) {
@@ -972,6 +1017,7 @@
       s.dry = true;
       var last = s.pts[s.pts.length - 1], t0 = performance.now();
       showTip(last.x, last.y, 'Out of ink. Please shake your laptop to refill.', 4000);
+      egg('s-ink-out');
       (function fade() {
         if (strokes.indexOf(s) < 0) return; // undone or cleared meanwhile
         var t = clamp((performance.now() - t0) / 2000, 0, 1);
@@ -1005,6 +1051,7 @@
       canvas.style.transition = 'filter .12s ease';
       canvas.style.filter = 'blur(' + (full ? 4 : 2) + 'px)';
       showTip(x, y, 'Careful, the digital ink is still wet.', 2200);
+      egg('s-smudge');
       setTimeout(function () {
         canvas.style.transition = 'filter 1.5s ease'; canvas.style.filter = '';
         setTimeout(function () { canvas.style.transition = ''; smudging = false; }, 1600);
@@ -1056,8 +1103,141 @@
       paper.insertBefore(el, chips);
       seals.push(el); if (seals.length > 3) seals.shift().remove();
       thud(full ? 0.3 : 0.05, full ? 0.32 : 0.22);
+      egg('s-wax');
       return true;
     }
+
+    // Invisible ink: strokes drawn while it is on only show inside the UV torch's circle, in violet.
+    function uvTorch() {
+      if (!mode.ink) return;
+      var at = pen || (mouse.over ? mouse : null);
+      if (!at) return;
+      var R = Math.max(42, h * 0.3);
+      var g = ctx.createRadialGradient(at.x, at.y, 0, at.x, at.y, R);
+      g.addColorStop(0, 'rgba(139, 92, 246, .16)'); g.addColorStop(1, 'rgba(139, 92, 246, 0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(at.x, at.y, R, 0, 7); ctx.fill();
+      ctx.save();
+      ctx.beginPath(); ctx.arc(at.x, at.y, R, 0, 7); ctx.clip();
+      ctx.shadowColor = 'rgba(167, 139, 250, .9)'; ctx.shadowBlur = 8;
+      strokes.forEach(function (s) { if (s.inv) paint(s, '#7C3AED'); });
+      ctx.restore();
+    }
+
+    // Shapes drawn on an empty pad: an X, a heart or one straight line.
+    function straight(s) {
+      var p = s.pts, len = 0;
+      for (var i = 1; i < p.length; i++) len += Math.hypot(p[i].x - p[i - 1].x, p[i].y - p[i - 1].y);
+      var a = p[0], b = p[p.length - 1], d = Math.hypot(b.x - a.x, b.y - a.y);
+      if (p.length < 4 || d < 30 || d / len < 0.9) return null;
+      var ang = Math.abs(Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI);
+      if (ang > 90) ang = 180 - ang;
+      return { a: a, b: b, ang: ang, down: (b.x - a.x) * (b.y - a.y) > 0 };
+    }
+    function crossing(l1, l2) {
+      var r = { x: l1.b.x - l1.a.x, y: l1.b.y - l1.a.y }, q = { x: l2.b.x - l2.a.x, y: l2.b.y - l2.a.y };
+      var den = r.x * q.y - r.y * q.x; if (!den) return null;
+      var t = ((l2.a.x - l1.a.x) * q.y - (l2.a.y - l1.a.y) * q.x) / den, u = ((l2.a.x - l1.a.x) * r.y - (l2.a.y - l1.a.y) * r.x) / den;
+      return t > 0.15 && t < 0.85 && u > 0.15 && u < 0.85 ? { x: l1.a.x + t * r.x, y: l1.a.y + t * r.y } : null;
+    }
+    function shapes(s) {
+      if (!window.Eggs || mode.doc || mode.hancock || strokes.indexOf(s) < 0) return;
+      if (strokes.length === 2) {
+        var l1 = straight(strokes[0]), l2 = straight(strokes[1]);
+        var hit = l1 && l2 && l1.down !== l2.down && l1.ang > 20 && l1.ang < 70 && l2.ang > 20 && l2.ang < 70 && crossing(l1, l2);
+        if (hit) treasure(hit);
+        return;
+      }
+      if (strokes.length !== 1) return;
+      var m = window.Eggs.recognise(s.pts, ['line', 'heart']);
+      if (!m) return;
+      var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      s.pts.forEach(function (q) { x0 = Math.min(x0, q.x); y0 = Math.min(y0, q.y); x1 = Math.max(x1, q.x); y1 = Math.max(y1, q.y); });
+      if (m.name === 'line') { showTip((x0 + x1) / 2, y0, "That's a line, not a signature. Bold minimalism though.", 3800); egg('s-line'); }
+      else { s.ink = '#E0565B'; s.inv = false; redraw(); hearts((x0 + x1) / 2, (y0 + y1) / 2); showTip((x0 + x1) / 2, y0, 'Signed with love.', 3200); egg('s-love'); }
+    }
+    var CHEST = '<svg viewBox="0 0 64 56" aria-hidden="true" focusable="false">' +
+      '<circle cx="24" cy="25" r="5" fill="#F2C94C" stroke="#B8860B" stroke-width="1.5"/><circle cx="34" cy="23" r="5" fill="#F2C94C" stroke="#B8860B" stroke-width="1.5"/><circle cx="42" cy="26" r="4.5" fill="#F2C94C" stroke="#B8860B" stroke-width="1.5"/>' +
+      '<rect x="6" y="26" width="52" height="27" rx="3" fill="#8A5A2B" stroke="#4A2E14" stroke-width="2.5"/>' +
+      '<rect x="6" y="33" width="52" height="5" fill="#C9A227"/><rect x="27" y="30" width="10" height="11" rx="2" fill="#E7C35A" stroke="#4A2E14" stroke-width="1.5"/>' +
+      '<g class="lid"><path d="M6 26 V18 Q6 7 32 7 Q58 7 58 18 V26 Z" fill="#9C6A35" stroke="#4A2E14" stroke-width="2.5" stroke-linejoin="round"/><rect x="6" y="19" width="52" height="4" fill="#C9A227"/></g>' +
+      '<path class="glint" d="M50 2 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2 Z" fill="#FFF3B8" stroke="#E7C35A" stroke-width="1"/></svg>';
+    function treasure(at) {
+      var el = document.createElement('div');
+      el.className = 'treasure'; el.innerHTML = CHEST;
+      el.style.left = (at.x / w * 100).toFixed(2) + '%'; el.style.top = (at.y / h * 100).toFixed(2) + '%';
+      paper.insertBefore(el, chips);
+      seals.push(el); if (seals.length > 3) seals.shift().remove();
+      if (window.Eggs) window.Eggs.sound('pop');
+      showTip(at.x, at.y - 20, 'X marks the spot. Very pirate.', 3600);
+      egg('s-x');
+    }
+    function hearts(x, y) {
+      for (var i = 0; i < (full ? 6 : 1); i++) {
+        var el = document.createElement('span');
+        el.className = 'floatheart'; el.setAttribute('aria-hidden', 'true'); el.textContent = '♥';
+        el.style.left = (x + (Math.random() - 0.5) * w * 0.25) + 'px'; el.style.top = (y + (Math.random() - 0.5) * h * 0.2) + 'px';
+        el.style.setProperty('--dx', ((Math.random() - 0.5) * 50).toFixed(0) + 'px');
+        el.style.animationDelay = (i * 0.16) + 's';
+        paper.appendChild(el);
+        setTimeout(function (n) { n.remove(); }.bind(null, el), 2900);
+      }
+    }
+
+    // Forgery detected: a red stamp thuds onto the pad.
+    function forge() {
+      showPad();
+      var old = $('.forgery', paper); if (old) old.remove();
+      var el = document.createElement('div');
+      el.className = 'forgery'; el.setAttribute('aria-hidden', 'true'); el.textContent = 'NICE TRY';
+      paper.insertBefore(el, chips);
+      thud(full ? 0.12 : 0.02, 0.28);
+      setTimeout(function () { showTip(w / 2, h * 0.24, 'EasySign only signs for you.', 3400); }, full ? 320 : 40);
+      setTimeout(function () { el.classList.add('gone'); setTimeout(function () { el.remove(); }, 600); }, 4200);
+      egg('s-forge');
+    }
+
+    // Notary: a round seal with today's date pressed onto the signature (or the pad, when it is empty).
+    var notaries = 0;
+    function notary() {
+      showPad();
+      var id = 'notary-ring-' + (++notaries);
+      var date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      var el = document.createElement('div');
+      el.className = 'seal notary';
+      el.innerHTML = '<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><path id="' + id + '" d="M60 60 m-45 0 a45 45 0 1 1 90 0 a45 45 0 1 1 -90 0"/></defs>' +
+        '<circle cx="60" cy="60" r="57" fill="rgba(29, 78, 137, .06)" stroke="#1D4E89" stroke-width="3"/><circle cx="60" cy="60" r="34" fill="none" stroke="#1D4E89" stroke-width="1.6"/>' +
+        '<text font-family="Georgia, serif" font-size="9.4" letter-spacing="1" fill="#1D4E89"><textPath href="#' + id + '">NOTARY PUBLIC &#183; OFFICIALLY UNOFFICIAL &#183;</textPath></text>' +
+        '<text x="60" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="10" letter-spacing="1.5" fill="#1D4E89">SEALED</text>' +
+        '<text x="60" y="71" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#1D4E89">' + date + '</text></svg>';
+      var x = w * 0.8, y = h * 0.45;
+      if (strokes.length) {
+        var x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+        strokes.forEach(function (s) { s.pts.forEach(function (q) { x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); }); });
+        x = clamp(x1, w * 0.15, w * 0.88); y = clamp((y0 + y1) / 2, h * 0.3, h * 0.7);
+      }
+      el.style.left = (x / w * 100).toFixed(2) + '%'; el.style.top = (y / h * 100).toFixed(2) + '%';
+      paper.insertBefore(el, chips);
+      if (strokes.length) { seals.push(el); if (seals.length > 3) seals.shift().remove(); }
+      else setTimeout(function () { el.remove(); }, 6000);
+      thud(full ? 0.3 : 0.05, full ? 0.3 : 0.2);
+      setTimeout(function () { showTip(x, y - h * 0.18, 'Officially unofficial.', 3200); }, full ? 400 : 60);
+      egg('s-notary');
+    }
+
+    // Undo the past: Ctrl+Z undoes the last stroke; pressed 10 times on an empty pad, it gets philosophical.
+    var undos = [];
+    document.addEventListener('keydown', function (e) {
+      if (!(e.ctrlKey || e.metaKey) || e.shiftKey || e.altKey || e.key.toLowerCase() !== 'z') return;
+      var t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (!padVisible && document.activeElement !== canvas) return;
+      e.preventDefault();
+      if (busy || current) return;
+      if (strokes.length) { strokes.pop(); redraw(); undos = []; return; }
+      var now = Date.now();
+      undos = undos.filter(function (u) { return now - u < 6000; }); undos.push(now);
+      if (undos.length >= 10) { undos = []; showTip(w / 2, h * 0.4, "There's nothing left to undo. Except maybe that email you sent.", 4200); egg('s-undo'); }
+    });
 
     // Hints: the wax seal icon flickers once after a first real signature; an empty pad blinks "Sign here" once.
     var waxTimer = null, waxShown = false, idleTimer = null, blinked = false;
@@ -1090,12 +1270,24 @@
       chips.innerHTML = '';
       if (mode.doc) chips.insertAdjacentHTML('beforeend', '<span class="eggchip">Doctor\'s handwriting: on</span>');
       if (mode.hancock) chips.insertAdjacentHTML('beforeend', '<span class="eggchip">John Hancock mode</span>');
-      if (!padVisible) $('#try').scrollIntoView({ block: 'center', behavior: full ? 'smooth' : 'instant' });
+      if (mode.ink) chips.insertAdjacentHTML('beforeend', '<span class="eggchip">Invisible ink: UV torch on</span>');
+      showPad();
     }
+    function showPad() { if (!padVisible) $('#try').scrollIntoView({ block: 'center', behavior: full ? 'smooth' : 'instant' }); }
+    var MODE_EGG = { doc: 's-doc', hancock: 's-hancock', ink: 's-invisible' };
     function toggle(name) {
       mode[name] = !mode[name];
       paper.classList.toggle('hancock', mode.hancock);
+      paper.classList.toggle('uv', mode.ink);
+      if (name === 'ink' && !mode.ink) {
+        // Lights on: the hidden ink develops.
+        var hidden = strokes.filter(function (s) { return s.inv; });
+        hidden.forEach(function (s) { s.inv = false; });
+        if (hidden.length) showTip(w / 2, h * 0.3, 'The invisible ink developed. Spooky.', 2800);
+      }
+      redraw();
       chipsShow();
+      if (mode[name]) egg(MODE_EGG[name]);
     }
 
     // Logo taps: the pad signs "Jordan Avery" by itself, with the same strokes as the signature at the top.
@@ -1108,6 +1300,7 @@
         return out;
       }).filter(function (q) { return q.length > 1; });
       if (!src.length) return;
+      egg('s-autosign');
       $('#try').scrollIntoView({ block: 'center', behavior: full ? 'smooth' : 'instant' });
       busy = true; strokes = []; current = null; redraw();
       setTimeout(function () {
@@ -1134,6 +1327,9 @@
     return {
       toggleDoc: function () { toggle('doc'); },
       toggleHancock: function () { toggle('hancock'); },
+      toggleInk: function () { toggle('ink'); },
+      forge: forge,
+      notary: notary,
       wax: waxSeal,
       autoSign: autoSign
     };
@@ -1153,6 +1349,9 @@
     if (/doc$/.test(typedKeys)) { typedKeys = ''; pad.toggleDoc(); }
     else if (/hancock$/.test(typedKeys)) { typedKeys = ''; pad.toggleHancock(); }
     else if (/sign$/.test(typedKeys)) { typedKeys = ''; replayHero(); }
+    else if (/forge$/.test(typedKeys)) { typedKeys = ''; pad.forge(); }
+    else if (/notary$/.test(typedKeys)) { typedKeys = ''; pad.notary(); }
+    else if (/ink$/.test(typedKeys)) { typedKeys = ''; pad.toggleInk(); }
   });
 
   // Secret code "sign": the hero signature signs itself again and ends with a big flourish.
@@ -1162,6 +1361,7 @@
     var el = $('#scene-sign'), svg = $('.device svg.ink'), paths = $$('.device svg.ink path:not(.egg-flourish)');
     if (heroBusy || !el || !paths.length) return;
     heroBusy = true; heroReplay = true;
+    egg('s-sign');
     var top = el.getBoundingClientRect().top + window.scrollY;
     var y = full ? top + 0.8 * (el.offsetHeight - window.innerHeight) : top + (el.offsetHeight - window.innerHeight) / 2;
     var lens = paths.map(function (p) { return +p.dataset.len || 200; });
@@ -1214,7 +1414,7 @@
   var quillWord = $('.quill-word');
   if (quillWord && finePointer) {
     root.style.setProperty('--quill', 'url("data:image/svg+xml,' + encodeURIComponent(QUILL) + '") 3 125, auto');
-    quillWord.addEventListener('click', function () { root.classList.toggle('quill'); });
+    quillWord.addEventListener('click', function () { if (root.classList.toggle('quill')) egg('s-quill'); });
   }
 
   // Stubborn counter: the "0 trackers" counter tries to climb, then snaps back to 0.
@@ -1231,6 +1431,7 @@
         num.textContent = '0';
         num.classList.remove('shake'); void num.offsetWidth; num.classList.add('shake');
         cap.textContent = 'Nice try.';
+        egg('s-counter');
         setTimeout(function () { cap.textContent = capText; num.classList.remove('shake'); climbing = false; }, 1800);
       })();
     });
@@ -1292,6 +1493,7 @@
       if (chasing || ph) return;
       chasing = true; tired = false;
       lift();
+      egg('s-commit');
       document.addEventListener('keydown', onKey);
       requestAnimationFrame(function () { flee(last.x, last.y); });
       endTimer = setTimeout(giveUp, 10000 + Math.random() * 5000);
@@ -1335,11 +1537,45 @@
     });
   });
 
+  // Lights out: three clicks on the dark theme screenshot dim the page; a desk lamp glow follows the pointer.
+  var darkShot = $$('.track img').filter(function (im) { return /pad-dark/.test(im.getAttribute('src')); })[0];
+  var lamp = null;
+  function lightsOut(e) {
+    if (lamp) return;
+    var el = lamp = document.createElement('div');
+    el.className = 'lightsout'; el.setAttribute('aria-hidden', 'true');
+    var follow = function (ev) { el.style.setProperty('--lx', ev.clientX + 'px'); el.style.setProperty('--ly', ev.clientY + 'px'); };
+    follow(e);
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('on'); }); });
+    document.addEventListener('pointermove', follow, { passive: true });
+    if (window.Eggs) window.Eggs.toast('Charcoal mode, but for real. Click anywhere to switch the lights back on.', 4200);
+    egg('s-lights');
+    function on(ev) {
+      if (ev.type === 'keydown' && ev.key !== 'Escape') return;
+      if (ev.type === 'click') { ev.preventDefault(); ev.stopPropagation(); } // the click only switches the lights on
+      document.removeEventListener('click', on, true); document.removeEventListener('keydown', on);
+      document.removeEventListener('pointermove', follow);
+      el.classList.remove('on');
+      setTimeout(function () { el.remove(); if (lamp === el) lamp = null; }, 750);
+    }
+    setTimeout(function () { document.addEventListener('click', on, true); document.addEventListener('keydown', on); }, 300);
+  }
+  if (darkShot) {
+    var lampTaps = [], shot = darkShot.parentNode;
+    shot.classList.add('lamp');
+    shot.addEventListener('click', function (e) {
+      var now = Date.now();
+      lampTaps = lampTaps.filter(function (t) { return now - t < 1500; }); lampTaps.push(now);
+      if (lampTaps.length >= 3) { lampTaps = []; lightsOut(e); }
+    });
+  }
+
   // Developer message, for the curious.
-  try {
-    console.log('%cHi there.%c No trackers here, just ink.', 'font: 600 16px Georgia, serif; color: #C96442', 'font: 14px Georgia, serif');
-    console.log("Looking for something? Try typing 'sign' or 'hancock' while looking at the canvas. Doctors may prefer 'doc'.");
-  } catch (e) { }
+  var HELLO = ['Hi there. No trackers here, just ink.',
+    'Looking for something? Try typing sign, hancock, ink, forge or notary near the pad. Doctors may prefer doc.'];
+  if (window.Eggs) window.Eggs.consoleHello(HELLO, 'autograph', function () { pad.autoSign(); return 'Signing. Watch the pad.'; });
+  else try { HELLO.forEach(function (l) { console.log(l); }); } catch (e) { }
 
   if (!full) return; // calm: fades only, nothing pinned or moving
 

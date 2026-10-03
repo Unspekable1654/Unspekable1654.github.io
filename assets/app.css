@@ -122,6 +122,7 @@ html.motion .statement .w.on { opacity: 1; }
 
 /* features */
 .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 18px; margin-top: 30px; perspective: 1400px; }
+@media (max-width: 700px) { .features { overflow-x: clip; overflow-clip-margin: 10px; } } /* the flip reveal tilts tall cards past the screen edge */
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; transition: border-color .25s; transform-style: preserve-3d; }
 .card:hover { border-color: var(--accent); }
 .band-alt .card { background: var(--bg); }
@@ -188,3 +189,11 @@ html.calm .hero .lead { animation-delay: .15s; }
 html.calm .hero .actions, html.calm .flourish, html.calm .art { animation-delay: .3s; }
 @keyframes fade { to { opacity: 1; } }
 @media print { .reveal, .hero *, .art * { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; } }
+
+/* Easter egg breadcrumbs (the eggs themselves live in eggs-<page>.js). */
+footer .fine { flex-basis: 100%; margin: 0; font-size: .72rem; color: var(--subtle); opacity: .8; }
+.blank-line { display: flex; align-items: baseline; gap: 8px; margin: 14px 0 0; color: var(--muted); font-size: .95rem; }
+.blank { flex: 1; width: 0; min-width: 0; border: 0; border-bottom: 1.5px dotted var(--accent); border-radius: 0; background: transparent; padding: 0 4px 2px; color: var(--text); font: 1.2rem/1.2 "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive; outline: none; cursor: text; }
+.blank:focus { border-bottom-style: solid; }
+.never::after { content: " (2)"; color: var(--subtle); opacity: 0; transition: opacity .3s; }
+@media (hover: hover) { .never:hover::after { opacity: .6; } }
