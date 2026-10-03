@@ -110,7 +110,7 @@
     E.found('c-cheese');
   }
   document.addEventListener('keydown', function (e) {
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'p') { e.preventDefault(); cheese(); }
+    if (e.ctrlKey && e.altKey && e.code === 'KeyP') { e.preventDefault(); cheese(); }
   });
   document.addEventListener('keyup', function (e) { if (e.key === 'PrintScreen') cheese(); });
 

@@ -32,8 +32,9 @@
 
   var art = $('.art');
 
-  // ---------- drawing: Alt or Shift + drag anywhere (gestures), or plain drag on the hero art (shapes) ----------
-  var ink = null, ictx = null, pts = null, mode = null;
+  // ---------- drawing on the hero art (mouse, finger or pen; no keys needed, so every browser behaves) ----------
+  // Letters: S, C, D and L. A circle straightens itself. Holding still for 3 s leaves a fingerprint.
+  var ink = null, ictx = null, pts = null, holdT = 0;
   function inkLayer() {
     if (ink) { clearTimeout(ink.fade); ink.style.opacity = 1; return; }
     ink = document.createElement('canvas'); ink.className = 'egg-ink'; ink.setAttribute('aria-hidden', 'true');
@@ -48,42 +49,42 @@
     var el = ink; el.style.opacity = 0;
     el.fade = setTimeout(function () { el.remove(); if (ink === el) { ink = null; ictx = null; } }, 650);
   }
-  document.addEventListener('pointerdown', function (e) {
-    var onArt = art && art.contains(e.target);
-    if (e.button !== 0 || (!e.altKey && !e.shiftKey && !onArt)) return;
-    if (E.inField(e.target) || (e.target.closest && e.target.closest('a,button,.egg-numpad'))) return;
-    e.preventDefault();
-    mode = e.altKey || e.shiftKey ? 'gesture' : 'art';
-    pts = [{ x: e.clientX, y: e.clientY }];
-    inkLayer();
-    ictx.clearRect(0, 0, innerWidth, innerHeight);
-  });
-  document.addEventListener('pointermove', function (e) {
-    if (!pts) return;
-    var last = pts[pts.length - 1];
-    if (Math.hypot(e.clientX - last.x, e.clientY - last.y) < 2) return;
-    pts.push({ x: e.clientX, y: e.clientY });
-    ictx.beginPath(); ictx.moveTo(last.x, last.y); ictx.lineTo(e.clientX, e.clientY); ictx.stroke();
-  });
-  ['pointerup', 'pointercancel'].forEach(function (t) {
-    document.addEventListener(t, function () {
-      if (!pts) return;
-      var stroke = pts, m = mode; pts = null; mode = null;
-      inkGone();
-      if (stroke.length < 6) return;
-      if (m === 'art') {
-        var c = E.recognise(stroke, ['circle']);
-        if (c) perfectCircle(c);
-        return;
-      }
-      var g = E.recognise(stroke, ['circle', 'S', 'C', 'D', 'L']);
-      if (g) gesture(g, stroke);
-      else E.toast('Not a gesture I know. Try an S, a C, a D, an L or a circle.');
+  if (art) {
+    // No native image drag or text selection while drawing (Firefox would swallow the stroke).
+    ['dragstart', 'selectstart'].forEach(function (t) { art.addEventListener(t, function (e) { e.preventDefault(); }); });
+    art.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      try { art.setPointerCapture(e.pointerId); } catch (err) { }
+      pts = [{ x: e.clientX, y: e.clientY }];
+      inkLayer();
+      ictx.clearRect(0, 0, innerWidth, innerHeight);
+      clearTimeout(holdT);
+      holdT = setTimeout(function () { if (pts && pts.length < 4) { var p0 = pts[0]; pts = null; inkGone(); fingerprint(p0.x, p0.y); } }, 3000);
     });
-  });
+    art.addEventListener('pointermove', function (e) {
+      if (!pts) return;
+      var last = pts[pts.length - 1];
+      if (Math.hypot(e.clientX - last.x, e.clientY - last.y) < 2) return;
+      if (Math.hypot(e.clientX - pts[0].x, e.clientY - pts[0].y) > 12) clearTimeout(holdT);
+      pts.push({ x: e.clientX, y: e.clientY });
+      ictx.beginPath(); ictx.moveTo(last.x, last.y); ictx.lineTo(e.clientX, e.clientY); ictx.stroke();
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) {
+      art.addEventListener(t, function () {
+        clearTimeout(holdT);
+        if (!pts) return;
+        var stroke = pts; pts = null;
+        inkGone();
+        if (stroke.length < 6) return;
+        var g = E.recognise(stroke, ['circle', 'S', 'C', 'D', 'L'], 0.16);
+        if (!g) { E.toast('Not a shape I know. Try a circle, or the letters S, C, D or L.'); return; }
+        if (g.name === 'circle') perfectCircle(g); else gesture(g, stroke);
+      });
+    });
+  }
 
   function gesture(g, stroke) {
-    var end = stroke[stroke.length - 1];
     if (g.name === 'L') {
       var lk = document.createElement('div'); lk.className = 'egg-lock'; lk.setAttribute('aria-hidden', 'true');
       lk.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
@@ -108,13 +109,11 @@
       E.toast('C for capture. Screenshot taken. (A pretend one.)');
     } else if (g.name === 'D') {
       E.toast('D for Downloads? This is a website.');
-    } else if (g.name === 'circle') {
-      picker(g.cx, g.cy);
     }
     E.found('t-gesture');
   }
 
-  // Circle: a ring of the Easy Suite apps.
+  // A circle also opens a ring of the Easy Suite apps, like EasyTouch's circle gesture.
   function picker(x, y) {
     var old = $('.egg-picker'); if (old) old.remove();
     var p = document.createElement('div'); p.className = 'egg-picker'; p.setAttribute('role', 'menu'); p.setAttribute('aria-label', 'Easy Suite apps');
@@ -134,7 +133,7 @@
     setTimeout(function () { if (p.parentNode) close(); }, 8000);
   }
 
-  // T11 shapes straighten: a wobbly circle on the art becomes a perfect one.
+  // T11 shapes straighten: a wobbly circle becomes a perfect one.
   function perfectCircle(c) {
     var r = art.getBoundingClientRect();
     var old = $('.egg-shape', art); if (old) old.remove();
@@ -145,7 +144,8 @@
     ci.setAttribute('cx', c.cx - r.left); ci.setAttribute('cy', c.cy - r.top); ci.setAttribute('r', c.r);
     svg.appendChild(ci); art.appendChild(svg);
     setTimeout(function () { svg.remove(); }, 4000);
-    E.toast('Straightened. Shapes snap like this in Screen pen.');
+    setTimeout(function () { picker(c.cx, c.cy); }, full ? 350 : 0);
+    E.toast('Straightened, like Screen pen. And a circle opens the app ring.');
     E.found('t-shapes');
   }
 
@@ -249,39 +249,61 @@
     E.found('t-spotlight');
   });
 
-  // ---------- T6 palm detected: 8 clicks in a second, spread out ----------
-  var mash = [];
-  document.addEventListener('pointerdown', function (e) {
-    if (e.pointerType === 'touch') return;
-    var now = Date.now();
-    mash = mash.filter(function (m) { return now - m.t < 1000; });
-    mash.push({ t: now, x: e.clientX, y: e.clientY });
-    if (mash.length < 8) return;
-    var xs = mash.map(function (m) { return m.x; }), ys = mash.map(function (m) { return m.y; });
-    if (Math.max.apply(null, xs) - Math.min.apply(null, xs) + Math.max.apply(null, ys) - Math.min.apply(null, ys) < 80) return;
-    mash = [];
+  // ---------- T6 palm detected: 5 quick clicks spread around (or 3 fingers at once on a touch screen) ----------
+  var mash = [], touching = {};
+  function palm(x, y) {
+    mash = []; touching = {};
     var h = document.createElement('div'); h.className = 'egg-palm'; h.setAttribute('aria-hidden', 'true');
-    h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
+    h.style.left = x + 'px'; h.style.top = y + 'px';
     h.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 11V4a1.5 1.5 0 0 1 3 0v7M14 11V6a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a5 5 0 0 1-4-2l-3-4a1.5 1.5 0 0 1 2.3-2L8 14"/></svg>';
     document.body.appendChild(h); setTimeout(function () { h.remove(); }, 1700);
     E.toast('Palm detected. Ignored.');
     E.found('t-palm');
-  });
-
-  // ---------- T7 swipe: two fingers sideways on a touchpad over the hero ----------
-  var hero = $('.hero'), swipeX = 0, swipeT = 0, swiped = 0;
-  if (hero) hero.addEventListener('wheel', function (e) {
-    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
-    e.preventDefault(); // no back or forward navigation from this swipe
-    var now = Date.now();
-    if (now - swipeT > 400) swipeX = 0;
-    swipeT = now; swipeX += e.deltaX;
-    if (Math.abs(swipeX) > 160 && now - swiped > 1500) {
-      swiped = now; swipeX = 0;
-      E.toast((e.deltaX > 0 ? 'Swipe left' : 'Swipe right') + ': ' + (e.deltaX > 0 ? 'Backspace' : 'Enter') + ". Nothing happened. You're on a website.");
-      E.found('t-swipe');
+  }
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'touch') {
+      touching[e.pointerId] = 1;
+      if (Object.keys(touching).length >= 3) palm(e.clientX, e.clientY);
+      return;
     }
-  }, { passive: false });
+    var now = Date.now();
+    mash = mash.filter(function (m) { return now - m.t < 1600; });
+    mash.push({ t: now, x: e.clientX, y: e.clientY });
+    if (mash.length < 5) return;
+    var xs = mash.map(function (m) { return m.x; }), ys = mash.map(function (m) { return m.y; });
+    if (Math.max.apply(null, xs) - Math.min.apply(null, xs) + Math.max.apply(null, ys) - Math.min.apply(null, ys) >= 120) palm(e.clientX, e.clientY);
+  });
+  ['pointerup', 'pointercancel'].forEach(function (t) { document.addEventListener(t, function (e) { delete touching[e.pointerId]; }); });
+
+  // ---------- T7 swipe: sideways over the top section (touchpad, Shift + mouse wheel, or a finger) ----------
+  var hero = $('.hero'), swipeX = 0, swipeT = 0, swiped = 0;
+  function swipe(dir) {
+    var now = Date.now();
+    if (now - swiped < 1500) return;
+    swiped = now; swipeX = 0;
+    E.toast((dir > 0 ? 'Swipe left: Backspace' : 'Swipe right: Enter') + ". Nothing happened. You're on a website.");
+    E.found('t-swipe');
+  }
+  if (hero) {
+    hero.addEventListener('wheel', function (e) {
+      var unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerWidth : 1; // Firefox reports lines
+      var dx = e.deltaX * unit, dy = e.deltaY * unit;
+      if (!dx && e.shiftKey) { dx = dy; dy = 0; } // Shift + wheel scrolls sideways
+      if (Math.abs(dx) <= Math.abs(dy)) return;
+      e.preventDefault(); // no back or forward navigation from this swipe
+      var now = Date.now();
+      if (now - swipeT > 400) swipeX = 0;
+      swipeT = now; swipeX += dx;
+      if (Math.abs(swipeX) > 160) swipe(swipeX);
+    }, { passive: false });
+    var t0 = null;
+    hero.addEventListener('touchstart', function (e) { var t = e.touches[0]; t0 = e.touches.length === 1 ? { x: t.clientX, y: t.clientY } : null; }, { passive: true });
+    hero.addEventListener('touchend', function (e) {
+      if (!t0) return;
+      var t = e.changedTouches[0], dx = t.clientX - t0.x, dy = t.clientY - t0.y; t0 = null;
+      if (Math.abs(dx) > 70 && Math.abs(dy) < Math.abs(dx) * 0.5) swipe(-dx);
+    }, { passive: true });
+  }
 
   // ---------- T8 mode timeout: 30 s without a touch ----------
   E.idle(30, function () {
@@ -292,15 +314,18 @@
     E.found('t-timeout');
   });
 
-  // ---------- T9 fingerprint: press and hold on a touch screen for 3 s ----------
+  // ---------- T9 fingerprint: hold still on the art for 3 s (or press and hold anywhere on a touch screen) ----------
   var WHORL = '<svg viewBox="0 0 90 110" aria-hidden="true"><path d="M45 55c0-4 4-6 6-3"/><path d="M38 58c-2-9 6-15 13-12s8 12 4 18"/><path d="M32 62c-4-14 6-26 19-24s17 18 11 30"/><path d="M26 66c-6-18 6-36 25-34s24 24 16 40"/><path d="M22 74c-9-22 5-46 30-44s30 30 18 52"/><path d="M24 88c-14-24-2-58 28-58s38 36 20 66"/></svg>';
-  E.longPress(document.body, 3000, function (e) {
-    if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+  function fingerprint(x, y) {
     var f = document.createElement('div'); f.className = 'egg-finger';
-    f.style.left = e.clientX + 'px'; f.style.top = e.clientY + 'px'; f.innerHTML = WHORL;
+    f.style.left = x + 'px'; f.style.top = y + 'px'; f.innerHTML = WHORL;
     document.body.appendChild(f); setTimeout(function () { f.remove(); }, 2600);
     E.toast("Lovely fingerprint. We don't keep it.");
     E.found('t-fingerprint');
+  }
+  E.longPress(document.body, 3000, function (e) {
+    if (e.pointerType !== 'touch' || (art && art.contains(e.target))) return;
+    fingerprint(e.clientX, e.clientY);
   });
 
   // ---------- T12 two finger tap: right-click the hero icon ----------
@@ -325,7 +350,7 @@
   }
 
   // ---------- T13 the console ----------
-  E.consoleHello(['Touchpads have feelings too.', 'Hold Alt and draw an S on the page, or type numpad.'], 'tap', function () {
+  E.consoleHello(['Touchpads have feelings too.', 'Draw an S on the big icon at the top, or type numpad.'], 'tap', function () {
     return 'Tap. That was a click without clicking.';
   });
 })();

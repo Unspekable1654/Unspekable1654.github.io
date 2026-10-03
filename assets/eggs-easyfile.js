@@ -116,6 +116,7 @@
   function laterHideFolders() { clearTimeout(hideFolders); hideFolders = setTimeout(function () { if (folders) { folders.remove(); folders = null; } }, 1600); }
   function folderAt(x, y) { var el = document.elementFromPoint(x, y); return el && el.closest ? el.closest('.egg-folder') : null; }
   cards.forEach(function (card) {
+    card.addEventListener('dragstart', function (e) { e.preventDefault(); });
     card.addEventListener('pointerdown', function (e) {
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
       var sx = e.clientX, sy = e.clientY, dragging = false, over = null;

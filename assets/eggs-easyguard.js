@@ -123,7 +123,7 @@
     E.toast(watching ? 'Watching. Not really. This is a website.' : 'Switched off. The camera light is off.');
     if (watching) E.found('g-switch');
   }
-  document.addEventListener('keydown', function (e) { if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'g') { e.preventDefault(); toggleWatch(); } });
+  document.addEventListener('keydown', function (e) { if (e.ctrlKey && e.altKey && e.code === 'KeyG') { e.preventDefault(); toggleWatch(); } });
   E.word('guard', toggleWatch);
 
   // ---------- G4 faces: type :) and then :) again ----------
@@ -144,14 +144,15 @@
   });
 
   // ---------- G6 battery saver (where the browser shares it) ----------
+  function batterySaver() { E.toast('Battery saver is on. EasyGuard would pause now.', 4200); E.found('g-battery'); }
+  E.word('battery', batterySaver);
   if (navigator.getBattery) {
     navigator.getBattery().then(function (b) {
       var told = false;
       function check() {
         if (told || b.charging || b.level > 0.2) return;
         told = true;
-        E.toast('Battery saver is on. EasyGuard would pause now.', 4200);
-        E.found('g-battery');
+        batterySaver();
       }
       check();
       b.addEventListener('levelchange', check); b.addEventListener('chargingchange', check);

@@ -1042,7 +1042,7 @@
     function clickWatch(x, y) {
       var now = performance.now();
       if (!nearInk(x, y, 26)) return;
-      taps = taps.filter(function (t) { return now - t < 1000; }); taps.push(now);
+      taps = taps.filter(function (t) { return now - t < 1600; }); taps.push(now);
       if (taps.length >= 4) { taps = []; smudge(x, y); }
     }
     function smudge(x, y) {

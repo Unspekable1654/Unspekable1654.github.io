@@ -238,7 +238,7 @@
   $$('#features .card').forEach(function (card) {
     ['pointerenter', 'pointerleave'].forEach(function (t) {
       card.addEventListener(t, function (e) {
-        if (e.pointerType !== 'mouse' || speed < 3 || cuts >= 3 || $('.egg-plaster', card)) return;
+        if (e.pointerType !== 'mouse' || speed < 1.8 || cuts >= 3 || $('.egg-plaster', card)) return;
         cuts++;
         card.style.position = 'relative';
         var p = document.createElement('span'); p.className = 'egg-plaster'; p.setAttribute('aria-hidden', 'true');
@@ -342,7 +342,7 @@
     ly = scrollY; lt = now;
     var max = document.documentElement.scrollHeight - innerHeight;
     var frac = max > 0 ? scrollY / max : 1, n = Math.min(7, 1 + Math.floor(frac * 7));
-    if (v < 2.5 && !badge.classList.contains('on')) return;
+    if (v < 1.5 && !badge.classList.contains('on')) return;
     if (readAll) return;
     badge.textContent = 'Page ' + n + ' of 7';
     badge.classList.add('on');

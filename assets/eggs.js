@@ -97,17 +97,17 @@
       ['f-sign', 'Sign it', 'A scan wants to be signed.'],
       ['f-console', 'Folders in the console', 'Developers have their own window.']] },
     { id: 'easytouch', name: 'EasyTouch', icon: 'images/apps/easytouch.png', url: 'easytouch/', eggs: [
-      ['t-gesture', 'Real gestures', 'Hold Alt and draw an S.'],
+      ['t-gesture', 'Real gestures', 'Draw a letter on the big icon. S, C or D.'],
       ['t-sums', 'Sums', 'Type a sum, end with ='],
       ['t-numpad', 'Number pad', 'Ask for the number pad.'],
       ['t-laser', 'Laser', 'Type the screen tool.'],
       ['t-spotlight', 'Spotlight', 'All eyes on the cursor.'],
-      ['t-palm', 'Palm detected', 'Mash the page like a palm would.'],
-      ['t-swipe', 'Swipe', 'Two fingers, sideways.'],
+      ['t-palm', 'Palm detected', 'Click all over the place, fast.'],
+      ['t-swipe', 'Swipe', 'Sideways at the top. Shift and the wheel work too.'],
       ['t-timeout', 'Mode timeout', 'Thirty seconds without a touch.'],
-      ['t-fingerprint', 'Fingerprint', 'Press and hold on a touch screen.'],
-      ['t-lock', 'Lock gesture', 'Hold Shift and draw an L.'],
-      ['t-shapes', 'Shapes straighten', 'Draw a wobbly circle on the art.'],
+      ['t-fingerprint', 'Fingerprint', 'Press on the big icon and hold still.'],
+      ['t-lock', 'Lock gesture', 'L is for lock. Draw it on the big icon.'],
+      ['t-shapes', 'Shapes straighten', 'Draw a wobbly circle on the big icon.'],
       ['t-twofinger', 'Two finger tap', 'Right is the new two.'],
       ['t-console', 'Touch in the console', 'Developers have their own window.']] },
     { id: 'easyguard', name: 'EasyGuard', icon: 'images/apps/easyguard.png', url: 'easyguard/', eggs: [
@@ -116,7 +116,7 @@
       ['g-switch', 'Switch it on', 'Use the real shortcut.'],
       ['g-faces', 'Faces', 'Smile. Then smile again.'],
       ['g-paused', 'Paused', 'Leave and come back.'],
-      ['g-battery', 'Battery saver', 'Low battery changes things.'],
+      ['g-battery', 'Battery saver', 'Low battery changes things. Or just type it.'],
       ['g-spy', 'Spy', 'Type what an onlooker is.'],
       ['g-blinds', 'Blinds', 'Linger on the lock.'],
       ['g-lab', 'The experiment', 'Do not disturb the lab. Or do.'],
@@ -335,6 +335,8 @@
     if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || e.key.length !== 1 || inField(e.target)) return;
     var now = Date.now();
     if (now - typedAt > 2000) typed = '';
+    // Firefox opens Quick Find on / and '. Mid-egg (after a digit, as in 03/04 or 12/4=) the key belongs to the egg.
+    if ((e.key === '/' || e.key === "'") && /\d$/.test(typed)) e.preventDefault();
     typedAt = now;
     typed = (typed + e.key.toLowerCase()).slice(-24);
     for (var i = 0; i < words.length; i++) {
@@ -409,8 +411,10 @@
   function normalise(pts) {
     var r = resample(pts, 48), x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
     r.forEach(function (q) { x0 = Math.min(x0, q.x); y0 = Math.min(y0, q.y); x1 = Math.max(x1, q.x); y1 = Math.max(y1, q.y); });
-    var s = Math.max(x1 - x0, y1 - y0) || 1, cx = 0, cy = 0;
-    r = r.map(function (q) { return { x: (q.x - x0) / s, y: (q.y - y0) / s }; });
+    // People draw letters tall or wide: stretch both ways to a square, unless the stroke is nearly a line.
+    var w = x1 - x0 || 1, h = y1 - y0 || 1, s = Math.max(w, h), cx = 0, cy = 0;
+    if (Math.min(w, h) / s <= 0.3) w = h = s;
+    r = r.map(function (q) { return { x: (q.x - x0) / w, y: (q.y - y0) / h }; });
     r.forEach(function (q) { cx += q.x; cy += q.y; }); cx /= r.length; cy /= r.length;
     return r.map(function (q) { return { x: q.x - cx, y: q.y - cy }; });
   }
@@ -438,7 +442,7 @@
   Object.keys(TEMPLATES).forEach(function (k) { NORMAL[k] = TEMPLATES[k].map(normalise); });
   function distance(a, b) { var d = 0; for (var i = 0; i < a.length; i++) d += Math.hypot(a[i].x - b[i].x, a[i].y - b[i].y); return d / a.length; }
   // Returns { name, score } for the closest of the names asked for (or all), or null when nothing is close.
-  function recognise(pts, names) {
+  function recognise(pts, names, limit) {
     if (!pts || pts.length < 6 || pathLength(pts) < 40) return null;
     var c = normalise(pts), best = null;
     var start = pts[0], end = pts[pts.length - 1], len = pathLength(pts);
@@ -447,10 +451,12 @@
     var want = function (n) { return !names || names.indexOf(n) >= 0; };
     // Lines and circles by shape, the rest by templates.
     if (want('line') && Math.hypot(end.x - start.x, end.y - start.y) / len > 0.93 && h < w * 0.18 && w > 60) return { name: 'line', score: 1 };
-    if (want('circle') && Math.hypot(end.x - start.x, end.y - start.y) < Math.max(w, h) * 0.3 && w > 30 && h > 30 && Math.min(w, h) / Math.max(w, h) > 0.6 && len > Math.PI * Math.max(w, h) * 0.75) {
+    if (want('circle') && Math.hypot(end.x - start.x, end.y - start.y) < Math.max(w, h) * 0.4 && w > 30 && h > 30 && Math.min(w, h) / Math.max(w, h) > 0.6 && len > Math.PI * Math.max(w, h) * 0.75) {
       var cx = (Math.max.apply(null, xs) + Math.min.apply(null, xs)) / 2, cy = (Math.max.apply(null, ys) + Math.min.apply(null, ys)) / 2, r = (w + h) / 4, dev = 0;
       pts.forEach(function (q) { dev += Math.abs(Math.hypot(q.x - cx, q.y - cy) - r); });
-      if (dev / pts.length < r * 0.28) return { name: 'circle', score: 1, cx: cx, cy: cy, r: r };
+      // A D is round too: it wins when its straight side matches the D template well.
+      var dScore = want('D') ? Math.min.apply(null, NORMAL.D.map(function (t) { return distance(c, t); })) : 1;
+      if (dev / pts.length < r * 0.28 && dScore >= 0.135) return { name: 'circle', score: 1, cx: cx, cy: cy, r: r };
     }
     if (want('L') && isL(pts)) return { name: 'L', score: 0 };
     Object.keys(NORMAL).forEach(function (k) {
@@ -458,17 +464,17 @@
       NORMAL[k].forEach(function (t) { var d = distance(c, t); if (!best || d < best.score) best = { name: k, score: d }; });
     });
     if (best && best.name === 'heart' && !bottomPoint(pts)) best = null; // round loops are not hearts
-    return best && best.score < 0.13 ? best : null;
+    return best && best.score < (limit || 0.13) ? best : null;
   }
   // An L of any proportions: a straight stroke down, a corner, then a straight stroke to the right.
   function isL(pts) {
     var a = pts[0], z = pts[pts.length - 1], k = 0, best = -1;
     pts.forEach(function (q, i) { var d = Math.abs((z.x - a.x) * (a.y - q.y) - (a.x - q.x) * (z.y - a.y)); if (d > best) { best = d; k = i; } });
     var c = pts[k];
-    var straight = function (p) { var L = pathLength(p), d = Math.hypot(p[p.length - 1].x - p[0].x, p[p.length - 1].y - p[0].y); return d > 25 && d / L > 0.85; };
+    var straight = function (p) { var L = pathLength(p), d = Math.hypot(p[p.length - 1].x - p[0].x, p[p.length - 1].y - p[0].y); return d > 25 && d / L > 0.8; };
     var down = c.y - a.y, right = z.x - c.x;
     return k > 1 && k < pts.length - 2 && straight(pts.slice(0, k + 1)) && straight(pts.slice(k)) &&
-      down > 0 && Math.abs(c.x - a.x) < down * 0.35 && right > 0 && Math.abs(z.y - c.y) < right * 0.35;
+      down > 0 && Math.abs(c.x - a.x) < down * 0.5 && right > 0 && Math.abs(z.y - c.y) < right * 0.5;
   }
   // True when the stroke turns sharply (a point) somewhere low and near the middle, like a heart's tip.
   function bottomPoint(pts) {
