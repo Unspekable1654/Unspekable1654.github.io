@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: EasySign website
-    url: https://unspekable1654.github.io/
-    about: Download EasySign and read how it works.
+  - name: Send feedback or report a problem (private)
+    url: https://unspekable1654.github.io/#feedback
+    about: Feedback goes through a private form on the website, so only the developer sees it.

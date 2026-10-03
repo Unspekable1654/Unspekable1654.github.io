@@ -1,13 +1,14 @@
-# EasySign website
+# Easy Suite website
 
-The website for EasySign, a Windows app that turns your laptop touchpad into a signature pad.
+The website for Easy Suite, a family of small Windows apps that each make one everyday job easy, starting with
+EasySign, which turns your laptop touchpad into a signature pad.
 
-**Visit:** https://unspekable1654.github.io/
+**Visit:** https://unspekable1654.github.io/ (EasySign: https://unspekable1654.github.io/easysign/)
 
-This repository holds only the website and the installer downloads (under Releases). EasySign's source code is not
+This repository holds only the website and the installer downloads (under Releases). The apps' source code is not
 public.
 
-- **Download:** see the [latest release](https://github.com/Unspekable1654/Unspekable1654.github.io/releases/latest).
-- **Feedback or a problem?** Use the [Issues](https://github.com/Unspekable1654/Unspekable1654.github.io/issues/new/choose) tab.
+- **Download:** each app's page has its download; all files are on the [Releases](https://github.com/Unspekable1654/Unspekable1654.github.io/releases) page.
+- **Feedback or a problem?** Use the private form on the [website](https://unspekable1654.github.io/#feedback). Only the developer sees it.
 
-Copyright (c) 2026 Aalok L. All rights reserved. EasySign is licensed under the terms in [LICENSE.txt](LICENSE.txt).
+Copyright (c) 2026 Aalok L. All rights reserved. The apps are licensed under the terms in [LICENSE.txt](LICENSE.txt).
