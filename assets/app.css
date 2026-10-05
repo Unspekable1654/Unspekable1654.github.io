@@ -4,7 +4,7 @@
   --text: #1F1E1D; --muted: #5B5A55; --subtle: #6F6D66;
   --accent: #C96442; --accent-soft: #F5E6DD; --on-accent: #FFFFFF;
   --link: #AE5433; --link-hover: #8C3D22; --button: #AE5433; --button-hover: #9C4A2B;
-  --soon: #8A5A12; --soon-soft: #F6ECD6; --lab: #5B5A55; --lab-soft: #EBE8DF;
+  --ok: #4E6B3A; --ok-soft: #E6EDDD; --soon: #8A5A12; --soon-soft: #F6ECD6; --lab: #5B5A55; --lab-soft: #EBE8DF;
   --band-bg: #1F1E1D; --band-text: #F5F4EE; --band-muted: #B6B2A8; --band-line: #3D3B37;
   --ease: cubic-bezier(.2,.7,.2,1);
 }
@@ -14,7 +14,7 @@
     --text: #EEEBE3; --muted: #B6B2A8; --subtle: #8A867D;
     --accent: #D97757; --accent-soft: #3A2A22; --on-accent: #1F1E1D;
     --link: #E08A6C; --link-hover: #F0C4B0; --button: #D97757; --button-hover: #E08A6C;
-    --soon: #D9B36A; --soon-soft: #332A18; --lab: #B6B2A8; --lab-soft: #2F2E2B;
+    --ok: #9CC08A; --ok-soft: #1F2A1B; --soon: #D9B36A; --soon-soft: #332A18; --lab: #B6B2A8; --lab-soft: #2F2E2B;
     --band-bg: #F5F4EE; --band-text: #1F1E1D; --band-muted: #5B5A55; --band-line: #E0DDD2;
   }
 }
@@ -70,6 +70,7 @@ nav .btn { color: var(--text); }
 section { padding: 80px 0; }
 .band-alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .chip { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
 .chip.soon { background: var(--soon-soft); color: var(--soon); }
 .chip.lab { background: var(--lab-soft); color: var(--lab); }
 
@@ -197,3 +198,24 @@ footer .fine { flex-basis: 100%; margin: 0; font-size: .72rem; color: var(--subt
 .blank:focus { border-bottom-style: solid; }
 .never::after { content: " (2)"; color: var(--subtle); opacity: 0; transition: opacity .3s; }
 @media (hover: hover) { .never:hover::after { opacity: .6; } }
+/* Download section and developer note (apps that are available) */
+.download { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 860px) { .download { grid-template-columns: minmax(0, 1fr); } }
+ol.install { padding-left: 1.2rem; margin: 0; }
+ol.install li { margin-bottom: 10px; }
+dl.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 18px; margin: 18px 0 0; font-size: .95rem; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; overflow-wrap: anywhere; }
+.note { max-width: 760px; margin: 0 auto; }
+.note h2.center { text-align: center; }
+.note blockquote { margin: 18px 0 0; padding: 26px 30px; background: #FFFFFF; color: #1F1E1D; border: 1px solid var(--line); border-radius: 14px; font-family: Georgia, serif; font-size: 1.18rem; }
+.note blockquote p { margin: 0; }
+.note .by { margin-top: 14px; color: #5B5A55; font-family: "Segoe UI", system-ui, sans-serif; font-size: .95rem; }
+
+/* See it work: the real app in a short video, and pictures of its windows */
+.watch { margin-top: 30px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #1F1E1D; }
+.watch video { display: block; width: 100%; height: auto; background: #1F1E1D; }
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 18px; margin-top: 22px; }
+.shots figure { margin: 0; }
+.shots img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.shots figcaption { margin-top: 8px; font-size: 0.92rem; color: var(--muted); }

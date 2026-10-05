@@ -1,0 +1,7 @@
+# Easy Suite security contact (RFC 9116). Please report security problems privately through the form below;
+# don't post them in public. No email address is published on purpose.
+Contact: https://forms.gle/Adijt5k9hNSufs7JA
+Expires: 2027-10-04T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://unspekable1654.github.io/.well-known/security.txt
+Policy: https://unspekable1654.github.io/#feedback

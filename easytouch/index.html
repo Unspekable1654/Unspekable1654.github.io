@@ -9,15 +9,20 @@
 <!-- security: end -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EasyTouch: your touchpad can do much more</title>
-<meta name="description" content="Handwriting, gestures, a number pad and a screen pen on your laptop touchpad. Coming soon to Easy Suite.">
+<meta name="description" content="Handwriting, gestures, a number pad and a screen pen on your laptop touchpad. Free from Easy Suite.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/png" href="../images/apps/easytouch.png">
 <link rel="canonical" href="https://unspekable1654.github.io/easytouch/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Easy Suite">
 <meta property="og:title" content="EasyTouch: your touchpad can do much more">
-<meta property="og:description" content="Handwriting, gestures, a number pad and a screen pen on your laptop touchpad. Coming soon to Easy Suite.">
+<meta property="og:description" content="Handwriting, gestures, a number pad and a screen pen on your laptop touchpad. Free from Easy Suite.">
 <meta property="og:url" content="https://unspekable1654.github.io/easytouch/">
+<meta property="og:image" content="https://unspekable1654.github.io/images/easytouch/easytouch-home.png">
+<meta property="og:image:width" content="1551">
+<meta property="og:image:height" content="1056">
+<meta property="og:image:alt" content="EasyTouch&#x27;s main window with cards for Handwriting, Gestures, Number pad and Screen pen, their shortcuts, and a Try it touchpad.">
+<meta name="twitter:card" content="summary_large_image">
 <script>
   (function () {
     var root = document.documentElement, pref = null;
@@ -36,10 +41,11 @@
     <span class="crumb" aria-hidden="true">/</span>
     <a class="brand" href="#top"><img src="../images/apps/easytouch.png" alt="" width="32" height="32">EasyTouch</a>
     <nav aria-label="Sections">
+      <a href="#see">See it</a>
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
       <a href="#privacy">Privacy</a>
-      <a class="keep btn btn-secondary btn-small" href="../#apps">All apps</a>
+      <a class="keep btn btn-primary btn-small" href="#download">Download</a>
     </nav>
   </div>
 </header>
@@ -48,15 +54,15 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="chip soon">Coming soon</span>
+        <span class="chip ok">Available &middot; version 1.0.0</span>
         <h1 class="split">Your touchpad can do much more.</h1>
         <svg class="flourish" viewBox="0 0 420 46" aria-hidden="true" focusable="false"><path d="M4 30 C 40 6, 62 6, 74 24 S 104 44, 128 22 S 170 2, 190 26 S 226 40, 250 20 C 270 6, 296 10, 312 26 C 330 40, 372 34, 416 18"/></svg>
         <p class="lead">Write words with your finger, draw a letter to open an app, turn the touchpad into a number pad, or draw on your screen during a call. Each one is a shortcut away.</p>
         <div class="actions">
-          <a class="btn btn-primary btn-big" href="#features">See what it does</a>
-          <a class="btn btn-secondary btn-big" href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyTouch" target="_blank" rel="noopener noreferrer">Tell me you want it</a>
+          <a class="btn btn-primary btn-big magnetic" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>Download EasyTouch</a>
+          <a class="btn btn-secondary btn-big" href="#features">See what it does</a>
         </div>
-        <p class="meta subtle">Free. For Windows 10 and 11. EasyTouch is coming soon, so there is no download yet.</p>
+        <p class="meta subtle">Free. For Windows 10 and 11. Version 1.0.0.</p>
       </div>
       <div class="art" aria-hidden="true">
         <span class="ring"></span><span class="ring two"></span>
@@ -77,6 +83,22 @@
     </div>
   </section>
 
+  <section id="see">
+    <div class="wrap">
+      <p class="kicker reveal">See it work</p>
+      <h2 class="reveal">EasyTouch in 35 seconds</h2>
+      <p class="muted reveal" id="see-about">A laptop touchpad: a finger writes TEA and it is typed into a note, numbers are tapped into an expenses sheet with a running total, an S drawn while holding Ctrl and Alt opens EasySign, and a laser arrow and a circle point at a chart.</p>
+      <div class="watch reveal">
+        <video src="../videos/easytouch-demo.mp4" poster="../videos/easytouch-demo-poster.jpg" width="1280" height="720" controls playsinline muted preload="none" aria-describedby="see-about"></video>
+      </div>
+      <div class="shots">
+        <figure class="reveal" style="--delay:0.00s"><img src="../images/easytouch/easytouch-home.png" alt="EasyTouch&#x27;s main window with cards for Handwriting, Gestures, Number pad and Screen pen, their shortcuts, and a Try it touchpad." width="1551" height="1056" loading="lazy"><figcaption>The four modes, and a Try it area that shows your fingers.</figcaption></figure>
+        <figure class="reveal" style="--delay:0.08s"><img src="../images/easytouch/easytouch-laser.png" alt="A slide with a bar chart and a red laser arrow pointing at September." width="1280" height="720" loading="lazy"><figcaption>A laser pointer that fades by itself.</figcaption></figure>
+        <figure class="reveal" style="--delay:0.16s"><img src="../images/easytouch/easytouch-screen-pen.png" alt="The same chart with a neat blue circle around the September bar." width="1280" height="720" loading="lazy"><figcaption>Rough circles come out round.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
   <!-- Draw an S on the big icon. -->
   <section id="features">
     <div class="wrap">
@@ -84,7 +106,7 @@
       <h2 class="reveal">What EasyTouch does</h2>
       <div class="features">
         <div class="card reveal flip tilt" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="m14 6 3 3"/></svg></div><h3>Handwriting</h3><p class="muted">Write a word with your finger and it is typed where you are. Digits only for codes, or sums: write 12 x 7 = and get 84.</p></div>
-        <div class="card reveal flip tilt" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17c3-8 6-8 8-2s5 6 8-2"/></svg></div><h3>Gestures</h3><p class="muted">Hold Ctrl+Alt and draw: S signs a document, C takes a screenshot, D opens Downloads. Add your own.</p></div>
+        <div class="card reveal flip tilt" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17c3-8 6-8 8-2s5 6 8-2"/></svg></div><h3>Gestures</h3><p class="muted">Hold Ctrl+Alt and draw: S opens EasySign, C takes a screenshot with EasyClip, D opens Downloads. Add your own.</p></div>
         <div class="card reveal flip tilt" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></div><h3>Number pad</h3><p class="muted">The touchpad becomes a 4 by 4 number pad for Excel, forms and banking sites, with a running total.</p></div>
         <div class="card reveal flip tilt" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 15 6-6 3 3-6 6H9z"/><path d="M4 20h16"/></svg></div><h3>Screen pen</h3><p class="muted">Draw on your screen with a laser that fades, a marker, or shapes that straighten themselves.</p></div>
         <div class="card reveal flip tilt" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 11V4a1.5 1.5 0 0 1 3 0v7M14 11V6a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a5 5 0 0 1-4-2l-3-4a1.5 1.5 0 0 1 2.3-2L8 14"/></svg></div><h3>Palm safe</h3><p class="muted">A resting finger or a palm types nothing. Esc always turns a mode off.</p></div>
@@ -108,6 +130,7 @@
         <div class="key"><kbd>Ctrl+Alt+N</kbd><span class="muted">Number pad</span></div>
         <div class="key"><kbd>Ctrl+Alt+B</kbd><span class="muted">Screen pen</span></div>
         <div class="key"><kbd>Hold Ctrl+Alt</kbd><span class="muted">Draw a gesture</span></div>
+        <div class="key"><kbd>1 to 5</kbd><span class="muted">Swap a handwritten word, or pick a pen colour</span></div>
         <div class="key"><kbd>Esc</kbd><span class="muted">Turn any mode off</span></div>
       </div>
     </div>
@@ -120,25 +143,58 @@
       <p class="muted reveal">Like every Easy Suite app: no account, no internet needed, no tracking.</p>
       <ul class="promises">
         <li class="reveal" style="--delay:0.0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Handwriting is read by Windows on this PC. Keys typed are never logged or stored.</li>
-        <li class="reveal" style="--delay:0.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>The pointer is only held still while a mode is on, and always released.</li>
-        <li class="reveal" style="--delay:0.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>No network access and no telemetry.</li>
+        <li class="reveal" style="--delay:0.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>The pointer is only held still while a mode is on, and always released: the shortcut, Esc, 30 seconds without a touch, locking the PC or closing the app.</li>
+        <li class="reveal" style="--delay:0.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Your own gestures only open what you picked with a file or folder picker, a website, a snippet or a key combo. Nothing else ever runs.</li>
+        <li class="reveal" style="--delay:0.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>No network access and no telemetry.</li>
       </ul>
     </div>
   </section>
 
-  <section id="soon">
-    <div class="wrap">
-      <div class="soon-box reveal">
-        <div>
-          <h2>EasyTouch is coming soon</h2>
-          <p class="muted">It isn't available to download yet. Tell me you want it, or what it should do, and it helps me decide what to finish first.</p>
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyTouch" target="_blank" rel="noopener noreferrer">Tell me you want it</a>
-          <a class="btn btn-secondary" href="../easysign/">Try EasySign today</a>
-        </div>
+  <section id="download" class="band-alt">
+    <div class="wrap download">
+      <div class="reveal">
+        <p class="kicker">Download</p>
+        <h2>Get EasyTouch</h2>
+        <p class="muted">Free to use for your own personal or work use. Installs for your Windows account only, no administrator rights needed.</p>
+        <p><a class="btn btn-primary btn-big magnetic" href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/download/easytouch-v1.0.0/EasyTouch-Setup-win-x64.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Download the installer (36 MB)
+        </a></p>
+        <dl class="facts">
+          <dt>Version</dt><dd>1.0.0</dd>
+          <dt>Needs</dt><dd>Windows 10 (version 2004 or later) or Windows 11, 64-bit, and a Precision Touchpad (almost every Windows laptop has one). Handwriting in other languages needs that language&#x27;s handwriting pack in Windows Settings.</dd>
+          <dt>SHA-256</dt><dd><code>fac637fcf769a627535f72a2861e351bd6840891c47f8615d91a560215add130</code></dd>
+          <dt>Check it</dt><dd>In PowerShell, <code>Get-FileHash .\EasyTouch-Setup-win-x64.exe</code> must show exactly this SHA-256. If it doesn't, don't run the file.</dd>
+          <dt>Terms</dt><dd><a href="../LICENSE.txt">Licence agreement</a> (you accept it during setup)</dd>
+          <dt>Release notes</dt><dd><a href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/tag/easytouch-v1.0.0">EasyTouch 1.0.0</a></dd>
+        </dl>
       </div>
-      <h3 class="reveal" style="margin-top:48px">More Easy Suite apps</h3>
+      <div class="card reveal">
+        <h3>Installing</h3>
+        <p class="muted">EasyTouch is new and made by one person, so Windows may be cautious about it at first. This is normal.</p>
+        <ol class="install">
+          <li>If your browser says the file is not commonly downloaded, choose <b>Keep</b>.</li>
+          <li>Right-click the downloaded file, choose <b>Properties</b>, tick <b>Unblock</b> and click OK. If there is no Unblock box, skip this.</li>
+          <li>Double-click it. If you see "Windows protected your PC", click <b>More info</b>, then <b>Run anyway</b>.</li>
+          <li>Accept the licence agreement and follow the steps.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="note">
+    <div class="wrap note">
+      <h2 class="reveal center">A note from the developer</h2>
+      <blockquote class="reveal">
+        <p>Thank you for trying EasyTouch! I made it because the touchpad on every laptop can do far more than move a pointer: write a word, tap in numbers, or point at something during a call. I hope it makes your laptop a little more fun to use.</p>
+        <div class="by">Aalok L, maker of EasyTouch</div>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="wrap">
+      <h3 class="reveal">More Easy Suite apps</h3>
       <div class="others reveal">
         <a class="other" href="../easysign/"><img src="../images/apps/easysign.png" alt="" width="32" height="32">EasySign</a>
         <a class="other" href="../easypdf/"><img src="../images/apps/easypdf.png" alt="" width="32" height="32">EasyPDF</a>
@@ -146,6 +202,7 @@
         <a class="other" href="../easyfile/"><img src="../images/apps/easyfile.png" alt="" width="32" height="32">EasyFile</a>
         <a class="other" href="../easyguard/"><img src="../images/apps/easyguard.png" alt="" width="32" height="32">EasyGuard</a>
       </div>
+      <p class="muted reveal" style="margin-top:28px">Found a problem or have an idea? <a href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyTouch" target="_blank" rel="noopener noreferrer">Tell me in the feedback form</a>.</p>
     </div>
   </section>
 </main>

@@ -63,7 +63,7 @@
       ['p-papercut', 'Paper cut', 'Careful with the edges.'],
       ['p-highlighter', 'Highlighter', 'Select, select, select.'],
       ['p-staple', 'Staple', 'Pages can be stapled.'],
-      ['p-jam', 'Paper jam', 'Hold on to what is coming soon.'],
+      ['p-jam', 'Paper jam', 'Hold on to what is available.'],
       ['p-origami', 'Origami', 'Idle paper folds itself.'],
       ['p-pages', 'Page counter', 'Read the whole thing, fast.'],
       ['p-console', 'PDF in the console', 'Developers have their own window.']] },

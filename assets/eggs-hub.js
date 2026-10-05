@@ -264,8 +264,8 @@
 
   // ---------- H10 coming sooner ----------
   var SOONER = ['Coming sooner', 'Coming any minute', 'Okay, coming soon.'];
-  $$('.tile .st, .chip.soon').forEach(function (s) {
-    if (!/Coming soon/.test(s.textContent)) return;
+  $$('.tile .st, .chip.soon, .chip.lab').forEach(function (s) {
+    if (!/Coming soon|In the lab/.test(s.textContent)) return;
     var orig = s.textContent, timer = 0, cycle = 0;
     s.addEventListener('mouseenter', function () {
       clearTimeout(timer); clearTimeout(cycle);
@@ -280,14 +280,14 @@
   });
   // Tile statuses are small; hovering the tile counts too.
   tiles.forEach(function (t) {
-    var st = $('.st', t); if (!st || !/Coming soon/.test(st.textContent)) return;
+    var st = $('.st', t); if (!st || !/Coming soon|In the lab/.test(st.textContent)) return;
     t.addEventListener('mouseenter', function () { st.dispatchEvent(new Event('mouseenter')); });
     t.addEventListener('mouseleave', function () { st.dispatchEvent(new Event('mouseleave')); });
   });
 
-  // ---------- H11 honest progress (click a coming soon card's icon 3 times) ----------
+  // ---------- H11 honest progress (click a coming soon or lab card's icon 3 times) ----------
   $$('.app').forEach(function (card) {
-    if (!$('.chip.soon', card)) return;
+    if (!$('.chip.soon, .chip.lab', card)) return;
     var icon = $('.app-head img', card); if (!icon) return;
     icon.style.cursor = 'pointer';
     E.multiClick(icon, 3, 1500, function () {

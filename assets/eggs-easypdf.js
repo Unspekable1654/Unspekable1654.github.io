@@ -293,8 +293,8 @@
     }, wait);
   });
 
-  // ---------- P11 paper jam: hold the "Coming soon" chip ----------
-  var soon = $('.hero .chip.soon'), printing = false;
+  // ---------- P11 paper jam: hold the chip at the top ("Available" since 2.0.0) ----------
+  var soon = $('.hero .chip.ok') || $('.hero .chip.soon'), printing = false;
   if (soon) {
     soon.style.cursor = 'pointer'; soon.style.userSelect = 'none';
     E.longPress(soon, 2000, function () {
