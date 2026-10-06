@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-app="easysign">
 <head>
 <meta charset="utf-8">
 <!-- security: start -->
@@ -37,8 +37,9 @@
   :root {
     --bg: #F5F4EE; --surface: #FAF9F5; --surface-alt: #F0EEE6; --line: #E0DDD2;
     --text: #1F1E1D; --muted: #5B5A55; --subtle: #6F6D66;
-    --accent: #C96442; --accent-soft: #F5E6DD; --on-accent: #FFFFFF;
-    --link: #AE5433; --link-hover: #8C3D22; --button: #AE5433; --button-hover: #9C4A2B;
+    /* EasySign's own colour, Cerulean (same tone as the suite's clay; see app.css) */
+    --accent: #0092BD; --accent-soft: #DEEBF6; --on-accent: #FFFFFF;
+    --link: #057396; --link-hover: #00617F; --button: #057DA3; --button-hover: #066F92;
     --paper: #FFFEFB; --ink: #1F1E1D;
     --band-bg: #1F1E1D; --band-text: #F5F4EE; --band-muted: #B6B2A8; --band-line: #3D3B37;
     --ease: cubic-bezier(.2,.7,.2,1);
@@ -47,8 +48,8 @@
     :root {
       --bg: #1C1B19; --surface: #262523; --surface-alt: #2F2E2B; --line: #3D3B37;
       --text: #EEEBE3; --muted: #B6B2A8; --subtle: #8A867D;
-      --accent: #D97757; --accent-soft: #3A2A22; --on-accent: #1F1E1D;
-      --link: #E08A6C; --link-hover: #F0C4B0; --button: #D97757; --button-hover: #E08A6C;
+      --accent: #07A5D3; --accent-soft: #20303A; --on-accent: #1F1E1D;
+      --link: #47B1DC; --link-hover: #ABD6EF; --button: #07A5D3; --button-hover: #47B1DC;
       --paper: #F5F4EE;
       --band-bg: #F5F4EE; --band-text: #1F1E1D; --band-muted: #5B5A55; --band-line: #E0DDD2;
     }
@@ -140,7 +141,7 @@
     position: absolute; right: 3%; bottom: 7%; display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px;
     background: #1F1E1D; color: #F5F4EE; font-size: clamp(.7rem, 1.4vw, .95rem); font-weight: 600;
   }
-  .toast svg { width: 18px; height: 18px; color: #D97757; }
+  .toast svg { width: 18px; height: 18px; color: var(--accent); }
   html.motion .toast { opacity: 0; transform: translateY(16px) scale(.96); }
   .sign-caption { text-align: center; margin-top: 22px; color: var(--muted); }
 
@@ -168,7 +169,7 @@
   .paper .base { position: absolute; left: 7%; right: 7%; bottom: 24%; border-top: 1.5px dashed #C9C5BA; pointer-events: none; }
   .paper .x { position: absolute; left: 3.2%; bottom: 25%; color: #9A968C; font-size: 1.3rem; line-height: 1; pointer-events: none; }
   .paper .hint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 10%; color: #8F8D86; pointer-events: none; transition: opacity .3s; font-size: clamp(.9rem, 1.8vw, 1.05rem); }
-  .paper .chip { position: absolute; left: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; background: #F5E6DD; color: #8C3D22; font-size: .82rem; font-weight: 600; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .paper .chip { position: absolute; left: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; background: var(--accent-soft); color: var(--link-hover); font-size: .82rem; font-weight: 600; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .paper.live .chip { opacity: 1; }
   .paper .hint.blink { animation: hint-blink 1.4s ease 1; }
   @keyframes hint-blink { 30% { opacity: .12; } 60% { opacity: 1; } }
@@ -213,7 +214,7 @@
     padding: 12px 16px; border-radius: 12px; background: #1F1E1D; color: #F5F4EE; font-size: clamp(.7rem, 1.3vw, .92rem);
     opacity: 0; transform: translateY(18px) scale(.97); transition: opacity .5s var(--ease), transform .6s var(--ease);
   }
-  .filecard svg { flex: 0 0 auto; width: 26px; height: 26px; color: #D97757; }
+  .filecard svg { flex: 0 0 auto; width: 26px; height: 26px; color: var(--accent); }
   .filecard b { display: block; font-weight: 600; }
   .filecard span { color: #B6B2A8; }
   .screens-stack.step-3 .filecard { opacity: 1; transform: none; transition-delay: .35s; }
@@ -261,7 +262,7 @@
   .note { max-width: 760px; margin: 0 auto; }
   .note blockquote { margin: 18px 0 0; padding: 26px 30px; background: var(--paper); color: #1F1E1D; border: 1px solid var(--line); border-radius: 14px; font-family: Georgia, serif; font-size: 1.18rem; min-height: 7.5em; }
   .note .by { margin-top: 14px; color: #5B5A55; font-family: "Segoe UI", system-ui, sans-serif; font-size: 0.95rem; }
-  .caret { display: inline-block; width: 2px; height: 1.1em; background: #C96442; vertical-align: -0.15em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent); vertical-align: -0.15em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
 
   footer { padding: 34px 0 44px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 0.9rem; }
@@ -304,13 +305,13 @@
   }
   .demo-close:hover { background: #3D3B37; }
   @media (max-width: 560px) { .demo-close { top: 6px; right: 6px; width: 32px; height: 32px; font-size: 1.2rem; } }
-  .demo-close:focus-visible { outline: 2px solid #D97757; outline-offset: 2px; }
+  .demo-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   html.motion .demo[open] { animation: rise .4s var(--ease); }
 
   /* ---------- a few surprises ---------- */
   .quill-word { cursor: pointer; }
   @media (hover: hover) and (pointer: fine) {
-    .quill-word { text-decoration: underline dotted 1px; text-decoration-color: rgba(201, 100, 66, .34); text-underline-offset: .14em; }
+    .quill-word { text-decoration: underline dotted 1px; text-decoration-color: rgba(0, 146, 189, .34); text-underline-offset: .14em; }
   }
   html.quill, html.quill * { cursor: var(--quill) !important; }
   .eggchips { position: absolute; right: 12px; top: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; }

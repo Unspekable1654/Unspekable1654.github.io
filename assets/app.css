@@ -18,6 +18,22 @@
     --band-bg: #F5F4EE; --band-text: #1F1E1D; --band-muted: #5B5A55; --band-line: #E0DDD2;
   }
 }
+/* Each app page in its own colour (owner's choice 2026-10-06; same tone as clay, only the hue differs).
+   The hub stays clay. Set by <html data-app="..."> on the app pages; these come after the :root blocks so they win. */
+html[data-app="easysign"] { --accent: #0092BD; --accent-soft: #DEEBF6; --link: #057396; --link-hover: #00617F; --button: #057DA3; --button-hover: #066F92; }
+html[data-app="easypdf"] { --accent: #CA5E6A; --accent-soft: #F7E5E1; --link: #A84B54; --link-hover: #8D3843; --button: #AF4E58; --button-hover: #9D454D; }
+html[data-app="easyclip"] { --accent: #009B85; --accent-soft: #DBEEED; --link: #097A6A; --link-hover: #076758; --button: #098473; --button-hover: #007667; }
+html[data-app="easyfile"] { --accent: #AD7B02; --accent-soft: #EEE9DA; --link: #8D6504; --link-hover: #745101; --button: #936904; --button-hover: #835E01; }
+html[data-app="easytouch"] { --accent: #717BD7; --accent-soft: #E9E7F6; --link: #5D64B3; --link-hover: #485097; --button: #6168BA; --button-hover: #575CA7; }
+html[data-app="easyguard"] { --accent: #6C942F; --accent-soft: #E2EDE1; --link: #527623; --link-hover: #44640D; --button: #598025; --button-hover: #4E721F; }
+@media (prefers-color-scheme: dark) {
+  html[data-app="easysign"] { --accent: #07A5D3; --accent-soft: #20303A; --link: #47B1DC; --link-hover: #ABD6EF; --button: #07A5D3; --button-hover: #47B1DC; }
+  html[data-app="easypdf"] { --accent: #DA717C; --accent-soft: #3B2927; --link: #E2858B; --link-hover: #F3C1BE; --button: #DA717C; --button-hover: #E2858B; }
+  html[data-app="easyclip"] { --accent: #09AE96; --accent-soft: #1D3330; --link: #3CBBA5; --link-hover: #A5DCD3; --button: #09AE96; --button-hover: #3CBBA5; }
+  html[data-app="easyfile"] { --accent: #C08B1F; --accent-soft: #342D1E; --link: #C89B48; --link-hover: #E0CDA5; --button: #C08B1F; --button-hover: #C89B48; }
+  html[data-app="easytouch"] { --accent: #818DE6; --accent-soft: #2C2C3C; --link: #929CEA; --link-hover: #C9CBF4; --button: #818DE6; --button-hover: #929CEA; }
+  html[data-app="easyguard"] { --accent: #7EA547; --accent-soft: #273224; --link: #8CB263; --link-hover: #BFD8B3; --button: #7EA547; --button-hover: #8CB263; }
+}
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -66,6 +82,7 @@ nav a:hover { color: var(--text); }
 .btn-big { padding: 16px 30px; font-size: 1.05rem; border-radius: 14px; }
 .btn-small { padding: 9px 16px; font-size: .95rem; border-radius: 10px; }
 nav .btn { color: var(--text); }
+nav .btn-primary, nav .btn-primary:hover { color: var(--on-accent); }
 
 section { padding: 80px 0; }
 .band-alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
