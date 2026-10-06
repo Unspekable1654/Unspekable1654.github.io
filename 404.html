@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- security: start -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-TrKobUXWaptZFy59NojL+JsZgZ13XsVg/jd4GH4SPpY=' 'sha256-mALv2fmX4jCZ4qTfQdcdirrp3lfWX6io19DrgI/Eed4=' 'sha256-spopUkX0Y78sDaUf7gL9o56O3M4HfPe5ZUZBuA4qX4Y='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; manifest-src 'self'; connect-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-SPboRo8wma8y7uaZgfk26/LFGPqe7d6MxshNkELBkdY=' 'sha256-mALv2fmX4jCZ4qTfQdcdirrp3lfWX6io19DrgI/Eed4=' 'sha256-spopUkX0Y78sDaUf7gL9o56O3M4HfPe5ZUZBuA4qX4Y='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; manifest-src 'self'; connect-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <script>if (window.top !== window.self) { document.documentElement.style.display = 'none'; try { window.top.location.replace(window.self.location.href); } catch (e) { } }</script>
 <!-- security: end -->
@@ -121,7 +121,7 @@
   <footer>
     <div class="wrap"><span>Made by Aalok L. Lost? Detectives may type <span class="find">find</span>.</span></div>
   </footer>
-  <!-- Lost? Type find. Then try lost, lucky, hello, 200, 418 and crumbs. Or stand very still. -->
+  <!-- Lost? Type find. Then try lost, lucky, hello and crumbs. Every error has its own room: type a three digit error, or museum. Or stand very still. -->
   <div class="glass" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="20" cy="20" r="13" fill="rgba(255,255,255,.25)" stroke="#AE5433" stroke-width="4"/><path d="M30 30l12 12" stroke="#AE5433" stroke-width="6" stroke-linecap="round"/></svg></div>
   <div class="box" aria-hidden="true"><svg viewBox="0 0 220 140"><path d="M10 40h200v100H10z" fill="#B9874F"/><path d="M10 40l20-30h160l20 30z" fill="#CFA06A"/><rect x="45" y="70" width="130" height="34" rx="4" fill="#F5F4EE"/><text x="110" y="93" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#1F1E1D">LOST AND FOUND</text></svg></div>
   <script>
@@ -206,7 +206,7 @@
 
       // Lost property: the 404 drops into the Lost and Found box.
       E.word('lost', function () {
-        if (busy) return; busy = true;
+        if (busy || document.body.classList.contains('scene-on')) return; busy = true;
         var box = $('.box');
         box.classList.add('on');
         E.$$('.digit').forEach(function (d, i) { setTimeout(function () { d.classList.add('falling'); E.sound('thud'); }, 300 + i * 260); });
@@ -221,28 +221,6 @@
         E.toast('Feeling lucky... ' + app[1] + ' it is.');
         E.found('n-lucky');
         setTimeout(function () { location.href = '/' + app[0] + '/'; }, 1800);
-      });
-
-      // 418 and 200: the wrong numbers.
-      E.pattern(/418$/, function () {
-        if (busy) return; busy = true;
-        code.classList.add('teapot');
-        code.setAttribute('aria-label', '418');
-        $('.d2').textContent = '8';
-        h1.textContent = "I'm a teapot.";
-        lead.textContent = 'Short and stout. Wrong error, though: this page is still missing. Kettle on?';
-        E.sound('ding'); E.found('n-teapot');
-        restore(4600);
-      });
-      E.pattern(/200$/, function () {
-        if (busy) return; busy = true;
-        code.classList.add('ok');
-        code.setAttribute('aria-label', '200');
-        $('.d1').textContent = '2'; $('.d2').textContent = '0';
-        h1.textContent = 'Everything is fine.';
-        lead.textContent = 'It is not. The page is still missing. But it is nice to pretend for a moment.';
-        E.sound('pop'); E.found('n-ok');
-        restore(4600);
       });
 
       // Search party: stand still and the glass looks around on its own.
@@ -261,7 +239,7 @@
       // Fourget it: a four pushed three times falls over.
       E.$$('.digit').forEach(function (d) {
         E.multiClick(d, 3, 1200, function () {
-          if (busy) return;
+          if (busy || document.body.classList.contains('scene-on')) return;
           d.classList.add('tipped'); E.sound('thud');
           E.toast('That four fell over. Fourget about it.');
           E.found('n-tipped');
@@ -299,5 +277,6 @@
         function () { return 'Nowhere, technically. Try ' + location.origin + '/'; });
     })();
   </script>
+  <script src="/assets/errors.js"></script>
 </body>
 </html>

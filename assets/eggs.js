@@ -132,6 +132,8 @@
       ['n-tipped', 'Fourget it', 'Fours are not very steady. Give one a push.'],
       ['n-crumbs', 'Breadcrumbs', 'Lost in the woods? Leave a trail.'],
       ['n-echo', 'Echo', 'Say hello to the empty page.'],
+      ['n-codes', 'Error collector', 'Some numbers are errors. Collect five.'],
+      ['n-museum', 'Error museum', 'Every error has a room. Ask to see the museum.'],
       ['n-console', 'Lost in the console', 'Developers have their own window.']] },
     { id: 'all', name: 'Everywhere', icon: 'images/suite-logo.png', url: '', eggs: [
       ['a-retro', 'Retro mode', 'Up, up, down, down...'],
