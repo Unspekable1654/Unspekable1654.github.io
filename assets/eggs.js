@@ -26,7 +26,7 @@
       ['h-plane', 'Paper plane', 'Nothing leaves your PC. Put it to the test.'],
       ['h-nap', 'Nap time', 'Tiles get sleepy when nobody moves.'],
       ['h-jobs', 'Real job titles', 'Shift your view of the tiles.'],
-      ['h-sooner', 'Coming sooner', 'Stare at a status long enough.'],
+      ['h-sooner', 'Status update', 'Stare at a status long enough.'],
       ['h-progress', 'Honest progress', 'The last bit always takes the longest.'],
       ['h-flourish', 'Flourish untangled', 'A squiggle with a secret.'],
       ['h-ps', 'Postscript', 'Good notes have a P.S.'],
@@ -119,10 +119,20 @@
       ['g-battery', 'Battery saver', 'Low battery changes things. Or just type it.'],
       ['g-spy', 'Spy', 'Type what an onlooker is.'],
       ['g-blinds', 'Blinds', 'Linger on the lock.'],
-      ['g-lab', 'The experiment', 'Do not disturb the lab. Or do.'],
+      ['g-lab', 'The experiment', 'Poke the status. Then poke it again.'],
       ['g-anykey', 'Any key', 'When blurred, press a letter.'],
       ['g-who', 'Who?', 'Ask who it is.'],
       ['g-console', 'No camera in the console', 'Developers have their own window.']] },
+    { id: 'notfound', name: 'Lost and Found', icon: 'images/suite-logo.png', url: 'lost-and-found/', eggs: [
+      ['n-lost', 'Lost property', 'Say where you are. Out loud. Well, typed.'],
+      ['n-lucky', 'Feeling lucky', 'Not sure where to go? Trust your luck.'],
+      ['n-teapot', 'Short and stout', 'Some errors are better with milk.'],
+      ['n-ok', 'Everything is fine', 'Type the number every page wishes it was.'],
+      ['n-search', 'Search party', 'Stand still and let the glass do the work.'],
+      ['n-tipped', 'Fourget it', 'Fours are not very steady. Give one a push.'],
+      ['n-crumbs', 'Breadcrumbs', 'Lost in the woods? Leave a trail.'],
+      ['n-echo', 'Echo', 'Say hello to the empty page.'],
+      ['n-console', 'Lost in the console', 'Developers have their own window.']] },
     { id: 'all', name: 'Everywhere', icon: 'images/suite-logo.png', url: '', eggs: [
       ['a-retro', 'Retro mode', 'Up, up, down, down...'],
       ['a-away', 'Tab title', 'Leave a page, then look at its tab.'],
@@ -547,7 +557,7 @@
       }
     } catch (e) { }
   }
-  var CONSOLE_EGG = { hub: 'h-console', easysign: 's-console', easypdf: 'p-console', easyclip: 'c-console', easyfile: 'f-console', easytouch: 't-console', easyguard: 'g-console' };
+  var CONSOLE_EGG = { hub: 'h-console', easysign: 's-console', easypdf: 'p-console', easyclip: 'c-console', easyfile: 'f-console', easytouch: 't-console', easyguard: 'g-console', notfound: 'n-console' };
 
   // ---------- passport by typing ----------
   word('passport', openPassport);

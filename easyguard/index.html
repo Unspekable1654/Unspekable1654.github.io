@@ -9,20 +9,20 @@
 <!-- security: end -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EasyGuard: someone looking over your shoulder? The screen blurs</title>
-<meta name="description" content="Blurs your screen when a second face looks at it, using your webcam on your own PC. In the lab at Easy Suite.">
+<meta name="description" content="Blurs your screen when a second face looks at it, using your webcam on your own PC. Free from Easy Suite.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/png" href="../images/apps/easyguard.png">
 <link rel="canonical" href="https://unspekable1654.github.io/easyguard/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Easy Suite">
 <meta property="og:title" content="EasyGuard: someone looking over your shoulder? The screen blurs">
-<meta property="og:description" content="Blurs your screen when a second face looks at it, using your webcam on your own PC. In the lab at Easy Suite.">
+<meta property="og:description" content="Blurs your screen when a second face looks at it, using your webcam on your own PC. Free from Easy Suite.">
 <meta property="og:url" content="https://unspekable1654.github.io/easyguard/">
-<meta property="og:image" content="https://unspekable1654.github.io/images/apps/easyguard.png">
-<meta property="og:image:width" content="128">
-<meta property="og:image:height" content="128">
-<meta property="og:image:alt" content="The EasyGuard icon">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://unspekable1654.github.io/images/easyguard/easyguard-home.png">
+<meta property="og:image:width" content="1096">
+<meta property="og:image:height" content="846">
+<meta property="og:image:alt" content="EasyGuard&#x27;s main window: the status card says Watching, one face is fine, a second face for 1 second blurs the screen, with a Switch off button.">
+<meta name="twitter:card" content="summary_large_image">
 <script>
   (function () {
     var root = document.documentElement, pref = null;
@@ -41,10 +41,11 @@
     <span class="crumb" aria-hidden="true">/</span>
     <a class="brand" href="#top"><img src="../images/apps/easyguard.png" alt="" width="32" height="32">EasyGuard</a>
     <nav aria-label="Sections">
+      <a href="#see">See it</a>
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
       <a href="#privacy">Privacy</a>
-      <a class="keep btn btn-secondary btn-small" href="../#apps">All apps</a>
+      <a class="keep btn btn-primary btn-small" href="#download">Download</a>
     </nav>
   </div>
 </header>
@@ -54,15 +55,15 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="chip lab">In the lab</span>
+        <span class="chip ok">Available &middot; version 1.0.0</span>
         <h1 class="split">Someone looking over your shoulder? The screen blurs.</h1>
         <svg class="flourish" viewBox="0 0 420 46" aria-hidden="true" focusable="false"><path d="M4 30 C 40 6, 62 6, 74 24 S 104 44, 128 22 S 170 2, 190 26 S 226 40, 250 20 C 270 6, 296 10, 312 26 C 330 40, 372 34, 416 18"/></svg>
         <p class="lead">On a train, in a café or at the office, EasyGuard notices when a second face looks at your screen and covers it with a blur. Press any key to bring it back.</p>
         <div class="actions">
-          <a class="btn btn-primary btn-big" href="#features">See what it does</a>
-          <a class="btn btn-secondary btn-big" href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyGuard" target="_blank" rel="noopener noreferrer">Tell me you want it</a>
+          <a class="btn btn-primary btn-big magnetic" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>Download EasyGuard</a>
+          <a class="btn btn-secondary btn-big" href="#features">See what it does</a>
         </div>
-        <p class="meta subtle">Free. For Windows 10 and 11. EasyGuard is in the lab, so there is no download yet.</p>
+        <p class="meta subtle">Free. For Windows 10 and 11. Version 1.0.0.</p>
       </div>
       <div class="art" aria-hidden="true">
         <span class="ring"></span><span class="ring two"></span>
@@ -79,6 +80,22 @@
     <div class="stage">
       <div class="wrap">
         <p class="statement split-words">Faces are only <span>counted</span>, never recognised. Nothing is <span>saved</span>, ever.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="see">
+    <div class="wrap">
+      <p class="kicker reveal">See it work</p>
+      <h2 class="reveal">EasyGuard in 25 seconds</h2>
+      <p class="muted reveal" id="see-about">A laptop in a café shows a bank letter. EasyGuard is switched on with Ctrl+Alt+G and counts one face. Someone stops to look over the shoulder, the count goes to two, and the screen blurs with the message: someone may be looking, press any key to show. A key brings it back. Then the Settings page with apps to guard, and the paused status when another app needs the camera.</p>
+      <div class="watch reveal">
+        <video src="../videos/easyguard-demo.mp4" poster="../videos/easyguard-demo-poster.jpg" width="1280" height="720" controls playsinline muted preload="none" aria-describedby="see-about"></video>
+      </div>
+      <div class="shots">
+        <figure class="reveal" style="--delay:0.00s"><img src="../images/easyguard/easyguard-home.png" alt="EasyGuard&#x27;s main window: the status card says Watching, one face is fine, a second face for 1 second blurs the screen, with a Switch off button." width="1096" height="846" loading="lazy"><figcaption>One button and a clear status. The camera light shows when it watches.</figcaption></figure>
+        <figure class="reveal" style="--delay:0.08s"><img src="../images/easyguard/easyguard-blur.png" alt="A laptop in a café with its screen blurred and darkened, a message in the middle reading: Someone may be looking. Press any key to show. Someone stands beside the laptop." width="1280" height="720" loading="lazy"><figcaption>A second face stays: the screen blurs, and any key brings it back.</figcaption></figure>
+        <figure class="reveal" style="--delay:0.16s"><img src="../images/easyguard/easyguard-settings.png" alt="EasyGuard&#x27;s Settings: switch on and off with Ctrl+Alt+G, blur when a second face stays for 1 second, and only blur when msedge, outlook or excel is in front." width="1106" height="883" loading="lazy"><figcaption>Guard only the apps you choose, and pick how quickly it blurs.</figcaption></figure>
       </div>
     </div>
   </section>
@@ -124,24 +141,56 @@
         <li class="reveal" style="--delay:0.0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Camera frames are looked at in memory, one at a time, and dropped straight away.</li>
         <li class="reveal" style="--delay:0.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Faces are only counted by Windows&#x27; own offline detector. Nobody is recognised.</li>
         <li class="reveal" style="--delay:0.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Nothing is saved, copied or sent. Settings hold only your choices.</li>
+        <li class="reveal" style="--delay:0.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>No network access and no telemetry.</li>
       </ul>
     </div>
   </section>
 
-  <section id="soon">
-    <div class="wrap">
-      <div class="soon-box reveal">
-        <div>
-          <h2>EasyGuard is in the lab</h2>
-          <p class="muted">It isn't available to download yet. Tell me you want it, or what it should do, and it helps me decide what to finish first.</p>
-          <p class="muted">EasyGuard is still being tested: it has to prove it doesn&#x27;t blur by mistake (less than once an hour) before it is released.</p>
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyGuard" target="_blank" rel="noopener noreferrer">Tell me you want it</a>
-          <a class="btn btn-secondary" href="../easysign/">Try EasySign today</a>
-        </div>
+  <section id="download" class="band-alt">
+    <div class="wrap download">
+      <div class="reveal">
+        <p class="kicker">Download</p>
+        <h2>Get EasyGuard</h2>
+        <p class="muted">Free to use for your own personal or work use. Installs for your Windows account only, no administrator rights needed.</p>
+        <p><a class="btn btn-primary btn-big magnetic" href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/download/easyguard-v1.0.0/EasyGuard-Setup-win-x64.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Download the installer (36 MB)
+        </a></p>
+        <dl class="facts">
+          <dt>Version</dt><dd>1.0.0</dd>
+          <dt>Needs</dt><dd>Windows 10 (version 2004 or later) or Windows 11, 64-bit, with a webcam (built in or plugged in).</dd>
+          <dt>SHA-256</dt><dd><code>4df03bd1d970729fe9e53db6677c0c0cbf69fe88533181500e72b29050882bd2</code></dd>
+          <dt>Check it</dt><dd>In PowerShell, <code>Get-FileHash .\EasyGuard-Setup-win-x64.exe</code> must show exactly this SHA-256. If it doesn't, don't run the file.</dd>
+          <dt>Terms</dt><dd><a href="../LICENSE.txt">Licence agreement</a> (you accept it during setup)</dd>
+          <dt>Release notes</dt><dd><a href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/tag/easyguard-v1.0.0">EasyGuard 1.0.0</a></dd>
+        </dl>
       </div>
-      <h3 class="reveal" style="margin-top:48px">More Easy Suite apps</h3>
+      <div class="card reveal">
+        <h3>Installing</h3>
+        <p class="muted">EasyGuard is new and made by one person, so Windows may be cautious about it at first. This is normal.</p>
+        <ol class="install">
+          <li>If your browser says the file is not commonly downloaded, choose <b>Keep</b>.</li>
+          <li>Right-click the downloaded file, choose <b>Properties</b>, tick <b>Unblock</b> and click OK. If there is no Unblock box, skip this.</li>
+          <li>Double-click it. If you see "Windows protected your PC", click <b>More info</b>, then <b>Run anyway</b>.</li>
+          <li>Accept the licence agreement and follow the steps.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="note">
+    <div class="wrap note">
+      <h2 class="reveal center">A note from the developer</h2>
+      <blockquote class="reveal">
+        <p>Thank you for trying EasyGuard! I made it for trains, cafés and open offices, where a screen is never really private. I hope it lets you work without glancing over your shoulder.</p>
+        <div class="by">Aalok L, maker of EasyGuard</div>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="wrap">
+      <h3 class="reveal">More Easy Suite apps</h3>
       <div class="others reveal">
         <a class="other" href="../easysign/"><img src="../images/apps/easysign.png" alt="" width="32" height="32">EasySign</a>
         <a class="other" href="../easypdf/"><img src="../images/apps/easypdf.png" alt="" width="32" height="32">EasyPDF</a>
@@ -149,6 +198,7 @@
         <a class="other" href="../easyfile/"><img src="../images/apps/easyfile.png" alt="" width="32" height="32">EasyFile</a>
         <a class="other" href="../easytouch/"><img src="../images/apps/easytouch.png" alt="" width="32" height="32">EasyTouch</a>
       </div>
+      <p class="muted reveal" style="margin-top:28px">Found a problem or have an idea? <a href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyGuard" target="_blank" rel="noopener noreferrer">Tell me in the feedback form</a>.</p>
     </div>
   </section>
 </main>

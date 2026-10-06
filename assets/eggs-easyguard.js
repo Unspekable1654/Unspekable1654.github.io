@@ -24,7 +24,7 @@
     'html.motion .egg-bubble{animation:egg-bubble 1.3s ease-out forwards}@keyframes egg-bubble{to{transform:translate(var(--dx,0),-46px) scale(1.3);opacity:0}}' +
     'html.calm .egg-bubble{animation:egg-bubble-fade 1.2s ease forwards}@keyframes egg-bubble-fade{to{opacity:0}}' +
     '.egg-smoke{position:absolute;left:50%;top:-10px;width:60px;height:40px;margin-left:-30px;border-radius:50%;background:radial-gradient(rgba(150,150,140,.6),transparent 70%);pointer-events:none;animation:egg-smoke 1.4s ease-out forwards}@keyframes egg-smoke{from{transform:scale(.3)}to{transform:translate(0,-30px) scale(1.8);opacity:0}}' +
-    '.hero .chip.lab{cursor:pointer;user-select:none}');
+    '.hero .chip.lab,.hero .chip.ok{cursor:pointer;user-select:none}');
 
   // ---------- the blur everything shares (G1, G2, G4) and G10 any key ----------
   var guarded = false, msg = null, onRestore = null;
@@ -194,8 +194,8 @@
     lock.addEventListener('pointerleave', function () { clearTimeout(blindT); });
   }
 
-  // ---------- G9 the experiment: the "In the lab" chip ----------
-  var lab = $('.hero .chip.lab'), beaker = null, labClicks = 0;
+  // ---------- G9 the experiment: the status chip ("In the lab", later "Available") ----------
+  var lab = $('.hero .chip.lab') || $('.hero .chip.ok'), beaker = null, labClicks = 0;
   if (lab) {
     lab.addEventListener('click', function () {
       if (!beaker) {
@@ -216,7 +216,7 @@
         var s = document.createElement('span'); s.className = 'egg-smoke';
         beaker.appendChild(s); setTimeout(function () { s.remove(); }, 1500);
         E.sound('thud');
-        E.toast('Okay, back to testing.');
+        E.toast(lab.classList.contains('lab') ? 'Okay, back to testing.' : 'Okay, back to watching.');
       }
     });
   }

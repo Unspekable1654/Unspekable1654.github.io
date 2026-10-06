@@ -264,30 +264,32 @@
 
   // ---------- H10 coming sooner ----------
   var SOONER = ['Coming sooner', 'Coming any minute', 'Okay, coming soon.'];
+  var READIER = ['Very available', 'Extremely available', 'Okay, available.'];
   $$('.tile .st, .chip.soon, .chip.lab').forEach(function (s) {
-    if (!/Coming soon|In the lab/.test(s.textContent)) return;
+    if (!/Coming soon|In the lab|Available/.test(s.textContent)) return;
     var orig = s.textContent, timer = 0, cycle = 0;
+    var words = /Available/.test(orig) ? READIER : SOONER;
     s.addEventListener('mouseenter', function () {
       clearTimeout(timer); clearTimeout(cycle);
       timer = setTimeout(function step(i) {
         i = i || 0;
-        s.textContent = SOONER[i];
+        s.textContent = words[i];
         if (i === 0) E.found('h-sooner');
-        if (i < SOONER.length - 1) cycle = setTimeout(function () { step(i + 1); }, 1300);
+        if (i < words.length - 1) cycle = setTimeout(function () { step(i + 1); }, 1300);
       }, 5000);
     });
     s.addEventListener('mouseleave', function () { clearTimeout(timer); clearTimeout(cycle); s.textContent = orig; });
   });
   // Tile statuses are small; hovering the tile counts too.
   tiles.forEach(function (t) {
-    var st = $('.st', t); if (!st || !/Coming soon|In the lab/.test(st.textContent)) return;
+    var st = $('.st', t); if (!st || !/Coming soon|In the lab|Available/.test(st.textContent)) return;
     t.addEventListener('mouseenter', function () { st.dispatchEvent(new Event('mouseenter')); });
     t.addEventListener('mouseleave', function () { st.dispatchEvent(new Event('mouseleave')); });
   });
 
-  // ---------- H11 honest progress (click a coming soon or lab card's icon 3 times) ----------
+  // ---------- H11 honest progress (click an app card's icon 3 times) ----------
   $$('.app').forEach(function (card) {
-    if (!$('.chip.soon, .chip.lab', card)) return;
+    var done = !$('.chip.soon, .chip.lab', card); // an available app: the bar fills all the way
     var icon = $('.app-head img', card); if (!icon) return;
     icon.style.cursor = 'pointer';
     E.multiClick(icon, 3, 1500, function () {
@@ -297,8 +299,8 @@
       var head = $('.app-head', card);
       head.parentNode.insertBefore(note, head.nextSibling);
       head.parentNode.insertBefore(bar, note);
-      requestAnimationFrame(function () { requestAnimationFrame(function () { $('i', bar).style.width = '87%'; }); });
-      setTimeout(function () { note.textContent = '87 %. The last 13 % takes 87 % of the time.'; }, 2100);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { $('i', bar).style.width = done ? '100%' : '87%'; }); });
+      setTimeout(function () { note.textContent = done ? '100 %. The last 13 % took 87 % of the time.' : '87 %. The last 13 % takes 87 % of the time.'; }, 2100);
       setTimeout(function () { bar.remove(); note.remove(); }, 9000);
       E.found('h-progress');
     });
