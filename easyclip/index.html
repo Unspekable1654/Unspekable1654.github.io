@@ -8,15 +8,15 @@
 <script>if (window.top !== window.self) { document.documentElement.style.display = 'none'; try { window.top.location.replace(window.self.location.href); } catch (e) { } }</script>
 <!-- security: end -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EasyClip: everything you copied, and every screenshot</title>
-<meta name="description" content="A private clipboard history, snippets and safe screenshots on one shortcut. Free from Easy Suite.">
+<title>EasyClip: everything you copied, every screenshot, and screen recordings</title>
+<meta name="description" content="A private clipboard history, snippets, safe screenshots and a screen recorder on one shortcut each. Free from Easy Suite.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/png" href="../images/apps/easyclip.png">
 <link rel="canonical" href="https://unspekable1654.github.io/easyclip/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Easy Suite">
-<meta property="og:title" content="EasyClip: everything you copied, and every screenshot">
-<meta property="og:description" content="A private clipboard history, snippets and safe screenshots on one shortcut. Free from Easy Suite.">
+<meta property="og:title" content="EasyClip: everything you copied, every screenshot, and screen recordings">
+<meta property="og:description" content="A private clipboard history, snippets, safe screenshots and a screen recorder on one shortcut each. Free from Easy Suite.">
 <meta property="og:url" content="https://unspekable1654.github.io/easyclip/">
 <meta property="og:image" content="https://unspekable1654.github.io/images/easyclip/easyclip-picker.png">
 <meta property="og:image:width" content="1000">
@@ -55,15 +55,15 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="chip ok">Available &middot; version 1.1.1</span>
+        <span class="chip ok">Available &middot; version 1.2.0</span>
         <h1 class="split">Everything you copied, and every screenshot, one shortcut away.</h1>
         <svg class="flourish" viewBox="0 0 420 46" aria-hidden="true" focusable="false"><path d="M4 30 C 40 6, 62 6, 74 24 S 104 44, 128 22 S 170 2, 190 26 S 226 40, 250 20 C 270 6, 296 10, 312 26 C 330 40, 372 34, 416 18"/></svg>
-        <p class="lead">Press Ctrl+Alt+V for everything you copied today. Press Ctrl+Alt+P for a screenshot you can mark up and share safely. Passwords you copy disappear on their own.</p>
+        <p class="lead">Press Ctrl+Alt+V for everything you copied today. Press Ctrl+Alt+P for a screenshot you can mark up and share safely, or Ctrl+Alt+R to record your screen. Passwords you copy disappear on their own.</p>
         <div class="actions">
           <a class="btn btn-primary btn-big magnetic" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>Download EasyClip</a>
           <a class="btn btn-secondary btn-big" href="#features">See what it does</a>
         </div>
-        <p class="meta subtle">Free. For Windows 10 and 11. Version 1.1.1.</p>
+        <p class="meta subtle">Free. For Windows 10 and 11. Version 1.2.0.</p>
       </div>
       <div class="art" aria-hidden="true">
         <span class="ring"></span><span class="ring two"></span>
@@ -115,6 +115,7 @@
         <div class="card reveal flip tilt" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="m14 6 3 3"/></svg></div><h3>Mark it up</h3><p class="muted">Arrows, boxes, highlights, text, numbered steps, blur, redaction and crop.</p></div>
         <div class="card reveal flip tilt" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/></svg></div><h3>Safe to share</h3><p class="muted">It reads the screenshot on your PC and offers to cover emails, phone and card numbers in one click.</p></div>
         <div class="card reveal flip tilt" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l-1 6 3 3H7l3-3z"/><path d="M12 13v7"/></svg></div><h3>Pin and fix</h3><p class="muted">Pin a screenshot on top of everything, or paste text as plain text, one line or trimmed.</p></div>
+        <div class="card reveal flip tilt" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg></div><h3>Record your screen</h3><p class="muted">An area, a window that moves, or the whole screen, with the PC&#x27;s sound and your microphone. Password managers are hidden by themselves. Trim it, make a GIF, or copy it into a chat.</p></div>
       </div>
     </div>
   </section>
@@ -133,8 +134,8 @@
         <div class="key"><kbd>Ctrl+Alt+V</kbd><span class="muted">Open the picker</span></div>
         <div class="key"><kbd>Ctrl+Alt+P</kbd><span class="muted">Take a screenshot</span></div>
         <div class="key"><kbd>Ctrl+Enter</kbd><span class="muted">Paste as plain text</span></div>
+        <div class="key"><kbd>Ctrl+Alt+R</kbd><span class="muted">Record the screen</span></div>
         <div class="key"><kbd>Ctrl+Alt+Q</kbd><span class="muted">Paste queue</span></div>
-        <div class="key"><kbd>Ctrl+P</kbd><span class="muted">Pin an item</span></div>
         <div class="key"><kbd>Ctrl+Shift+C</kbd><span class="muted">Copy a screenshot safely</span></div>
       </div>
     </div>
@@ -149,6 +150,7 @@
         <li class="reveal" style="--delay:0.0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>History is encrypted for your Windows account and never leaves the PC.</li>
         <li class="reveal" style="--delay:0.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Items that password managers mark as private are never recorded.</li>
         <li class="reveal" style="--delay:0.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Text in screenshots is read by Windows on this PC, never by a cloud service.</li>
+        <li class="reveal" style="--delay:0.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Found a problem or have an idea? Feedback is one click away inside the app: it opens a short form in your browser, and the app itself sends nothing.</li>
       </ul>
     </div>
   </section>
@@ -159,17 +161,17 @@
         <p class="kicker">Download</p>
         <h2>Get EasyClip</h2>
         <p class="muted">Free to use for your own personal or work use. Installs for your Windows account only, no administrator rights needed.</p>
-        <p><a class="btn btn-primary btn-big magnetic" href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/download/easyclip-v1.1.1/EasyClip-Setup-win-x64.exe">
+        <p><a class="btn btn-primary btn-big magnetic" href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/download/easyclip-v1.2.0/EasyClip-Setup-win-x64.exe">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
-          Download the installer (36 MB)
+          Download the installer (37 MB)
         </a></p>
         <dl class="facts">
-          <dt>Version</dt><dd>1.1.1</dd>
+          <dt>Version</dt><dd>1.2.0</dd>
           <dt>Needs</dt><dd>Windows 10 (version 2004 or later) or Windows 11, 64-bit.</dd>
-          <dt>SHA-256</dt><dd><code>f8e1919916bc541651033f7b27c6bab41bf5adc1ea3ebf9fe7ababe3429dde4c</code></dd>
+          <dt>SHA-256</dt><dd><code>58bac0fb6ba1b1286ac79e82417a8c05b06a5c2d7c4149106c9c44d694e8c977</code></dd>
           <dt>Check it</dt><dd>In PowerShell, <code>Get-FileHash .\EasyClip-Setup-win-x64.exe</code> must show exactly this SHA-256. If it doesn't, don't run the file.</dd>
           <dt>Terms</dt><dd><a href="../LICENSE.txt">Licence agreement</a> (you accept it during setup)</dd>
-          <dt>Release notes</dt><dd><a href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/tag/easyclip-v1.1.1">EasyClip 1.1.1</a></dd>
+          <dt>Release notes</dt><dd><a href="https://github.com/Unspekable1654/Unspekable1654.github.io/releases/tag/easyclip-v1.2.0">EasyClip 1.2.0</a></dd>
         </dl>
       </div>
       <div class="card reveal">
