@@ -31,8 +31,9 @@
   })();
 </script>
 <link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/easypaint.css">
 </head>
-<body>
+<body class="sketchbook">
 <div class="progress" aria-hidden="true"></div>
 
 <header>
@@ -42,6 +43,8 @@
     <a class="brand" href="#top"><img src="../images/apps/easypaint.png" alt="" width="32" height="32">EasyPaint</a>
     <nav aria-label="Sections">
       <a href="#features">Features</a>
+      <a href="#brushes">Brushes</a>
+      <a href="#surfaces">Surfaces</a>
       <a href="#privacy">Privacy</a>
       <a class="keep btn btn-secondary btn-small" href="../#apps">All apps</a>
     </nav>
@@ -50,34 +53,121 @@
 
 <main id="top">
   <section class="hero">
+
     <div class="wrap hero-grid">
       <div>
         <span class="chip soon">Coming soon</span>
         <h1 class="split">Draw with your touchpad, like a pen.</h1>
         <svg class="flourish" viewBox="0 0 420 46" aria-hidden="true" focusable="false"><path d="M4 30 C 40 6, 62 6, 74 24 S 104 44, 128 22 S 170 2, 190 26 S 226 40, 250 20 C 270 6, 296 10, 312 26 C 330 40, 372 34, 416 18"/></svg>
-        <p class="lead">EasyPaint is a drawing app for Windows, like Paint but nicer to draw in. Press Space and your laptop's touchpad becomes a pen. A mouse or a drawing pen works too.</p>
+        <p class="lead">EasyPaint is a drawing app for Windows, like Paint but nicer to draw in. Press Space and your laptop's touchpad becomes a pen. Real brushes on real-feeling paper, and a timelapse of every picture.</p>
         <div class="actions">
           <a class="btn btn-primary btn-big" href="#features">See what it does</a>
           <a class="btn btn-secondary btn-big" href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyPaint" target="_blank" rel="noopener noreferrer">Tell me you want it</a>
         </div>
         <p class="meta subtle">Free. For Windows 10 and 11. EasyPaint is coming soon, so there is no download yet.</p>
       </div>
-      <div class="art" aria-hidden="true">
-        <span class="ring"></span><span class="ring two"></span>
-        <img class="icon-big" src="../images/apps/easypaint.png" alt="" width="128" height="128">
-
-      </div>
+      <figure class="hero-paint polaroid">
+        <video src="../videos/easypaint-timelapse.mp4" poster="../videos/easypaint-timelapse-poster.jpg" width="1280" height="800" autoplay muted loop playsinline preload="auto" aria-label="A landscape painting itself in EasyPaint: the app's own timelapse"></video>
+        <figcaption>hills at noon, painted in EasyPaint</figcaption>
+<svg class="doodle reveal wide-only" style="left:-150px;bottom:-96px;--delay:1.0s" width="230" height="120" viewBox="0 0 230 120" aria-hidden="true" focusable="false"><path d="M10 104 C 40 70, 90 96, 120 70 S 170 30, 200 20"/><path d="M186 14 L 204 18 L 196 34"/><text x="0" y="96" transform="rotate(-8 0 96)">it paints itself!</text></svg>
+      </figure>
     </div>
   </section>
 
   <section id="features">
+<svg class="doodle reveal wide-only" style="right:6%;top:30px;--delay:0.3s" width="90" height="90" viewBox="0 0 90 90" aria-hidden="true" focusable="false"><path d="M45 6 L 56 34 L 86 36 L 62 54 L 72 84 L 45 66 L 18 84 L 28 54 L 4 36 L 34 34 Z"/></svg><svg class="doodle reveal wide-only" style="left:3%;top:120px;--delay:0.5s" width="80" height="80" viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="M40 40 m 0 -4 a 4 4 0 1 1 -4 4 a 9 9 0 1 1 9 9 a 15 15 0 1 1 -15 -15 a 22 22 0 1 1 22 22"/></svg>
     <div class="wrap">
       <p class="kicker reveal">Features</p>
       <h2 class="reveal">What EasyPaint does</h2>
-      <div class="features">
-        <div class="card reveal flip tilt" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v10H4z"/><path d="M9 20h6"/><path d="M8 12c2-3 4-3 5-1s3 2 4-1"/></svg></div><h3>Your touchpad is a pen</h3><p class="muted">Press Space, then draw with one finger. Touch to draw, lift to stop, the same way EasySign signs.</p></div>
-        <div class="card reveal flip tilt" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 3l3 3-9 9-3-3z"/><path d="M9 12c-3 0-4 2-4 4 0 1.5-1 2.5-2 3 3 1 7 0 7-4"/></svg></div><h3>Brushes that feel good</h3><p class="muted">Smooth lines in every colour, with no jagged corners. Pencil, ink, marker, watercolour and more are on the way.</p></div>
-        <div class="card reveal flip tilt" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h7l2 2h9v11H3z"/></svg></div><h3>Open and save pictures</h3><p class="muted">Draw on a new picture or open one you have. Save it as PNG, JPEG or a bitmap.</p></div>
+      <div class="features nine">
+        <div class="card reveal flip tilt sticky" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v10H4z"/><path d="M9 20h6"/><path d="M8 12c2-3 4-3 5-1s3 2 4-1"/></svg></div><h3>Your touchpad is a pen</h3><p class="muted">Press Space and one finger draws. Two fingers move and zoom, a two-finger tap undoes. Pens draw with pressure, and the mouse works too.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="11" rx="2"/><path d="M7 11h2M11 11h2M15 11h2M8 15h8"/></svg></div><h3>Hold Ctrl to draw</h3><p class="muted">Rest a finger on the touchpad and hold Ctrl: ink flows only while Ctrl is held, the same way EasySign signs.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 3l3 3-9 9-3-3z"/><path d="M9 12c-3 0-4 2-4 4 0 1.5-1 2.5-2 3 3 1 7 0 7-4"/></svg></div><h3>Brushes that act real</h3><p class="muted">Sixteen brushes, from pencil and ink to watercolour, oil, chalk and neon, with a steadiness slider for shaky hands.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4"/><path d="M8 13c2-2 3 1 5-1s2 0 3-1"/></svg></div><h3>Surfaces that change every brush</h3><p class="muted">Sketch paper, watercolour paper, canvas, kraft, cardboard and chalkboard. Watercolour dries with darker edges, chalk shines on slate.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1"/><circle cx="17" cy="17" r="4"/><path d="m14 4 6 6"/></svg></div><h3>Nothing gets baked in</h3><p class="muted">Text, arrows and shapes stay changeable: fix a typo, move a shape or recolour an arrow, even after saving.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l7-7 7 7-7 7z"/><path d="M19 15c1 1.5 2 2.6 2 3.6a2 2 0 0 1-4 0c0-1 1-2.1 2-3.6z"/></svg></div><h3>Colouring that never leaks</h3><p class="muted">The fill steps over small gaps in your lines and reaches right up to them, with no white rim.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.00s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4z"/></svg></div><h3>Watch it being made</h3><p class="muted">Every picture keeps a timelapse, each line growing at the pace you drew it. Save it as a video or an animated GIF.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.08s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></div><h3>Room to draw</h3><p class="muted">Four picture sizes one click away. Tab folds the panels away, F11 gives the picture the whole screen.</p></div>
+        <div class="card reveal flip tilt sticky" style="--delay:0.16s"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/></svg></div><h3>Never lose a picture</h3><p class="muted">Delete clears it all and Ctrl+Z brings it back. Unsaved pictures come back after a crash or a power cut. Layered .ora works in GIMP and Krita.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="brushes">
+<svg class="doodle reveal wide-only" style="right:5%;top:10px;--delay:0.4s" width="210" height="90" viewBox="0 0 210 90" aria-hidden="true" focusable="false"><path d="M10 70 C 40 20, 70 90, 100 40 S 150 10, 160 60"/><path d="M150 52 L 162 64 L 172 48"/><text x="40" y="88">pick one!</text></svg>
+    <div class="wrap">
+      <p class="kicker reveal">Brushes</p>
+      <h2 class="reveal">Sixteen brushes that behave like the real thing</h2>
+      <p class="muted reveal">Every swatch below was painted by EasyPaint's own brush engine, not drawn by hand for the website.</p>
+      <div class="swatches">
+        <figure class="swatch reveal" style="--delay:0.00s"><img src="../images/easypaint/brush-pencil.jpg" alt="A pencil stroke" width="480" height="160" loading="lazy"><figcaption><b>Pencil</b>Grainy graphite: shows the paper's tooth</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.06s"><img src="../images/easypaint/brush-ink.jpg" alt="A ink pen stroke" width="480" height="160" loading="lazy"><figcaption><b>Ink pen</b>Crisp ink that tapers, thinner when fast</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.12s"><img src="../images/easypaint/brush-marker.jpg" alt="A marker stroke" width="480" height="160" loading="lazy"><figcaption><b>Marker</b>Even, flat colour that never builds up within a stroke</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.18s"><img src="../images/easypaint/brush-highlighter.jpg" alt="A highlighter stroke" width="480" height="160" loading="lazy"><figcaption><b>Highlighter</b>See-through chisel tip that never hides dark lines</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.00s"><img src="../images/easypaint/brush-airbrush.jpg" alt="A airbrush stroke" width="480" height="160" loading="lazy"><figcaption><b>Airbrush</b>Soft spray that builds up as you go over it</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.06s"><img src="../images/easypaint/brush-watercolour.jpg" alt="A watercolour stroke" width="480" height="160" loading="lazy"><figcaption><b>Watercolour</b>Spreads on absorbent paper and dries with darker edges</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.12s"><img src="../images/easypaint/brush-oil.jpg" alt="A oil stroke" width="480" height="160" loading="lazy"><figcaption><b>Oil</b>Thick paint that blends with what is under it</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.18s"><img src="../images/easypaint/brush-acrylic.jpg" alt="A acrylic stroke" width="480" height="160" loading="lazy"><figcaption><b>Acrylic</b>Bold, quick-drying paint with a little sheen</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.00s"><img src="../images/easypaint/brush-chalk.jpg" alt="A chalk stroke" width="480" height="160" loading="lazy"><figcaption><b>Chalk</b>Soft and dusty: bright on dark surfaces</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.06s"><img src="../images/easypaint/brush-charcoal.jpg" alt="A charcoal stroke" width="480" height="160" loading="lazy"><figcaption><b>Charcoal</b>Deep, smoky black that catches on the grain</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.12s"><img src="../images/easypaint/brush-crayon.jpg" alt="A crayon stroke" width="480" height="160" loading="lazy"><figcaption><b>Crayon</b>Waxy and bright, with the paper showing through</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.18s"><img src="../images/easypaint/brush-calligraphy.jpg" alt="A calligraphy stroke" width="480" height="160" loading="lazy"><figcaption><b>Calligraphy</b>An angled nib: thick and thin by direction</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.00s"><img src="../images/easypaint/brush-pixel.jpg" alt="A pixel pen stroke" width="480" height="160" loading="lazy"><figcaption><b>Pixel pen</b>Hard square pixels for pixel art</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.06s"><img src="../images/easypaint/brush-spray.jpg" alt="A spray can stroke" width="480" height="160" loading="lazy"><figcaption><b>Spray can</b>A cloud of fine dots, like spray paint</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.12s"><img src="../images/easypaint/brush-neon.jpg" alt="A neon glow stroke" width="480" height="160" loading="lazy"><figcaption><b>Neon glow</b>A bright line with a soft glow around it</figcaption></figure>
+        <figure class="swatch reveal" style="--delay:0.18s"><img src="../images/easypaint/brush-smudge.jpg" alt="A smudge stroke" width="480" height="160" loading="lazy"><figcaption><b>Smudge</b>Drags the colours that are already there</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="surfaces">
+<svg class="doodle reveal wide-only" style="left:2%;top:40px;--delay:0.3s" width="90" height="90" viewBox="0 0 90 90" aria-hidden="true" focusable="false"><circle cx="45" cy="45" r="16"/><path d="M45 10 v10 M45 70 v10 M10 45 h10 M70 45 h10 M20 20 l7 7 M63 63 l7 7 M70 20 l-7 7 M27 63 l-7 7"/></svg>
+    <div class="wrap">
+      <p class="kicker reveal">Surfaces</p>
+      <h2 class="reveal">The paper changes every brush</h2>
+      <div class="surface-pick reveal">
+        <div class="surface-stage polaroid">
+        <img src="../images/easypaint/surface-sketch.jpg" alt="Pencil, ink, watercolour and oil on sketch paper" width="640" height="360" loading="lazy">
+        <img src="../images/easypaint/surface-coldpress.jpg" alt="Pencil, ink, watercolour and oil on watercolour paper" width="640" height="360" loading="lazy">
+        <img src="../images/easypaint/surface-canvas.jpg" alt="Pencil, ink, watercolour and oil on stretched canvas" width="640" height="360" loading="lazy">
+        <img src="../images/easypaint/surface-kraft.jpg" alt="Pencil, ink, watercolour and oil on kraft paper" width="640" height="360" loading="lazy">
+        <img src="../images/easypaint/surface-cardboard.jpg" alt="Pencil, ink, watercolour and oil on cardboard" width="640" height="360" loading="lazy">
+        <img src="../images/easypaint/surface-chalkboard.jpg" alt="Pencil, ink, watercolour and oil on chalkboard" width="640" height="360" loading="lazy">
+        </div>
+        <div>
+          <div class="surface-tabs" role="tablist" aria-label="Surfaces">
+          <button type="button" role="tab" data-about="Warm off-white with a fine tooth: pencil and charcoal show the grain.">Sketch paper</button>
+          <button type="button" role="tab" data-about="Heavy, uneven tooth: watercolour spreads and dries with darker edges.">Watercolour paper</button>
+          <button type="button" role="tab" data-about="Primed cotton weave: oil and acrylic show the weave and a soft sheen.">Stretched canvas</button>
+          <button type="button" role="tab" data-about="Brown and thirsty: ink feathers along the fibres, oil leaves a halo, light colours stand out.">Kraft paper</button>
+          <button type="button" role="tab" data-about="Rough and thirstier still: ink feathers, oil leaves a halo, dry media catch the ridges.">Cardboard</button>
+          <button type="button" role="tab" data-about="Dark slate: chalk is bright and dusty; see-through paints barely show; oil sits glossy on top.">Chalkboard</button>
+          </div>
+          <div class="surface-about" aria-live="polite"><h3>Sketch paper</h3><p class="muted"></p></div>
+          <p class="muted">The same four strokes each time: pencil, ink pen, watercolour and oil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fresh">
+<svg class="doodle reveal wide-only" style="right:4%;top:24px;--delay:0.3s" width="150" height="80" viewBox="0 0 150 80" aria-hidden="true" focusable="false"><path d="M10 40 C 40 5, 110 5, 140 40 C 110 75, 40 75, 10 40 Z"/><circle cx="75" cy="40" r="13"/><path d="M75 40 m -4 -3 a 4 4 0 1 1 0 6"/></svg>
+    <div class="wrap">
+      <p class="kicker reveal">Look at it fresh</p>
+      <h2 class="reveal">See your picture the way artists check theirs</h2>
+      <div class="fresh reveal">
+        <div class="fresh-view polaroid"><img src="../images/easypaint/scene.jpg" alt="The finished landscape" width="1280" height="800" loading="lazy"><span class="fresh-badge"></span></div>
+        <div>
+          <p class="muted">Turn the view to draw a curve the way your hand likes it. Mirror it to see what your eye has stopped seeing, go grey to check light and dark, or squint to see the big shapes. Only the view changes, never the picture.</p>
+          <div class="fresh-tools">
+            <button type="button" data-do="turn" aria-pressed="false">Turn</button>
+            <button type="button" data-do="straight">Straighten <kbd>R</kbd></button>
+            <button type="button" data-do="flip" aria-pressed="false">Mirror <kbd>F</kbd></button>
+            <button type="button" data-do="grey" aria-pressed="false">Grey <kbd>Shift+G</kbd></button>
+            <button type="button" data-do="squint" aria-pressed="false">Squint</button>
+          </div>
+          <p class="subtle">Try the keys, or hold Shift and drag on the picture to turn it, like in the app.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -88,15 +178,15 @@
       <h2 class="reveal">Private by design</h2>
       <p class="muted reveal">Like every Easy Suite app: no account, no internet needed, no tracking.</p>
       <ul class="promises">
-        <li class="reveal" style="--delay:0.0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Draws only on its own canvas, never over your other apps.</li>
-        <li class="reveal" style="--delay:0.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Your pictures stay on your PC.</li>
-        <li class="reveal" style="--delay:0.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>No network access and no telemetry.</li>
-        <li class="reveal" style="--delay:0.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg>Found a problem or have an idea? Feedback opens a short form in your browser, and the app itself sends nothing.</li>
+        <li class="reveal" style="--delay:0.0s">Draws only on its own canvas, never over your other apps.</li>
+        <li class="reveal" style="--delay:0.1s">Your pictures and timelapses stay on your PC.</li>
+        <li class="reveal" style="--delay:0.2s">No network access and no telemetry.</li>
       </ul>
     </div>
   </section>
 
   <section id="soon">
+<svg class="doodle reveal wide-only" style="right:10%;top:-10px;color:#BE6097;--delay:0.3s" width="110" height="100" viewBox="0 0 110 100" aria-hidden="true" focusable="false"><path d="M55 90 C 10 60, 0 30, 22 16 C 38 6, 52 18, 55 30 C 58 18, 72 6, 88 16 C 110 30, 100 60, 55 90 Z"/></svg>
     <div class="wrap">
       <div class="soon-box reveal">
         <div>
@@ -105,18 +195,7 @@
         </div>
         <div class="actions">
           <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScC7riL7U2CfY4Zo2l5sXBMDg38h3i7c_D3k4DlkvJMoYQPKA/viewform?usp=pp_url&amp;entry.1483937742=Feedback+or+an+idea&amp;entry.1506693288=EasyPaint" target="_blank" rel="noopener noreferrer">Tell me you want it</a>
-          <a class="btn btn-secondary" href="../easysign/">Try EasySign today</a>
         </div>
-      </div>
-      <h3 class="reveal" style="margin-top:48px">More Easy Suite apps</h3>
-      <div class="others reveal">
-        <a class="other" href="../easysign/"><img src="../images/apps/easysign.png" alt="" width="32" height="32">EasySign</a>
-        <a class="other" href="../easypdf/"><img src="../images/apps/easypdf.png" alt="" width="32" height="32">EasyPDF</a>
-        <a class="other" href="../easyclip/"><img src="../images/apps/easyclip.png" alt="" width="32" height="32">EasyClip</a>
-        <a class="other" href="../easyfile/"><img src="../images/apps/easyfile.png" alt="" width="32" height="32">EasyFile</a>
-        <a class="other" href="../easytouch/"><img src="../images/apps/easytouch.png" alt="" width="32" height="32">EasyTouch</a>
-        <a class="other" href="../easyguard/"><img src="../images/apps/easyguard.png" alt="" width="32" height="32">EasyGuard</a>
-        <a class="other" href="../easynote/"><img src="../images/apps/easynote.png" alt="" width="32" height="32">EasyNote</a>
       </div>
     </div>
   </section>
@@ -129,6 +208,8 @@
     <div><a href="../">All Easy Suite apps</a> &middot; <a href="../LICENSE.txt">Licence agreement</a> &middot; <a href="../#feedback">Feedback</a> &middot; No cookies, no tracking.</div>
   </div>
 </footer>
+
 <script src="../assets/app.js"></script>
+<script src="../assets/easypaint.js"></script>
 </body>
 </html>
