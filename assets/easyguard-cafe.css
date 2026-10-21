@@ -1,0 +1,38 @@
+/* EasyGuard page, Cafe look: the hero is centred over a cafe scene where a stranger walks up behind you, and the
+   laptop blurs with a shield only when EasyGuard is on (it starts switched off). Above the features, pick the apps
+   where it should blur. The scene, buttons and chips are added by easyguard-cafe.js. Loaded after the page's own
+   styles, so it wins. */
+
+/* ---- GD-C1 centred hero with the scene under the words ---- */
+.hero .hero-grid.gd-on { grid-template-columns: minmax(0, 1fr); gap: 30px; text-align: center; }
+.hero .hero-grid.gd-on .lead { margin-left: auto; margin-right: auto; }
+.hero .hero-grid.gd-on .flourish { margin: 12px auto 0; }
+.hero .hero-grid.gd-on .actions { justify-content: center; }
+.hero .hero-grid.gd-on .art { display: none; }
+
+/* ---- GD-C2 the cafe scene ---- */
+.gd-scene { max-width: 900px; width: 100%; margin: 0 auto; }
+.gd-cafe { width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 22px 46px rgba(40, 60, 30, .14); }
+.gd-cafe .str { transform: translateX(360px); transition: transform 1.3s cubic-bezier(.2, .7, .2, 1); }
+.gd-cafe .str.in { transform: none; }
+.gd-cafe .shield { opacity: 0; transition: opacity .4s; }
+.gd-cafe .shield.on { opacity: 1; }
+html.calm .gd-cafe .str { transition-duration: .01s; }
+@media (prefers-color-scheme: dark) { .gd-cafe { filter: brightness(.86); box-shadow: none; } }
+
+/* ---- GD-C3 switch it on yourself, and send someone past ---- */
+.gd-ctrls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+.gd-ctrls button {
+  font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--button);
+  background: var(--surface); color: var(--link); cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.gd-ctrls button[aria-pressed="true"] { background: var(--button); color: var(--on-accent); }
+.gd-ctrls .lt { width: 9px; height: 9px; border-radius: 50%; background: #9AA38E; }
+.gd-ctrls [aria-pressed="true"] .lt { background: #8BE35A; box-shadow: 0 0 8px #8BE35A; }
+.gd-stat { text-align: center; color: var(--muted); margin: 12px 0 0; min-height: 1.5em; }
+
+/* ---- GD-C4 pick the apps where it blurs ---- */
+.gd-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 26px; align-items: center; color: var(--muted); }
+.gd-chips button { font: inherit; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; color: var(--text); }
+.gd-chips button[aria-pressed="true"] { border-color: var(--button); box-shadow: inset 0 0 0 1px var(--button); }
+.gd-chips button span { font-size: .8rem; color: var(--muted); margin-left: 6px; }
