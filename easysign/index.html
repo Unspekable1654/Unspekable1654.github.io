@@ -379,6 +379,7 @@
   .lightsout.on { opacity: 1; }
   html.calm .lightsout { transition-duration: .3s; }
 </style>
+<link rel="stylesheet" href="../assets/easysign-desk.css">
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
@@ -400,8 +401,9 @@
 </header>
 
 <main id="top">
-  <section class="hero">
-    <div class="wrap">
+  <section class="hero desk">
+    <div class="wrap desk-hero">
+      <div class="desk-copy">
       <h1 class="split">Sign with your finger,<br class="wide"> right on your laptop.</h1>
       <svg class="flourish" viewBox="0 0 420 46" aria-hidden="true" focusable="false"><path d="M4 30 C 40 6, 62 6, 74 24 S 104 44, 128 22 S 170 2, 190 26 S 226 40, 250 20 C 270 6, 296 10, 312 26 C 330 40, 372 34, 416 18"/></svg>
       <p class="lead">EasySign turns your touchpad into a signature pad. Sign PDFs and photos of forms in seconds, without printing, scanning or a phone. Free, and everything stays on your PC.</p>
@@ -416,6 +418,20 @@
         </a>
       </div>
       <p class="meta subtle">Version 1.5.4 &middot; Windows 10 and 11 (64-bit) &middot; Free to use</p>
+      </div>
+      <div class="desk-art" aria-hidden="true">
+        <div class="desk-stack">
+          <div class="desk-sheet"></div>
+          <div class="desk-sheet"></div>
+          <div class="desk-sheet">
+            <p class="desk-title">Tenancy form</p>
+            <i class="l w9"></i><i class="l w8"></i><i class="l w9"></i><i class="l w6"></i>
+            <div class="desk-line sig"><span>Signature</span><svg viewBox="0 0 140 40" data-ink><path pathLength="1" d="M4 28 C 14 6, 24 4, 26 20 S 30 36, 40 22 S 54 6, 60 24 S 74 34, 84 18 C 92 8, 104 12, 110 24 C 116 34, 128 30, 136 20"/></svg><button type="button" class="desk-flag" data-line="sig" tabindex="-1">SIGN HERE</button></div>
+            <i class="l w8"></i><i class="l w7"></i>
+            <div class="desk-line ini"><span>Initials</span><svg viewBox="0 0 64 40"><path pathLength="1" d="M12 8 L 28 7 M21 8 C 22 18, 23 28, 17 33 C 13 36, 7 33, 7 28 M33 34 L 43 7 L 53 34 M36 25 L 50 23"/></svg><button type="button" class="desk-flag f2" data-line="ini" tabindex="-1">INITIAL</button></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -515,36 +531,46 @@
       <p class="kicker reveal">Features</p>
       <h2 class="reveal">Everything you need to sign, nothing you don't</h2>
       <p class="muted reveal">Made for the moment someone emails you a form and asks you to sign it.</p>
-      <div class="features">
-        <div class="card reveal flip tilt">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c3-1 4-9 7-9s1 8 4 8 3-4 5-4M3 21h18"/></svg></div>
-          <h3>Your touchpad is the pen</h3>
-          <p class="muted">Press Space and sign with one finger. Each spot on the touchpad matches the same spot on the pad, so it looks like your real signature.</p>
+      <div class="desk-folder reveal">
+        <div class="desk-tabs" role="tablist" aria-label="Features">
+          <button type="button" role="tab" id="ft-1" aria-controls="fp-1" aria-selected="true" tabindex="0">Touchpad pen</button>
+          <button type="button" role="tab" id="ft-2" aria-controls="fp-2" aria-selected="false" tabindex="-1">Any document</button>
+          <button type="button" role="tab" id="ft-3" aria-controls="fp-3" aria-selected="false" tabindex="-1">Type your name</button>
+          <button type="button" role="tab" id="ft-4" aria-controls="fp-4" aria-selected="false" tabindex="-1">Private</button>
+          <button type="button" role="tab" id="ft-5" aria-controls="fp-5" aria-selected="false" tabindex="-1">Repeat forms</button>
+          <button type="button" role="tab" id="ft-6" aria-controls="fp-6" aria-selected="false" tabindex="-1">Paste anywhere</button>
         </div>
-        <div class="card reveal flip tilt">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 15l2 2 4-4"/></svg></div>
-          <h3>Sign any document</h3>
-          <p class="muted">PDFs and photos or scans of forms. Add your signature, initials, text, the date or a tick, then save a signed copy. Word files with {{signature}} placeholders work too. Your original is never changed.</p>
-        </div>
-        <div class="card reveal flip tilt">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg></div>
-          <h3>Or just type your name</h3>
-          <p class="muted">No touchpad? Type your name and EasySign writes it as if you signed with your finger. Pick a look, then make it tighter or looser, neater or messier, uphill or downhill.</p>
-        </div>
-        <div class="card reveal flip tilt">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-          <h3>Private by design</h3>
-          <p class="muted">No account, no upload, no tracking. EasySign works offline: your signatures and documents never leave your PC, and saved signatures are encrypted for your Windows account only.</p>
-        </div>
-        <div class="card reveal flip tilt">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></div>
-          <h3>Fast for repeat forms</h3>
-          <p class="muted">Sign like last time puts everything in the same spots on next month's copy. Stamp adds your initials and the date in one click.</p>
-        </div>
-        <div class="card reveal flip tilt">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v4H8zM6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z"/></svg></div>
-          <h3>Paste it anywhere</h3>
-          <p class="muted">Your signature is copied when you finish, ready for Ctrl+V in Word, Outlook or anything else. Ctrl+Alt+S opens a small pad over any app.</p>
+        <div class="desk-panels">
+          <div class="desk-panel on" role="tabpanel" id="fp-1" aria-labelledby="ft-1">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c3-1 4-9 7-9s1 8 4 8 3-4 5-4M3 21h18"/></svg></div>
+            <h3>Your touchpad is the pen</h3>
+            <p>Press Space and sign with one finger. Each spot on the touchpad matches the same spot on the pad, so it looks like your real signature.</p>
+          </div>
+          <div class="desk-panel" role="tabpanel" id="fp-2" aria-labelledby="ft-2">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 15l2 2 4-4"/></svg></div>
+            <h3>Sign any document</h3>
+            <p>PDFs and photos or scans of forms. Add your signature, initials, text, the date or a tick, then save a signed copy. Word files with {{signature}} placeholders work too. Your original is never changed.</p>
+          </div>
+          <div class="desk-panel" role="tabpanel" id="fp-3" aria-labelledby="ft-3">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg></div>
+            <h3>Or just type your name</h3>
+            <p>No touchpad? Type your name and EasySign writes it as if you signed with your finger. Pick a look, then make it tighter or looser, neater or messier, uphill or downhill.</p>
+          </div>
+          <div class="desk-panel" role="tabpanel" id="fp-4" aria-labelledby="ft-4">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+            <h3>Private by design</h3>
+            <p>No account, no upload, no tracking. EasySign works offline: your signatures and documents never leave your PC, and saved signatures are encrypted for your Windows account only.</p>
+          </div>
+          <div class="desk-panel" role="tabpanel" id="fp-5" aria-labelledby="ft-5">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></div>
+            <h3>Fast for repeat forms</h3>
+            <p>Sign like last time puts everything in the same spots on next month's copy. Stamp adds your initials and the date in one click.</p>
+          </div>
+          <div class="desk-panel" role="tabpanel" id="fp-6" aria-labelledby="ft-6">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v4H8zM6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z"/></svg></div>
+            <h3>Paste it anywhere</h3>
+            <p>Your signature is copied when you finish, ready for Ctrl+V in Word, Outlook or anything else. Ctrl+Alt+S opens a small pad over any app.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -612,6 +638,7 @@
   <section id="download" class="band-alt">
     <div class="wrap download">
       <div class="reveal">
+        <div class="desk-env" aria-hidden="true"><div class="letter">Signed, ready to send.<svg viewBox="0 0 140 40" data-ink><path d="M4 28 C 14 6, 24 4, 26 20 S 30 36, 40 22 S 54 6, 60 24 S 74 34, 84 18 C 92 8, 104 12, 110 24 C 116 34, 128 30, 136 20"/></svg></div><div class="front"></div><div class="flap"></div></div>
         <p class="kicker">Download</p>
         <h2>Get EasySign</h2>
         <p class="muted">Free to use for your own personal or work use. Installs for your Windows account only, no administrator rights needed.</p>
@@ -1669,5 +1696,6 @@
   }
 })();
 </script>
+<script src="../assets/easysign-desk.js"></script>
 </body>
 </html>

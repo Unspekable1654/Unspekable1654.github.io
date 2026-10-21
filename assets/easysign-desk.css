@@ -1,0 +1,127 @@
+/* EasySign page, Paperwork desk look: warm desk colours, a pile of forms with sign-here flags in the hero,
+   features as folder tabs and an envelope at Download. Loaded after the page's own styles, so it wins. */
+
+:root {
+  --bg: #EFE8DB; --surface: #F8F3E8; --surface-alt: #E7DDCB; --line: #D9CCB3;
+  --text: #2A241B; --muted: #5E5444; --subtle: #6E6352;
+  --desk-tab: #E2D0A6; --desk-folder: #F4E7C5; --desk-folder-text: #4D4637; --desk-tab-text: #4A3D22;
+  --desk-sheet-1: #F6F1E6; --desk-sheet-2: #FAF7F0; --desk-sheet-3: #FFFFFF; --desk-rule: #ECE7DC;
+  --desk-env-front: #DCC79C; --desk-env-flap: #CBB27F; --desk-shadow: rgba(60, 45, 20, .15);
+  --desk-ink: #1D4E89;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1E1A15; --surface: #2A241D; --surface-alt: #332C23; --line: #463D31;
+    --text: #F0E9DC; --muted: #BDB29F; --subtle: #93897A;
+    --desk-tab: #3A3124; --desk-folder: #4A3F2D; --desk-folder-text: #E3D9C5; --desk-tab-text: #D9CDB4;
+    --desk-sheet-1: #D9D1C1; --desk-sheet-2: #E6DFD1; --desk-sheet-3: #F2EDE2; --desk-rule: #DDD5C5;
+    --desk-env-front: #9C8459; --desk-env-flap: #87704A; --desk-shadow: rgba(0, 0, 0, .4);
+  }
+}
+
+/* ---- SG-C1 hero: copy on the left, the pile of forms on the right ---- */
+.hero.desk { text-align: left; padding: 88px 0 32px; }
+.desk-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: center; }
+.hero.desk h1 { font-size: clamp(2.4rem, 4.8vw, 4rem); }
+.hero.desk .flourish { margin: 10px 0 0; }
+.hero.desk .lead { margin: 22px 0 30px; }
+.hero.desk .actions { justify-content: flex-start; }
+@media (max-width: 860px) {
+  .desk-hero { grid-template-columns: 1fr; gap: 24px; }
+  .hero.desk { text-align: center; }
+  .hero.desk .flourish { margin: 10px auto 0; }
+  .hero.desk .lead { margin: 22px auto 30px; }
+  .hero.desk .actions { justify-content: center; }
+}
+
+.desk-stack { --gut: 60px; position: relative; height: 360px; max-width: 420px; width: 100%; margin: 0 auto; }
+.desk-sheet { position: absolute; inset: 20px var(--gut) 20px 20px; background: var(--desk-sheet-3); border-radius: 3px; box-shadow: 0 10px 24px var(--desk-shadow); padding: 26px; color: #2A241B; text-align: left; }
+.desk-sheet:nth-child(1) { transform: rotate(-7deg) translate(-14px, 10px); background: var(--desk-sheet-1); }
+.desk-sheet:nth-child(2) { transform: rotate(4deg) translate(10px, 4px); background: var(--desk-sheet-2); }
+.desk-sheet:nth-child(3) { transform: rotate(-1deg); }
+.desk-title { margin: 0 0 14px; font: 600 1rem/1.4 Georgia, serif; }
+.desk-sheet .l { display: block; height: 8px; border-radius: 4px; background: var(--desk-rule); margin: 0 0 11px; }
+.desk-sheet .w9 { width: 94%; } .desk-sheet .w8 { width: 80%; } .desk-sheet .w7 { width: 70%; } .desk-sheet .w6 { width: 56%; }
+
+/* The lines a flag points at; the ink draws in when the flag is clicked. */
+.desk-line { position: relative; height: 40px; margin: 4px 0 14px; border-bottom: 1.5px solid #9C9283; }
+.desk-line.ini { width: 42%; }
+.desk-line span { position: absolute; left: 0; bottom: -18px; font: 600 .62rem/1 "Segoe UI", system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #8A8070; }
+.desk-line svg { position: absolute; left: 6px; bottom: 2px; height: 36px; width: auto; overflow: visible; }
+.desk-line.sig svg { width: calc(100% - 12px); height: 46px; }
+.desk-line path { fill: none; stroke: var(--desk-ink); stroke-width: 2.2; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .4s cubic-bezier(.45, .05, .25, 1); }
+.desk-line.ini path { transition-duration: 1s; }
+.desk-line.signed path { stroke-dashoffset: 0; }
+
+.desk-flag { position: absolute; right: calc(-26px - var(--gut)); top: calc(100% - 21px); width: 120px; height: 30px; border: 0; margin: 0; background: #F5C84B; color: #3A2E05; font: 800 .7rem/30px "Segoe UI", system-ui, sans-serif; letter-spacing: .08em; padding: 0 0 0 28px; text-align: left; clip-path: polygon(0 50%, 18% 0, 100% 0, 100% 100%, 18% 100%); cursor: pointer; transition: transform .25s, opacity .4s; }
+.desk-flag.f2 { background: #F08C6B; color: #3A1608; }
+html.motion .desk-flag { animation: desk-wig 4s infinite; }
+html.motion .desk-flag.f2 { animation-delay: 1.3s; }
+.desk-flag:hover, .desk-flag:focus-visible { animation: none; transform: translateX(-14px); }
+.desk-flag.done { animation: none; transform: translateX(70px); opacity: 0; pointer-events: none; transition: transform .5s cubic-bezier(.2, .7, .2, 1), opacity .5s; }
+@keyframes desk-wig { 0%, 86%, 100% { transform: none; } 90% { transform: translateX(-8px); } 94% { transform: translateX(-2px); } }
+
+@media (max-width: 520px) {
+  .desk-stack { --gut: 52px; height: 330px; }
+  .desk-sheet { inset: 16px var(--gut) 16px 10px; padding: 20px; }
+}
+
+/* The pile is dealt onto the desk after the headline. */
+html.motion .desk-art { opacity: 0; animation: rise 1s var(--ease) .5s forwards; }
+html.motion .desk-sheet { animation: desk-deal .9s var(--ease) both; }
+html.motion .desk-sheet:nth-child(1) { animation-delay: .6s; }
+html.motion .desk-sheet:nth-child(2) { animation-delay: .72s; }
+html.motion .desk-sheet:nth-child(3) { animation-delay: .84s; }
+@keyframes desk-deal { from { transform: translateY(26px) rotate(0deg); } }
+html.calm .desk-art { opacity: 0; animation: fade .9s ease .3s forwards; }
+html.calm .desk-line path { transition: opacity .6s ease; stroke-dashoffset: 0; opacity: 0; }
+html.calm .desk-line.signed path { opacity: 1; }
+
+/* ---- SG-C2 features as folder tabs (without scripts every panel shows, one under the other) ---- */
+.desk-folder { margin-top: 30px; }
+.desk-tabs { display: none; flex-wrap: wrap; gap: 4px; }
+html.js .desk-tabs { display: flex; }
+.desk-tabs button { font: 600 .92rem "Segoe UI", system-ui, sans-serif; color: var(--desk-tab-text); background: var(--desk-tab); border: 0; border-radius: 10px 10px 0 0; padding: 10px 16px; cursor: pointer; transition: background-color .2s; }
+.desk-tabs button:hover { background: var(--desk-folder); }
+.desk-tabs button[aria-selected="true"] { background: var(--desk-folder); color: var(--text); }
+.desk-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+.desk-panels { display: grid; background: var(--desk-folder); border-radius: 14px; padding: 34px; box-shadow: 0 12px 28px var(--desk-shadow); }
+html.js .desk-panels { border-top-left-radius: 0; }
+.desk-panel { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 20px; align-content: start; }
+.desk-panel + .desk-panel { margin-top: 28px; }
+html.js .desk-panel { grid-area: 1 / 1; margin: 0; }
+html.js .desk-panel:not(.on) { visibility: hidden; opacity: 0; }
+html.motion .desk-panel.on { animation: rise .45s var(--ease); }
+html.calm .desk-panel.on { animation: desk-fade-in .35s ease; }
+@keyframes desk-fade-in { from { opacity: 0; } }
+.desk-panel .icon { grid-row: span 2; margin: 2px 0 0; background: var(--desk-tab); color: var(--desk-tab-text); }
+.desk-panel h3 { font-size: 1.5rem; margin: 0 0 8px; }
+.desk-panel p { margin: 0; font-size: 1.08rem; color: var(--desk-folder-text); max-width: 40em; }
+@media (max-width: 640px) {
+  .desk-panels { padding: 24px 20px; }
+  .desk-panel { grid-template-columns: 1fr; }
+  .desk-panel .icon { grid-row: auto; margin-bottom: 10px; }
+  .desk-tabs button { padding: 9px 12px; font-size: .86rem; }
+}
+
+/* ---- SG-C3 the envelope at Download: it opens and the signed letter pops up ---- */
+.desk-env { position: relative; width: 220px; height: 136px; margin: 76px 0 30px; perspective: 700px; cursor: pointer; }
+.desk-env .letter { position: absolute; left: 14px; right: 14px; top: 10px; height: 112px; background: #fff; border-radius: 3px; z-index: 1; padding: 12px; color: #2A241B; font: 700 .85rem/1.3 "Segoe UI", system-ui, sans-serif; transition: transform .6s var(--ease) .15s; }
+.desk-env .letter svg { display: block; width: 110px; height: 32px; margin-top: 8px; overflow: visible; }
+.desk-env .letter path { fill: none; stroke: var(--desk-ink); stroke-width: 1.6; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.desk-env .front { position: absolute; inset: 0; background: var(--desk-env-front); clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); z-index: 3; border-radius: 4px; }
+.desk-env .flap { position: absolute; left: 0; right: 0; top: 0; height: 58%; background: var(--desk-env-flap); clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top; z-index: 4; transition: transform .5s var(--ease), z-index 0s .25s; }
+.desk-env.open .flap { transform: rotateX(180deg); z-index: 0; }
+.desk-env.open .letter { transform: translateY(-70px); }
+@media (hover: hover) and (pointer: fine) {
+  .desk-env:hover .flap { transform: rotateX(180deg); z-index: 0; }
+  .desk-env:hover .letter { transform: translateY(-70px); }
+}
+@media (max-width: 860px) { .desk-env { margin-left: auto; margin-right: auto; } }
+html.calm .desk-env .flap, html.calm .desk-env .letter { transition: none; }
+
+@media print {
+  .desk-art, .desk-env { display: none; }
+  .desk-tabs { display: none !important; }
+  .desk-panel { visibility: visible !important; opacity: 1 !important; grid-area: auto !important; }
+}
