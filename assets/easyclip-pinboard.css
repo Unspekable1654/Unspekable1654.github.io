@@ -1,0 +1,99 @@
+/* EasyClip page, Pinboard look: the hero and the features sit on a corkboard, notes are held by paper clips,
+   the hero picture is a polaroid of a real screenshot with sticky notes, feature notes drop onto the board,
+   and a pinned screenshot stays on top while you scroll (added by easyclip-pinboard.js).
+   Loaded after the page's own styles, so it wins. */
+
+:root {
+  --pin-cork: #C9A57A; --pin-dot-1: rgba(90, 60, 30, .28); --pin-dot-2: rgba(255, 240, 210, .22);
+  --pin-paper: #FFFDF7; --pin-frame: #FFFFFF; --pin-shadow: rgba(50, 30, 10, .28);
+  --pin-sticky: #FFF1A8; --pin-hand: #3D2E1E;
+  --pin-clip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 60'%3E%3Cpath d='M6 16v30a5 5 0 0010 0V9a7 7 0 00-14 0v36' fill='none' stroke='%237E858C' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pin-cork: #5A4430; --pin-dot-1: rgba(0, 0, 0, .35); --pin-dot-2: rgba(255, 230, 190, .08);
+    --pin-paper: #2B261F; --pin-frame: #E9E4DA; --pin-shadow: rgba(0, 0, 0, .45);
+    --pin-sticky: #E8D77A;
+    --pin-clip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 60'%3E%3Cpath d='M6 16v30a5 5 0 0010 0V9a7 7 0 00-14 0v36' fill='none' stroke='%23B9C0C7' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+}
+
+/* ---- CL-C1 corkboard behind the hero and the features; paper clips hold the notes ---- */
+.hero, #features {
+  background: radial-gradient(var(--pin-dot-1) 1px, transparent 1.6px) 0 0 / 9px 9px,
+              radial-gradient(var(--pin-dot-2) 1px, transparent 1.6px) 4px 5px / 11px 11px, var(--pin-cork);
+}
+.hero { padding-top: 108px; }
+.hero .hero-grid > div:not(.art) {
+  position: relative; background: var(--pin-paper); padding: 30px 28px 26px; border-radius: 2px;
+  box-shadow: 0 12px 24px var(--pin-shadow); rotate: -.8deg;
+}
+.hero .hero-grid > div:not(.art)::before, #features .card::before {
+  content: ""; position: absolute; top: -24px; left: var(--clip-x, 26px); width: 22px; height: 60px;
+  background: var(--pin-clip) no-repeat center / contain; pointer-events: none;
+}
+#features .kicker, #features h2, #features .subtle {
+  display: table; background: var(--pin-paper); padding: 6px 16px; box-shadow: 0 6px 14px var(--pin-shadow); rotate: -1deg;
+}
+#features .kicker { padding: 4px 12px; rotate: 1.5deg; }
+#features .subtle { margin-top: 14px; rotate: .6deg; }
+
+/* ---- CL-C2 the hero picture is a polaroid of a real screenshot; its labels are sticky notes ---- */
+.hero .art {
+  aspect-ratio: auto; width: min(400px, 76vw); padding: 12px 12px 50px; background: var(--pin-frame);
+  box-shadow: 0 16px 30px var(--pin-shadow); rotate: 2deg;
+}
+.hero .art::before {
+  content: ""; display: block; aspect-ratio: 1100 / 704; border-radius: 2px;
+  background: #DDF0EC url("../images/easyclip/easyclip-editor.png") center / cover no-repeat;
+}
+.hero .art::after {
+  content: "screenshot, 10:42"; position: absolute; left: 0; right: 0; bottom: 13px; text-align: center;
+  font: 1.15rem "Ink Free", "Segoe Print", cursive; color: var(--pin-hand);
+}
+.hero .art .ring, .hero .art .icon-big { display: none; }
+.hero .art .float {
+  border: 0; border-radius: 1px; background: var(--pin-sticky); color: var(--pin-hand);
+  font: 1rem "Ink Free", "Segoe Print", cursive; box-shadow: 0 8px 14px var(--pin-shadow); padding: 9px 13px;
+}
+.hero .art .float svg { color: var(--pin-hand); }
+.hero .art .f1 { left: -6%; top: -7%; rotate: -5deg; }
+.hero .art .f2 { right: -6%; top: 30%; rotate: 4deg; }
+.hero .art .f3 { left: -5%; bottom: 22%; rotate: 3deg; }
+.hero .art .f4 { right: -3%; bottom: -5%; rotate: -4deg; }
+@media (max-width: 480px) { .hero .art .float { font-size: .85rem; padding: 6px 9px; } .hero .art .f2 { right: -2%; } .hero .art .f1 { left: -2%; } }
+
+/* ---- CL-C3 feature notes drop onto the board as you scroll ---- */
+#features .card {
+  position: relative; background: var(--pin-paper); border: 0; border-radius: 2px;
+  box-shadow: 0 8px 16px var(--pin-shadow); rotate: var(--r, 0deg);
+}
+#features .card:hover { border-color: transparent; }
+html.motion #features .card.reveal.flip { transform: translateY(-34px); transition: opacity .5s, transform .65s cubic-bezier(.3, 1.4, .5, 1); transition-delay: var(--delay, 0s); }
+html.motion #features .card.reveal.flip.in { transform: none; }
+#features .card:nth-child(9n+1) { --r: -2deg; --clip-x: 22%; }
+#features .card:nth-child(9n+2) { --r: 1.5deg; --clip-x: 58%; }
+#features .card:nth-child(9n+3) { --r: -1deg; --clip-x: 34%; }
+#features .card:nth-child(9n+4) { --r: 2deg; --clip-x: 70%; }
+#features .card:nth-child(9n+5) { --r: -1.5deg; --clip-x: 18%; }
+#features .card:nth-child(9n+6) { --r: 1deg; --clip-x: 46%; }
+#features .card:nth-child(9n+7) { --r: 2.2deg; --clip-x: 64%; }
+#features .card:nth-child(9n+8) { --r: -.8deg; --clip-x: 28%; }
+#features .card:nth-child(9n+9) { --r: 1.2deg; --clip-x: 52%; }
+#features .features { gap: 30px 22px; margin-top: 40px; }
+
+/* ---- CL-C4 a pinned screenshot stays on top while you scroll, like Pin; Unpin closes it ---- */
+.clip-pin {
+  position: fixed; left: 16px; bottom: 16px; z-index: 50; width: 140px; padding: 8px 8px 7px;
+  background: var(--surface); border: 2px solid var(--accent); border-radius: 8px; box-shadow: 0 14px 28px rgba(0, 0, 0, .28);
+  font-size: .8rem; color: var(--muted); visibility: hidden; opacity: 0; translate: 0 16px;
+  transition: opacity .3s, translate .35s var(--ease), visibility 0s .35s;
+}
+.clip-pin.on { visibility: visible; opacity: 1; translate: 0 0; transition: opacity .3s, translate .35s var(--ease), visibility 0s; }
+html.calm .clip-pin, html.calm .clip-pin.on { transition: none; translate: 0 0; }
+.clip-pin img { display: block; width: 100%; height: auto; border-radius: 4px; margin-bottom: 6px; }
+.clip-pin b { display: block; color: var(--text); font-size: .78rem; font-weight: 600; line-height: 1.3; }
+.clip-pin .tag { position: absolute; left: 10px; top: -11px; padding: 2px 9px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 600 .72rem "Segoe UI", sans-serif; }
+.clip-pin button { position: absolute; right: 4px; top: 4px; width: 26px; height: 26px; border: 0; border-radius: 6px; background: rgba(0, 0, 0, .55); color: #fff; font: 700 1rem/1 "Segoe UI", sans-serif; cursor: pointer; }
+@media (max-width: 760px) { .clip-pin { display: none; } }
+@media print { .clip-pin { display: none; } }
